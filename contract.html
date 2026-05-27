@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สัญญาซื้อขาย (Smart Contract) - BiomassX</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Supabase & Custom JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/main.js?v=6" defer></script>
+    <script src="js/contract.js?v=1" defer></script>
+    
+    <style>
+        body {
+            background-color: #525659; /* สีเทาแบบโปรแกรมดู PDF */
+            margin: 0;
+            padding: 20px 0;
+            font-family: 'Sarabun', sans-serif; /* ใช้ฟอนต์สารบรรณให้ดูเป็นทางการ */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Toolbar */
+        .pdf-toolbar {
+            width: 100%;
+            max-width: 800px;
+            background-color: #323639;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px 8px 0 0;
+            box-sizing: border-box;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .pdf-toolbar-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.2s;
+        }
+
+        .pdf-toolbar-btn:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .pdf-title {
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 300px;
+        }
+
+        /* A4 Page */
+        .page-a4 {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            margin: 0 auto;
+            border: 1px #D3D3D3 solid;
+            border-radius: 0 0 8px 8px;
+            background: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            box-sizing: border-box;
+            color: #000;
+            line-height: 1.6;
+        }
+
+        .doc-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .doc-header img {
+            max-width: 120px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 24pt;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+        }
+
+        .ref-number {
+            text-align: right;
+            font-size: 11pt;
+            margin-bottom: 20px;
+        }
+
+        .clause {
+            margin-bottom: 15px;
+            font-size: 14pt;
+        }
+
+        .clause-title {
+            font-weight: 700;
+        }
+
+        table.terms-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 12pt;
+        }
+
+        table.terms-table th, table.terms-table td {
+            border: 1px solid #000;
+            padding: 8px 12px;
+            vertical-align: top;
+        }
+
+        table.terms-table th {
+            background-color: #f2f2f2;
+            text-align: left;
+            width: 30%;
+        }
+
+        .signatures {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .signature-box {
+            padding-top: 50px;
+        }
+
+        .signature-line {
+            border-bottom: 1px dashed #000;
+            width: 80%;
+            margin: 0 auto 10px auto;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 100pt;
+            color: rgba(0, 0, 0, 0.03);
+            white-space: nowrap;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+            .pdf-toolbar {
+                display: none;
+            }
+            .page-a4 {
+                margin: 0;
+                border: none;
+                border-radius: 0;
+                width: 100%;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PDF Toolbar -->
+    <div class="pdf-toolbar">
+        <div style="display: flex; gap: 10px;">
+            <button class="pdf-toolbar-btn" onclick="window.history.back()">
+                <span>⬅️</span> กลับ
+            </button>
+            <span class="pdf-toolbar-btn" style="cursor: default; border-left: 1px solid #555; border-radius: 0;"></span>
+            <div class="pdf-title">Contract_CT-2026-002.pdf</div>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <button class="pdf-toolbar-btn" onclick="window.print()">
+                <span>🖨️</span> พิมพ์
+            </button>
+            <button class="pdf-toolbar-btn" onclick="alert('ดาวน์โหลดไฟล์ PDF สำเร็จ')">
+                <span>⬇️</span> ดาวน์โหลด
+            </button>
+        </div>
+    </div>
+
+    <!-- A4 Document -->
+    <div class="page-a4" style="position: relative;">
+        
+        <div class="watermark">BIOMASSX SECURED</div>
+
+        <div class="doc-header">
+            <!-- โลโก้จำลอง -->
+            <div style="font-size: 32pt; font-weight: 800; color: #10b981; font-family: sans-serif; margin-bottom: 10px;">BIOMASS<span style="color: #0f172a;">X</span></div>
+            <h1>สัญญาซื้อขายสินค้าชีวมวล</h1>
+            <div style="font-size: 14pt;">(Biomass Purchase Agreement)</div>
+        </div>
+
+        <div class="ref-number">
+            เลขอ้างอิงสัญญา (Contract Ref.): <strong id="contract-ref">CT-2026-002</strong><br>
+            วันที่ทำสัญญา: <strong id="contract-date">26 พฤษภาคม 2569</strong>
+        </div>
+
+        <div class="clause">
+            สัญญาฉบับนี้ทำขึ้นผ่านแพลตฟอร์ม BiomassX ระหว่าง:
+        </div>
+
+        <div class="clause">
+            <span class="clause-title">ผู้ขาย (Seller):</span> <span id="contract-seller-name">บริษัท ไบโอแมส เอ็กซ์พอร์ต จำกัด</span><br>
+            ที่อยู่: <span id="contract-seller-address">123 นิคมอุตสาหกรรมแหลมฉบัง อ.ศรีราชา จ.ชลบุรี 20230</span><br>
+            ซึ่งต่อไปในสัญญาฉบับนี้จะเรียกว่า "ผู้ขาย" ฝ่ายหนึ่ง
+        </div>
+
+        <div class="clause">
+            <span class="clause-title">ผู้ซื้อ (Buyer):</span> <span id="contract-buyer-name">บริษัท พลังงานสีเขียว จำกัด</span><br>
+            ที่อยู่: <span id="contract-buyer-address">99/9 ถ.พระราม 9 เขตห้วยขวาง กรุงเทพมหานคร 10310</span><br>
+            ซึ่งต่อไปในสัญญาฉบับนี้จะเรียกว่า "ผู้ซื้อ" อีกฝ่ายหนึ่ง
+        </div>
+
+        <div class="clause" style="margin-top: 20px;">
+            ทั้งสองฝ่ายตกลงทำสัญญาซื้อขายสินค้า โดยมีรายละเอียดและเงื่อนไขดังต่อไปนี้:
+        </div>
+
+        <table class="terms-table">
+            <tr>
+                <th>1. สินค้า (Product)</th>
+                <td id="contract-product">ไม้อัดเม็ด (Wood Pellets)</td>
+            </tr>
+            <tr>
+                <th>2. มาตรฐานคุณภาพ (Quality)</th>
+                <td id="contract-quality">ENPlus A1, ค่าความร้อน (NCV) ≥ 4,600 kcal/kg, ความชื้น ≤ 10%, เถ้า ≤ 0.7%</td>
+            </tr>
+            <tr>
+                <th>3. ปริมาณ (Quantity)</th>
+                <td id="contract-quantity">1,200 ตันเมตริก (MT)</td>
+            </tr>
+            <tr>
+                <th>4. ราคา (Price)</th>
+                <td><span id="contract-price">3,400</span> บาท ต่อตันเมตริก (THB/MT)<br>
+                    <strong>รวมมูลค่าสินค้า: <span id="contract-total-value">4,080,000</span> บาท</strong> (ไม่รวมภาษีมูลค่าเพิ่ม)</td>
+            </tr>
+            <tr>
+                <th>5. การบรรจุ (Packing)</th>
+                <td id="contract-packing">Bulk (เทกอง)</td>
+            </tr>
+            <tr>
+                <th>6. การส่งมอบ (Delivery Terms)</th>
+                <td id="contract-delivery">FOB (Free On Board) ท่าเรือแหลมฉบัง</td>
+            </tr>
+            <tr>
+                <th>7. กำหนดส่งมอบ (Delivery Date)</th>
+                <td id="contract-delivery-date">ภายในวันที่ 25 มิถุนายน 2569</td>
+            </tr>
+            <tr>
+                <th>8. เงื่อนไขการชำระเงิน (Payment)</th>
+                <td id="contract-payment">L/C at sight 100% (เลตเตอร์ออฟเครดิตเมื่อเห็นเอกสาร)</td>
+            </tr>
+            <tr>
+                <th>9. การตรวจสอบ (Inspection)</th>
+                <td>ตรวจสอบคุณภาพและน้ำหนักโดย SGS หรือเทียบเท่า ณ จุดโหลดสินค้า</td>
+            </tr>
+        </table>
+
+        <div class="clause" style="margin-top: 20px; font-size: 12pt; text-align: justify;">
+            <strong>ข้อตกลงและเงื่อนไขเพิ่มเติม (Terms & Conditions):</strong><br>
+            1. สัญญาฉบับนี้ถูกสร้างขึ้นด้วยระบบอิเล็กทรอนิกส์ (Smart Contract) ผ่านแพลตฟอร์ม BiomassX และถือว่ามีผลผูกพันทางกฎหมายเมื่อทั้งสองฝ่ายได้ทำการยืนยันผ่านระบบ<br>
+            2. หากฝ่ายใดฝ่ายหนึ่งผิดนัดชำระเงินหรือผิดนัดส่งมอบ ให้ถือเป็นการผิดสัญญา และยินยอมให้แพลตฟอร์มดำเนินการหักเงินประกัน (Escrow) เพื่อชดเชยค่าเสียหายเบื้องต้น<br>
+            3. ข้อพิพาทใดๆ ที่เกิดขึ้นจากสัญญานี้ ให้เข้าสู่กระบวนการระงับข้อพิพาทของอนุญาโตตุลาการ
+        </div>
+
+        <div class="signatures">
+            <div class="signature-box">
+                <!-- Digital Signature Stamp -->
+                <div style="color: #10b981; font-size: 24pt; font-family: 'Sarabun'; transform: rotate(-5deg); margin-bottom: -15px; opacity: 0.8;">
+                    DIGITALLY SIGNED
+                </div>
+                <div class="signature-line"></div>
+                <div>( นายสมชาย ขายเก่ง )</div>
+                <div style="font-size: 11pt; color: #666; margin-top: 5px;">ผู้รับมอบอำนาจ (ผู้ขาย)</div>
+                <div style="font-size: 10pt; color: #999; margin-top: 5px;">Timestamp: 2026-05-26 14:30:15</div>
+            </div>
+
+            <div class="signature-box">
+                <!-- Digital Signature Stamp -->
+                <div style="color: #3b82f6; font-size: 24pt; font-family: 'Sarabun'; transform: rotate(-2deg); margin-bottom: -15px; opacity: 0.8;">
+                    DIGITALLY SIGNED
+                </div>
+                <div class="signature-line"></div>
+                <div>( นางสาวใจดี ซื้อจริง )</div>
+                <div style="font-size: 11pt; color: #666; margin-top: 5px;">ผู้รับมอบอำนาจ (ผู้ซื้อ)</div>
+                <div style="font-size: 10pt; color: #999; margin-top: 5px;">Timestamp: 2026-05-26 14:45:22</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/supabase.js"></script>
+    <script src="js/main.js?v=3"></script>
+    <script src="js/contract.js"></script>
+</body>
+</html>

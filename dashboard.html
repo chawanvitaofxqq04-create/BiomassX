@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - BiomassX</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Main Navbar -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">X</span> BiomassX
+            </a>
+            
+            <div class="nav-actions" style="margin-left: 20px;">
+                <select class="lang-select">
+                    <option value="th">TH</option>
+                    <option value="en">EN</option>
+                </select>
+            </div>
+
+            <div class="nav-actions" style="margin-left: auto;">
+                <div class="dashboard-user-info">
+                    <span id="userNameDisplay" class="company-name">กำลังโหลดข้อมูล...</span>
+                    <a href="#" class="btn btn-outline" style="display: flex; align-items: center; gap: 5px;">
+                        <span>👤</span> โปรไฟล์
+                    </a>
+                    <a href="#" id="logoutBtn" class="btn btn-danger" style="display: flex; align-items: center; gap: 5px;">
+                        <span>🚪</span> ออกจากระบบ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Secondary Navbar (Dashboard menu) -->
+    <div class="dashboard-nav-secondary">
+        <div class="container dashboard-nav-links">
+            <a href="dashboard.html" class="dashboard-nav-link active">
+                <span>🏠</span> หน้าแรก
+            </a>
+            <a href="order.html" class="dashboard-nav-link">
+                <span>🛒</span> ซื้อขายสินค้า
+            </a>
+            <a href="invoices.html" class="dashboard-nav-link">
+                <span>📄</span> ใบแจ้งหนี้
+            </a>
+            <a href="dashboard-insights.html" class="dashboard-nav-link">
+                <span>📈</span> ข้อมูลตลาด
+            </a>
+        </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="container dashboard-grid" style="max-width: 1400px;">
+        
+        <!-- My Order Summary Widget -->
+        <div class="widget-card">
+            <div class="widget-header">
+                <h3 class="widget-title">สรุปคำสั่งซื้อของฉัน</h3>
+                <span class="icon">💼</span>
+            </div>
+            
+            <div class="order-stats">
+                <div class="order-stat-box">
+                    <div class="value" id="open-orders-count">0</div>
+                    <div class="label text-muted text-sm">คำสั่งซื้อที่เปิดอยู่</div>
+                </div>
+                <div class="order-stat-box">
+                    <div class="value" id="closed-orders-count">0</div>
+                    <div class="label text-muted text-sm">คำสั่งซื้อที่ปิดแล้ว</div>
+                </div>
+            </div>
+            
+            <div class="co2-box" style="background-color: var(--primary-green); color: white; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 20px;">
+                <div class="label" style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 5px;">ปริมาณ CO2 ที่ลดได้รวม:</div>
+                <div class="value" id="co2-total-1" style="font-size: 1.8rem; font-weight: 700;">0 ตัน CO2eq</div>
+            </div>
+            
+            <div class="widget-buttons" style="display: flex; gap: 12px; margin-top: auto;">
+                <button onclick="localStorage.setItem('activeTab', 'tab-list'); window.location.href='order.html?tab=list';" class="btn" style="flex: 1; background-color: #22c55e; color: white; border: none; border-radius: 6px; padding: 12px 20px; font-weight: 500; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3); cursor: pointer; transition: all 0.3s;" onmouseover="this.style.backgroundColor='#16a34a'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='#22c55e'; this.style.transform='translateY(0)';">ดูคำสั่งซื้อทั้งหมด</button>
+                <button onclick="localStorage.setItem('activeTab', 'tab-create'); window.location.href='order.html?tab=create';" class="btn" style="flex: 1; background-color: white; color: #22c55e; border: 1px solid #22c55e; border-radius: 6px; padding: 12px 20px; font-weight: 500; font-size: 0.95rem; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.backgroundColor='#f0fdf4'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='white'; this.style.transform='translateY(0)';">สร้างคำสั่งซื้อใหม่</button>
+            </div>
+        </div>
+
+        <!-- Recent Orders Widget -->
+        <div class="widget-card">
+            <div class="widget-header">
+                <h3 class="widget-title">คำสั่งซื้อล่าสุด</h3>
+                <span class="icon">⏱️</span>
+            </div>
+            
+            <div id="recent-orders-container" style="display: flex; flex-direction: column; gap: 10px; flex: 1;">
+                <div class="watchlist-item" style="text-align: center; border: none; padding: 40px 10px;">
+                    <div style="font-size: 2.5rem; opacity: 0.4; margin-bottom: 15px;">📦</div>
+                    <div style="color: var(--text-main); font-weight: 500; margin-bottom: 5px;">ยังไม่มีคำสั่งซื้อ</div>
+                    <div style="color: var(--text-muted); font-size: 0.85rem;">กดปุ่มด้านล่างเพื่อสร้างคำสั่งซื้อแรกของคุณ</div>
+                </div>
+            </div>
+            
+            <div class="widget-buttons" style="margin-top: auto; padding-top: 20px;">
+                <button onclick="localStorage.setItem('activeTab', 'tab-create'); window.location.href='order.html?tab=create';" class="btn btn-outline" style="width: 100%;">+ สร้างคำสั่งซื้อใหม่</button>
+            </div>
+        </div>
+
+        <!-- Notifications Widget -->
+        <div class="widget-card">
+            <div class="widget-header">
+                <h3 class="widget-title">การแจ้งเตือน</h3>
+                <span class="icon">🔔</span>
+            </div>
+            
+            <div id="notifications-container">
+                <div class="notification-item" style="border: none; padding-bottom: 0;">
+                    <div class="notification-icon" style="background-color: var(--border-color); color: var(--text-muted);">-</div>
+                    <div class="notification-content">
+                        <p style="color: var(--text-muted);">ยังไม่มีการแจ้งเตือนใหม่</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="widget-buttons" style="margin-top: auto; padding-top: 20px;">
+                <button class="btn btn-outline" style="width: 100%;">ดูการแจ้งเตือนทั้งหมด</button>
+            </div>
+        </div>
+
+        <!-- CO2 Savings Tracker Widget -->
+        <div class="widget-card">
+            <div class="widget-header">
+                <h3 class="widget-title">ตัวติดตามการลด CO2</h3>
+                <span class="icon">🍃</span>
+            </div>
+            
+            <div class="text-center" style="margin-bottom: 10px;">
+                <div class="text-sm text-muted">ผลงานของคุณ:</div>
+                <div class="text-2xl font-bold text-green" id="co2-total-2" style="font-size: 1.8rem; margin-top: 5px; color: var(--primary-green);">0 ตัน CO2eq</div>
+            </div>
+            
+            <div class="chart-placeholder" id="co2-chart-container" style="margin-top: 20px; height: 140px; width: 100%; position: relative; overflow: hidden; border-radius: 8px; background-color: #f8fafc; border: 1px dashed #cbd5e1;">
+                <svg viewBox="0 0 400 140" preserveAspectRatio="none" style="width: 100%; height: 100%; display: block;">
+                    <path id="co2-chart-path" d="M0,135 L400,135" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="6,6" />
+                    <text id="co2-chart-text" x="200" y="75" font-family="Prompt, sans-serif" font-size="14" fill="#9ca3af" text-anchor="middle">เริ่มต้นใช้งานเพื่อดูแนวโน้มการลด CO2</text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Quick Actions Widget -->
+        <div class="widget-card">
+            <div class="widget-header">
+                <h3 class="widget-title">เมนูด่วน</h3>
+                <span class="icon">⚡</span>
+            </div>
+            
+            <div class="quick-actions-grid">
+                <div class="action-btn">
+                    <i>✉️</i>
+                    <span>ติดต่อเรา</span>
+                </div>
+                <div class="action-btn" onclick="localStorage.setItem('activeTab', 'tab-create'); window.location.href='order.html?tab=create';">
+                    <i>+</i>
+                    <span>คำสั่งซื้อใหม่</span>
+                </div>
+                <div class="action-btn">
+                    <i>📄</i>
+                    <span>รายงาน</span>
+                </div>
+                <div class="action-btn">
+                    <i>⚙️</i>
+                    <span>ตั้งค่า</span>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="js/supabase.js"></script>
+    <script src="js/main.js?v=5"></script>
+    <script src="js/dashboard.js?v=1"></script>
+</body>
+</html>

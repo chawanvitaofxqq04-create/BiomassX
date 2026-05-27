@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข้อมูลสินค้า - BiomassX</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="background-color: #f8fafc;">
+
+    <!-- Main Navbar -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">X</span> BiomassX
+            </a>
+            
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">หน้าแรก</a>
+                <a href="insights.html" class="nav-link">ข้อมูลตลาด</a>
+                <a href="analytics.html" class="nav-link">วิเคราะห์ตลาด</a>
+                <a href="products.html" class="nav-link active">ข้อมูลสินค้า</a>
+            </div>
+
+            <div class="nav-actions">
+                <select class="lang-select">
+                    <option value="th">TH</option>
+                    <option value="en">EN</option>
+                </select>
+                <a href="login.html" class="btn btn-outline" style="border: 2px solid var(--primary-green);">เข้าสู่ระบบ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="products-hero">
+        <h1>หมวดหมู่สินค้า</h1>
+        <p>สำรวจสินค้าชีวมวลและเชื้อเพลิงชีวภาพที่สามารถเสนอซื้อขายบนแพลตฟอร์มของเรา</p>
+    </section>
+
+    <!-- Search & Filters -->
+    <div class="product-filters-card">
+        <div class="search-row">
+            <input type="text" id="searchInput" placeholder="ค้นหาผลิตภัณฑ์ตามชื่อ...">
+            <button id="searchBtn" class="btn btn-primary" style="padding: 12px 30px;">ค้นหา</button>
+        </div>
+        
+        <div class="filter-row">
+            <div class="filter-group">
+                <label>หมวดหมู่</label>
+                <select id="categoryFilter">
+                    <option value="">หมวดหมู่ทั้งหมด</option>
+                    <option value="วัตถุดิบชีวภาพ">วัตถุดิบชีวภาพ</option>
+                    <option value="เชื้อเพลิงชีวภาพ">เชื้อเพลิงชีวภาพ</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>หมวดหมู่ย่อย</label>
+                <select id="subCategoryFilter">
+                    <option value="">หมวดหมู่ย่อยทั้งหมด</option>
+                    <option value="อัดเม็ด">กลุ่มอัดเม็ด</option>
+                    <option value="อัดแท่ง">กลุ่มอัดแท่ง</option>
+                    <option value="ถ่าน">กลุ่มถ่าน / ถ่านชีวภาพ</option>
+                    <option value="เหลว">เชื้อเพลิงเหลว / ก๊าซ</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="filter-actions">
+            <button id="applyFilterBtn" class="btn btn-primary">ใช้ตัวกรอง</button>
+            <button id="clearFilterBtn" class="btn btn-outline">ล้างตัวกรอง</button>
+        </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="products-grid" id="productsGrid">
+        <!-- Javascript จะทำการดึงข้อมูลจาก products.js มาแสดงที่นี่อัตโนมัติ -->
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">ชื่อสินค้า</h2>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-tags" id="modalTags">
+                    <!-- Tags will be injected here -->
+                </div>
+                <h3 class="modal-section-title">Overview</h3>
+                <img src="" alt="Product Image" id="modalImage" class="modal-image" style="display: none;">
+                <p class="modal-desc" id="modalDesc">รายละเอียดสินค้า...</p>
+                
+                <div class="modal-specs" id="modalSpecs">
+                    <!-- Specs will be injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="js/supabase.js"></script>
+    <script src="js/main.js?v=4"></script>
+    <script src="js/products.js?v=3"></script>
+</body>
+</html>

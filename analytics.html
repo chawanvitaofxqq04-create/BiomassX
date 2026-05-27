@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>วิเคราะห์ตลาด - BiomassX</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .analytics-container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .kpi-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .kpi-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            padding: 12px;
+            border-radius: 12px;
+            background-color: #f0fdf4;
+            color: var(--primary-green);
+        }
+
+        .kpi-title {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .kpi-trend {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .trend-up { color: #16a34a; }
+        .trend-down { color: #dc2626; }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .chart-actions select {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            font-family: 'Prompt', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 350px;
+            width: 100%;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body style="background-color: #f8fafc;">
+
+    <!-- Main Navbar -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">X</span> BiomassX
+            </a>
+            
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">หน้าแรก</a>
+                <a href="insights.html" class="nav-link">ข้อมูลตลาด</a>
+                <a href="analytics.html" class="nav-link active">วิเคราะห์ตลาด</a>
+                <a href="products.html" class="nav-link">ข้อมูลสินค้า</a>
+            </div>
+
+            <div class="nav-actions">
+                <select class="lang-select">
+                    <option value="th">TH</option>
+                    <option value="en">EN</option>
+                </select>
+                <a href="login.html" class="btn btn-outline" style="border: 2px solid var(--primary-green);">เข้าสู่ระบบ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" style="padding: 60px 0 40px; background: linear-gradient(135deg, var(--primary-green) 0%, #047857 100%);">
+        <div class="container text-center" style="max-width: 800px;">
+            <h1 style="color: white; font-size: 2.8rem; margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">วิเคราะห์ตลาดเชิงลึก</h1>
+            <p style="color: rgba(255,255,255,0.9); font-size: 1.1rem;">
+                ข้อมูลเชิงลึกและแนวโน้มตลาดพลังงานชีวมวล เพื่อการตัดสินใจซื้อขายที่แม่นยำยิ่งขึ้น
+            </p>
+        </div>
+    </section>
+
+    <!-- Dashboard Content -->
+    <div class="analytics-container">
+        
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-icon">📦</div>
+                <div class="kpi-title">ปริมาณซื้อขายสะสม (MT)</div>
+                <div class="kpi-value" id="kpiTotalVolume">0</div>
+                <div class="kpi-trend" id="kpiTotalVolumeTrend" style="color: #94a3b8;">
+                    - ยังไม่มีข้อมูลการทำธุรกรรม
+                </div>
+            </div>
+            
+            <div class="kpi-card">
+                <div class="kpi-icon">💰</div>
+                <div class="kpi-title">มูลค่าตลาดรวม (THB)</div>
+                <div class="kpi-value" id="kpiTotalValue">0.00</div>
+                <div class="kpi-trend" id="kpiTotalValueTrend" style="color: #94a3b8;">
+                    - ยังไม่มีข้อมูลการทำธุรกรรม
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon">🔥</div>
+                <div class="kpi-title" id="kpiAvgPriceTitle">ราคากลางตลาด (THB/MT)</div>
+                <div class="kpi-value" id="kpiAvgPrice">0</div>
+                <div class="kpi-trend" id="kpiAvgPriceTrend" style="color: #94a3b8;">
+                    - รอการอ้างอิงราคา
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon" style="background-color: #ecfdf5; color: #10b981;">🍃</div>
+                <div class="kpi-title">ลดคาร์บอน (Ton CO2eq)</div>
+                <div class="kpi-value" id="kpiCarbon">0</div>
+                <div class="kpi-trend" id="kpiCarbonTrend" style="color: #94a3b8;">
+                    - ยังไม่มีข้อมูลการทำธุรกรรม
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="charts-grid">
+            <!-- Main Trend Chart -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">แนวโน้มราคาสินค้ายอดนิยม (THB/MT)</div>
+                    <div class="chart-actions">
+                        <select id="timeRangeFilter">
+                            <option value="6m">ย้อนหลัง 6 เดือน</option>
+                            <option value="1y">ย้อนหลัง 1 ปี</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="priceTrendChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Market Share Chart -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">สัดส่วนการซื้อขายแบ่งตามชนิด</div>
+                </div>
+                <div class="chart-container" style="height: 300px; display: flex; justify-content: center; align-items: center;">
+                    <canvas id="marketShareChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/main.js?v=4"></script>
+    <script src="js/chart.umd.js"></script>
+    <script src="js/analytics.js?v=2"></script>
+</body>
+</html>

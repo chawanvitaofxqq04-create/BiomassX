@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบ - BiomassX</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <a href="index.html" class="auth-logo">
+                <span class="logo-icon">X</span> BiomassX
+            </a>
+            
+            <h2 class="auth-title">เข้าสู่ระบบ</h2>
+            
+            <div id="loginError" style="display: none; background-color: var(--alert-red-bg); color: var(--alert-red); padding: 10px; border-radius: 6px; margin-bottom: 20px; font-size: 0.9rem; text-align: center; border: 1px solid var(--alert-red);">
+                อีเมลหรือรหัสผ่านไม่ถูกต้อง
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="email">อีเมล (Email)</label>
+                    <input type="email" id="email" class="form-control" placeholder="กรอกอีเมลของคุณ" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="password">รหัสผ่าน (Password)</label>
+                    <input type="password" id="password" class="form-control" placeholder="กรอกรหัสผ่าน" required>
+                </div>
+                
+                <div class="auth-links">
+                    <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                        <input type="checkbox"> จดจำฉันไว้
+                    </label>
+                    <a href="forgot-password.html">ลืมรหัสผ่าน?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full">เข้าสู่ระบบ</button>
+            </form>
+            
+            <div class="auth-footer">
+                ยังไม่มีบัญชีผู้ใช้? <a href="register.html">สมัครสมาชิกที่นี่</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

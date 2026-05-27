@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiomassX - ตลาดประมูลซื้อขายพลังงานชีวภาพ</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">X</span> BiomassX
+            </a>
+            
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">หน้าแรก</a>
+                <a href="insights.html" class="nav-link">ข้อมูลตลาด</a>
+                <a href="analytics.html" class="nav-link">วิเคราะห์ตลาด</a>
+                <a href="products.html" class="nav-link">ข้อมูลสินค้า</a>
+            </div>
+
+            <div class="nav-actions">
+                <select class="lang-select">
+                    <option value="th">TH</option>
+                    <option value="en">EN</option>
+                </select>
+                <a href="login.html" class="btn btn-outline">เข้าสู่ระบบ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>ตลาดประมูลซื้อ ประมูลขาย พลังงานชีวภาพ</h1>
+            <p>ซื้อขาย ชีวมวล เชื้อเพลิง และพลังงานชีวภาพทั่วโลก อย่างยั่งยืน โปร่งใส และมีประสิทธิภาพ</p>
+            
+            <div class="hero-buttons">
+                <a href="login.html" class="btn btn-primary">เริ่มการซื้อขาย</a>
+                <a href="insights.html" class="btn btn-outline">สำรวจตลาด</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Cards -->
+    <section class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value" id="global-total-orders">0</div>
+            <div class="stat-label">คำสั่งเสนอซื้อขาย</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="global-total-value">฿0</div>
+            <div class="stat-label">มูลค่าตลาดรวม</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="global-total-countries">1</div>
+            <div class="stat-label">ประเทศ (Thailand)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="global-total-co2">0</div>
+            <div class="stat-label">TCO2eq ที่ลดได้</div>
+        </div>
+    </section>
+
+    <!-- Market Index -->
+    <section class="container index-section">
+        <div class="index-header">
+            <h2>ดัชนีราคากลางแบบเรียลไทม์</h2>
+        </div>
+        
+        <div id="market-index-container" style="display: flex; flex-direction: column; gap: 20px; margin-top: 20px;">
+            <!-- Loading State -->
+            <div style="width: 100%; text-align: center; padding: 40px; color: #94a3b8;">
+                กำลังโหลดข้อมูลตลาด...
+            </div>
+        </div>
+    </section>
+
+    <!-- Supabase CDN -->
+    <script src="js/supabase.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>

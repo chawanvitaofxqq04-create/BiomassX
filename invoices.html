@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ใบแจ้งหนี้ - BiomassX</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Secondary Navbar (Dashboard menu) -->
+    <div class="dashboard-nav-secondary">
+        <div class="container dashboard-nav-links">
+            <a href="dashboard.html" class="dashboard-nav-link">
+                <span>🏠</span> หน้าแรก
+            </a>
+            <a href="order.html" class="dashboard-nav-link">
+                <span>🛒</span> ซื้อขายสินค้า
+            </a>
+            <a href="invoices.html" class="dashboard-nav-link active">
+                <span>📄</span> ใบแจ้งหนี้
+            </a>
+            <a href="dashboard-insights.html" class="dashboard-nav-link">
+                <span>📈</span> ข้อมูลตลาด
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Navbar -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">X</span> BiomassX
+            </a>
+            
+            <div class="nav-actions" style="margin-left: 20px;">
+                <select class="lang-select">
+                    <option value="th">TH</option>
+                    <option value="en">EN</option>
+                </select>
+            </div>
+
+            <div class="nav-actions" style="margin-left: auto;">
+                <div class="dashboard-user-info">
+                    <span id="userNameDisplay" class="company-name">กำลังโหลดข้อมูล...</span>
+                    <a href="dashboard.html" class="btn" style="background-color: #bef264; color: #3f6212; display: flex; align-items: center; gap: 5px; font-weight: 600;">
+                        <span>←</span> กลับสู่แดชบอร์ด
+                    </a>
+                    <a href="#" id="logoutBtn" class="btn btn-danger" style="display: flex; align-items: center; gap: 5px;">
+                        <span>🚪</span> ออกจากระบบ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container" style="max-width: 1400px;">
+        
+        <div class="page-header">
+            <h2 class="page-title">📄 ใบแจ้งหนี้ของฉัน</h2>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="invoice-stats">
+            <div class="invoice-stat-card border-blue">
+                <div class="invoice-stat-label">จำนวนใบแจ้งหนี้</div>
+                <div class="invoice-stat-value" id="stat-invoice-count">0</div>
+            </div>
+            
+            <div class="invoice-stat-card border-red">
+                <div class="invoice-stat-label">ยอดคงค้าง (Pending)</div>
+                <div class="invoice-stat-value" id="stat-pending-amount">฿0.00</div>
+            </div>
+            
+            <div class="invoice-stat-card border-green">
+                <div class="invoice-stat-label">ชำระแล้ว (Paid)</div>
+                <div class="invoice-stat-value" id="stat-paid-amount">฿0.00</div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="invoice-filters">
+            <div class="filter-group">
+                <label class="filter-label">สถานะ</label>
+                <select class="filter-input" id="filter-status">
+                    <option value="all">สถานะทั้งหมด</option>
+                    <option value="pending">ค้างชำระ (PENDING)</option>
+                    <option value="paid">ชำระแล้ว (PAID)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Dynamic Invoice List Container -->
+        <div id="invoice-list-container" style="display: flex; flex-direction: column; gap: 40px; margin-top: 30px;">
+            <!-- Invoices will be rendered here by JS -->
+            <div style="text-align: center; padding: 50px; color: #94a3b8;">
+                กำลังโหลดข้อมูลใบแจ้งหนี้...
+            </div>
+                        ยืนยันการชำระเงิน
+                    </button>
+                    <p style="text-align: center; font-size: 0.8rem; color: #94a3b8; margin-top: 12px;">การชำระเงินได้รับการคุ้มครองด้วยระบบ Escrow ของ BiomassX</p>
+                </div>
+
+                <!-- Document Action Box -->
+                <div style="background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 24px; border: 1px solid #e2e8f0;">
+                    <h3 style="font-size: 1.1rem; color: #0f172a; margin-bottom: 16px; font-weight: 700;">📄 เอกสารที่เกี่ยวข้อง</h3>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <button onclick="alert('ปุ่มในหน้านี้เป็นเพียงตัวอย่าง (Mockup) ครับ ระบบจริงต้องกดจากหน้า คำสั่งซื้อขาย (แท็บที่ 3) เท่านั้นครับ!')" style="display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px; background: white; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; color: #334155; font-weight: 600; text-align: left; transition: background 0.2s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='white'">
+                            <span style="font-size: 1.2rem;">📝</span> สัญญาซื้อขาย (Smart Contract)
+                        </button>
+                        <button style="display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px; background: white; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; color: #334155; font-weight: 600; text-align: left; transition: background 0.2s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='white'">
+                            <span style="font-size: 1.2rem;">⬇️</span> ดาวน์โหลด Invoice เป็น PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="js/supabase.js"></script>
+    <script src="js/main.js?v=3"></script>
+    <script src="js/invoices.js"></script>
+</body>
+</html>

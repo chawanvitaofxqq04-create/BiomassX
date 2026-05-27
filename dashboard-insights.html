@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข้อมูลตลาด - BiomassX Dashboard</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="background-color: #f8fafc;">
+
+    <!-- Main Navbar (Dashboard Version) -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">X</span> BiomassX
+            </a>
+            
+            <div class="nav-actions" style="margin-left: 20px;">
+                <select class="lang-select">
+                    <option value="th">TH</option>
+                    <option value="en">EN</option>
+                </select>
+            </div>
+
+            <div class="nav-actions" style="margin-left: auto;">
+                <div class="dashboard-user-info">
+                    <span id="userNameDisplay" class="company-name">กำลังโหลดข้อมูล...</span>
+                    <a href="#" class="btn btn-outline" style="display: flex; align-items: center; gap: 5px;">
+                        <span>👤</span> โปรไฟล์
+                    </a>
+                    <a href="#" id="logoutBtn" class="btn btn-danger" style="display: flex; align-items: center; gap: 5px;">
+                        <span>🚪</span> ออกจากระบบ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Secondary Navbar (Dashboard menu) -->
+    <div class="dashboard-nav-secondary">
+        <div class="container dashboard-nav-links">
+            <a href="dashboard.html" class="dashboard-nav-link">
+                <span>🏠</span> หน้าแรก
+            </a>
+            <a href="order.html" class="dashboard-nav-link">
+                <span>🛒</span> ซื้อขายสินค้า
+            </a>
+            <a href="invoices.html" class="dashboard-nav-link">
+                <span>📄</span> ใบแจ้งหนี้
+            </a>
+            <a href="dashboard-insights.html" class="dashboard-nav-link active">
+                <span>📈</span> ข้อมูลตลาด
+            </a>
+        </div>
+    </div>
+
+    <!-- Page Content (Without Hero Banner) -->
+    <div class="insights-container" style="margin-top: 30px;">
+        
+        <!-- Sidebar Filters -->
+        <aside class="filters-sidebar">
+            <div class="filters-header">
+                <h3>กรองคำสั่งซื้อ</h3>
+                <a href="#">ล้างทั้งหมด</a>
+            </div>
+
+            <div class="filter-section">
+                <h4>คำสั่งซื้อขาย</h4>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="order_type" checked> คำสั่งทั้งหมด
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="order_type"> คำสั่งซื้อ
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="order_type"> คำสั่งขาย
+                    </label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h4>สินค้า</h4>
+                <select class="select-full">
+                    <option>สินค้าทั้งหมด</option>
+                    <option>Wood charcoal briquettes</option>
+                    <option>Coconut carp chips</option>
+                    <option>Palm empty fruit bunches</option>
+                </select>
+            </div>
+
+            <div class="filter-section">
+                <h4>สถานที่ (จังหวัด)</h4>
+                <input type="text" id="locationFilter" list="provincesList" class="select-full" placeholder="พิมพ์ชื่อจังหวัด..." style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;">
+                <datalist id="provincesList">
+                    <!-- จะถูกเติมข้อมูล 77 จังหวัดด้วย Javascript -->
+                </datalist>
+            </div>
+
+            <div class="filter-section">
+                <h4>เงื่อนไขการส่งมอบ</h4>
+                <select class="select-full">
+                    <option>เงื่อนไขทั้งหมด</option>
+                    <option>DAP</option>
+                    <option>FOB</option>
+                    <option>CIF</option>
+                </select>
+            </div>
+        </aside>
+
+        <!-- Main Content (Table) -->
+        <main class="insights-main">
+            
+            <div class="search-bar-container">
+                <div class="search-input-group" style="display: none;">
+                    <!-- Removed search box as requested -->
+                </div>
+                
+                <div class="sort-group">
+                    <label>เรียงตาม</label>
+                    <select id="sortSelect">
+                        <option value="newest">ใหม่สุดก่อน</option>
+                        <option value="oldest">เก่าสุดก่อน</option>
+                        <option value="price_asc">ราคา: ต่ำไปสูง</option>
+                        <option value="price_desc">ราคา: สูงไปต่ำ</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="data-table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>คำสั่ง</th>
+                            <th>สินค้า</th>
+                            <th>ปริมาณ</th>
+                            <th>ราคา/หน่วย</th>
+                            <th>ตลาด</th>
+                            <th>ต้นทาง</th>
+                            <th>ปลายทาง</th>
+                            <th>เงื่อนไขส่งมอบ</th>
+                            <th>วันที่</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 50px 20px; color: var(--text-muted);">
+                                <div style="font-size: 2.5rem; margin-bottom: 15px; opacity: 0.4;">📊</div>
+                                <div style="font-size: 1.1rem; font-weight: 500;">กำลังโหลดข้อมูล...</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/insights.js"></script>
+</body>
+</html>

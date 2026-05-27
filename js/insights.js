@@ -1,0 +1,195 @@
+document.addEventListener('DOMContentLoaded', async () => {
+    const tableBody = document.querySelector('.data-table tbody');
+    if (!tableBody) return;
+
+    let allOrders = []; // เก็บข้อมูลต้นฉบับทั้งหมด
+
+    // เลือก Elements ของตัวกรอง
+    const typeRadios = document.querySelectorAll('input[name="order_type"]');
+    const productSelect = document.querySelectorAll('.select-full')[0];
+    const locationSelect = document.getElementById('locationFilter'); // เป็น Input แล้ว
+    const termSelect = document.querySelectorAll('.select-full')[2] || document.querySelectorAll('.select-full')[1]; // เผื่อ index เลื่อน
+    const clearBtn = document.querySelector('.filters-header a');
+    const sortSelect = document.getElementById('sortSelect');
+
+    // 77 จังหวัด
+    const provinces = [
+        "กระบี่", "กรุงเทพมหานคร", "กาญจนบุรี", "กาฬสินธุ์", "กำแพงเพชร",
+        "ขอนแก่น", "จันทบุรี", "ฉะเชิงเทรา", "ชลบุรี", "ชัยนาท", "ชัยภูมิ",
+        "ชุมพร", "เชียงราย", "เชียงใหม่", "ตรัง", "ตราด", "ตาก", "นครนายก",
+        "นครปฐม", "นครพนม", "นครราชสีมา", "นครศรีธรรมราช", "นครสวรรค์",
+        "นนทบุรี", "นราธิวาส", "น่าน", "บึงกาฬ", "บุรีรัมย์", "ปทุมธานี",
+        "ประจวบคีรีขันธ์", "ปราจีนบุรี", "ปัตตานี", "พระนครศรีอยุธยา", "พะเยา",
+        "พังงา", "พัทลุง", "พิจิตร", "พิษณุโลก", "เพชรบุรี", "เพชรบูรณ์",
+        "แพร่", "ภูเก็ต", "มหาสารคาม", "มุกดาหาร", "แม่ฮ่องสอน", "ยโสธร",
+        "ยะลา", "ร้อยเอ็ด", "ระนอง", "ระยอง", "ราชบุรี", "ลพบุรี", "ลำปาง",
+        "ลำพูน", "เลย", "ศรีสะเกษ", "สกลนคร", "สงขลา", "สตูล", "สมุทรปราการ",
+        "สมุทรสงคราม", "สมุทรสาคร", "สระแก้ว", "สระบุรี", "สิงห์บุรี",
+        "สุโขทัย", "สุพรรณบุรี", "สุราษฎร์ธานี", "สุรินทร์", "หนองคาย",
+        "หนองบัวลำภู", "อ่างทอง", "อำนาจเจริญ", "อุดรธานี", "อุตรดิตถ์",
+        "อุทัยธานี", "อุบลราชธานี"
+    ];
+
+    // เติม Datalist
+    const provincesList = document.getElementById('provincesList');
+    if (provincesList) {
+        provinces.forEach(p => {
+            const option = document.createElement('option');
+            option.value = p;
+            provincesList.appendChild(option);
+        });
+    }
+
+    async function loadOrders() {
+        if (!window.supabaseClient) {
+            console.error("Supabase client not found.");
+            return;
+        }
+
+        try {
+            const { data: orders, error } = await window.supabaseClient
+                .from('orders')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            if (orders && orders.length > 0) {
+                allOrders = orders;
+                populateFilterDropdowns(orders);
+                renderTable(orders);
+            } else {
+                tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 20px;">ยังไม่มีข้อมูลคำสั่งซื้อในระบบ</td></tr>';
+            }
+        } catch (err) {
+            console.error("Failed to load orders for insights:", err);
+        }
+    }
+
+    // สร้างตัวเลือกใน Dropdown อัตโนมัติจากข้อมูลที่มี
+    function populateFilterDropdowns(orders) {
+        // ดึงค่าที่ไม่ซ้ำกัน
+        const products = [...new Set(orders.map(o => o.product).filter(Boolean))];
+        const locations = [...new Set(orders.map(o => o.province).filter(Boolean))];
+        const terms = [...new Set(orders.map(o => o.marketplace).filter(Boolean))];
+
+        // สินค้า
+        productSelect.innerHTML = '<option value="all">สินค้าทั้งหมด</option>';
+        products.forEach(p => productSelect.innerHTML += `<option value="${p}">${p}</option>`);
+
+        // สถานที่ (จังหวัด) - ไม่ต้องเติม option เข้าไปใน input
+        // locationSelect เป็น input + datalist แล้ว (เติมจากอาเรย์คงที่)
+
+        // เงื่อนไขการส่งมอบ (ตลาด/รูปแบบ)
+        if (termSelect) {
+            termSelect.innerHTML = '<option value="all">เงื่อนไขทั้งหมด</option>';
+            terms.forEach(t => termSelect.innerHTML += `<option value="${t}">${t}</option>`);
+        }
+    }
+
+    // วาดตารางตามข้อมูลที่รับมา
+    function renderTable(dataToRender) {
+        tableBody.innerHTML = '';
+        
+        if (dataToRender.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 30px; color: #64748b;">ไม่พบข้อมูลที่ตรงกับเงื่อนไขการกรอง</td></tr>';
+            return;
+        }
+
+        dataToRender.forEach(order => {
+            const tr = document.createElement('tr');
+            
+            const dateObj = new Date(order.created_at);
+            const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.getFullYear()}`;
+            
+            const typeColor = order.order_type === 'Buy' ? 'var(--primary-green)' : '#f59e0b';
+            const typeLabel = order.order_type === 'Buy' ? 'ซื้อ' : 'ขาย';
+            const productName = order.product_name || order.product || '-';
+
+            tr.innerHTML = `
+                <td>
+                    <span style="background-color: ${typeColor}; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">
+                        ${typeLabel}
+                    </span>
+                </td>
+                <td style="font-weight: 500;">${productName}</td>
+                <td>${(order.quantity || 0).toLocaleString()} ${order.unit || 'MT'}</td>
+                <td><strong style="color: #047857;">${(order.price || 0).toLocaleString()}</strong></td>
+                <td>${order.marketplace || '-'}</td>
+                <td>${order.province || '-'}</td>
+                <td>${order.amphoe || '-'}</td>
+                <td>${order.payment_term || '-'}</td>
+                <td style="color: var(--text-muted);">${formattedDate}</td>
+            `;
+            tableBody.appendChild(tr);
+        });
+    }
+
+    // ฟังก์ชันกรองข้อมูล
+    function applyFilters() {
+        let filtered = allOrders;
+
+        // 1. กรองประเภทคำสั่ง (ซื้อ/ขาย) แบบกันเหนียว (ไม่พึ่งพา HTML value ป้องกัน Cache)
+        let selectedType = 'all';
+        if (typeRadios[1] && typeRadios[1].checked) selectedType = 'Buy';
+        else if (typeRadios[2] && typeRadios[2].checked) selectedType = 'Sell';
+        
+        if (selectedType !== 'all') {
+            filtered = filtered.filter(o => o.order_type === selectedType);
+        }
+
+        // 2. กรองสินค้า
+        const prodVal = productSelect ? productSelect.value : 'all';
+        if (prodVal && prodVal !== 'all' && prodVal !== 'on') {
+            filtered = filtered.filter(o => (o.product_name || o.product) === prodVal);
+        }
+
+        // 3. กรองสถานที่ (จาก Text Input)
+        const locVal = locationSelect ? locationSelect.value.trim() : '';
+        if (locVal && locVal !== 'all' && locVal !== '') {
+            filtered = filtered.filter(o => o.province && o.province.includes(locVal));
+        }
+
+        // 4. กรองเงื่อนไข
+        const termVal = termSelect ? termSelect.value : 'all';
+        if (termVal && termVal !== 'all' && termVal !== 'on') {
+            filtered = filtered.filter(o => o.marketplace === termVal);
+        }
+
+        // 5. เรียงลำดับ (Sorting)
+        const sortVal = sortSelect ? sortSelect.value : 'newest';
+        if (sortVal === 'newest') {
+            filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        } else if (sortVal === 'oldest') {
+            filtered.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+        } else if (sortVal === 'price_desc') {
+            filtered.sort((a, b) => (parseFloat(b.price) || 0) - (parseFloat(a.price) || 0));
+        } else if (sortVal === 'price_asc') {
+            filtered.sort((a, b) => (parseFloat(a.price) || 0) - (parseFloat(b.price) || 0));
+        }
+
+        renderTable(filtered);
+    }
+
+    // ผูก Event ให้ตัวกรองทั้งหมด
+    if (typeRadios) typeRadios.forEach(radio => radio.addEventListener('change', applyFilters));
+    if (productSelect) productSelect.addEventListener('change', applyFilters);
+    if (locationSelect) locationSelect.addEventListener('input', applyFilters);
+    if (termSelect) termSelect.addEventListener('change', applyFilters);
+    if (sortSelect) sortSelect.addEventListener('change', applyFilters);
+
+    // ปุ่มล้างทั้งหมด
+    if (clearBtn) {
+        clearBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (typeRadios && typeRadios[0]) typeRadios[0].checked = true;
+            if (productSelect) productSelect.value = 'all';
+            if (locationSelect) locationSelect.value = '';
+            if (termSelect) termSelect.value = 'all';
+            if (sortSelect) sortSelect.value = 'newest';
+            applyFilters();
+        });
+    }
+
+    loadOrders();
+});

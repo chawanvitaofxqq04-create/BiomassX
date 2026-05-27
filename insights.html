@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข้อมูลตลาด - BiomassX</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Main Navbar -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">X</span> BiomassX
+            </a>
+            
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">หน้าแรก</a>
+                <a href="insights.html" class="nav-link active">ข้อมูลตลาด</a>
+                <a href="analytics.html" class="nav-link">วิเคราะห์ตลาด</a>
+                <a href="products.html" class="nav-link">ข้อมูลสินค้า</a>
+            </div>
+
+            <div class="nav-actions">
+                <select class="lang-select">
+                    <option value="th">TH</option>
+                    <option value="en">EN</option>
+                </select>
+                <a href="login.html" class="btn btn-outline" style="border: 2px solid var(--primary-green);">เข้าสู่ระบบ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" style="max-width: 1400px;">
+        <h1>ซื้อขาย ชีวมวล เชื้อเพลิง และพลังงานชีวภาพ แบบประมูลสองฝั่ง</h1>
+        <p>โอกาสเข้าถึงตลาดท้องถิ่นและตลาดโลก เพิ่มโอกาสในการซื้อขาย เสริมสร้างอนาคตพลังงานที่ยั่งยืน</p>
+        
+        <div class="hero-buttons">
+            <a href="register.html" class="btn btn-primary" style="font-size: 1.1rem; padding: 12px 30px;">เริ่มต้น - สมัครสมาชิก</a>
+            <a href="login.html" class="btn btn-outline" style="font-size: 1.1rem; padding: 12px 30px;">สมาชิก? เข้าสู่ระบบ</a>
+        </div>
+    </section>
+
+    <!-- Page Content -->
+    <div class="insights-container">
+        
+        <!-- Sidebar Filters -->
+        <aside class="filters-sidebar">
+            <div class="filters-header">
+                <h3>กรองคำสั่งซื้อ</h3>
+                <a href="#">ล้างทั้งหมด</a>
+            </div>
+
+            <div class="filter-section">
+                <h4>คำสั่งซื้อขาย</h4>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="order_type" value="all" checked> คำสั่งทั้งหมด
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="order_type" value="Buy"> คำสั่งซื้อ
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="order_type" value="Sell"> คำสั่งขาย
+                    </label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h4>สินค้า</h4>
+                <select class="select-full">
+                    <option>สินค้าทั้งหมด</option>
+                    <option>Wood charcoal briquettes</option>
+                    <option>Coconut carp chips</option>
+                    <option>Palm empty fruit bunches</option>
+                </select>
+            </div>
+
+            <div class="filter-section">
+                <h4>สถานที่ (จังหวัด)</h4>
+                <input type="text" id="locationFilter" list="provincesList" class="select-full" placeholder="พิมพ์ชื่อจังหวัด..." style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;">
+                <datalist id="provincesList">
+                    <!-- จะถูกเติมข้อมูล 77 จังหวัดด้วย Javascript -->
+                </datalist>
+            </div>
+
+            <div class="filter-section">
+                <h4>เงื่อนไขการส่งมอบ</h4>
+                <select class="select-full">
+                    <option>เงื่อนไขทั้งหมด</option>
+                    <option>DAP</option>
+                    <option>FOB</option>
+                    <option>CIF</option>
+                </select>
+            </div>
+        </aside>
+
+        <!-- Main Content (Table) -->
+        <main class="insights-main">
+            
+            <div class="search-bar-container">
+                <div class="search-input-group" style="display: none;">
+                    <!-- Removed search box as requested -->
+                </div>
+                
+                <div class="sort-group">
+                    <label>เรียงตาม</label>
+                    <select id="sortSelect">
+                        <option value="newest">ใหม่สุดก่อน</option>
+                        <option value="oldest">เก่าสุดก่อน</option>
+                        <option value="price_asc">ราคา: ต่ำไปสูง</option>
+                        <option value="price_desc">ราคา: สูงไปต่ำ</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="data-table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>คำสั่ง</th>
+                            <th>สินค้า</th>
+                            <th>ปริมาณ</th>
+                            <th>ราคา/หน่วย</th>
+                            <th>ตลาด</th>
+                            <th>ต้นทาง</th>
+                            <th>ปลายทาง</th>
+                            <th>เงื่อนไขส่งมอบ</th>
+                            <th>วันที่</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 50px 20px; color: var(--text-muted);">
+                                <div style="font-size: 2.5rem; margin-bottom: 15px; opacity: 0.4;">📊</div>
+                                <div style="font-size: 1.1rem; font-weight: 500;">ยังไม่มีข้อมูลคำสั่งซื้อขายในตลาด</div>
+                                <div style="font-size: 0.9rem; margin-top: 5px;">ข้อมูลจะแสดงเมื่อมีการสร้างคำสั่งซื้อหรือขายใหม่</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="js/supabase.js"></script>
+    <script src="js/main.js?v=3"></script>
+    <script src="js/insights.js?v=2"></script>
+</body>
+</html>
