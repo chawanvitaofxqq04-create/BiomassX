@@ -59,40 +59,47 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             
             // Supabase Sign Up
-            const { data, error } = await supabaseClient.auth.signUp({
-                email: email,
-                password: password,
-                options: {
-                    data: {
-                        firstname: firstname,
-                        lastname: lastname
+            try {
+                const { data, error } = await supabaseClient.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            firstname: firstname,
+                            lastname: lastname
+                        }
                     }
+                });
+                
+                if (error) {
+                    registerError.innerText = error.message || "เกิดข้อผิดพลาดในการสมัครสมาชิก";
+                    registerError.style.display = 'block';
+                    if (registerSubmitBtn) { registerSubmitBtn.disabled = false; registerSubmitBtn.innerText = 'สมัครสมาชิก'; }
+                } else {
+                    // Success
+                    registerError.style.display = 'none';
+                    
+                    // ตรวจสอบว่าต้องยืนยันอีเมลหรือไม่
+                    if (data.user && data.user.identities && data.user.identities.length === 0) {
+                        registerSuccess.innerText = "อีเมลนี้ถูกใช้งานไปแล้ว หรือมีข้อผิดพลาด";
+                        registerSuccess.style.backgroundColor = "var(--alert-red-bg)";
+                        registerSuccess.style.color = "var(--alert-red)";
+                    } else if (data.session === null) {
+                        registerSuccess.innerText = "สมัครสำเร็จ! กรุณาตรวจสอบอีเมลของคุณเพื่อยืนยันตัวตน";
+                    } else {
+                        registerSuccess.innerText = "สมัครสมาชิกสำเร็จ! กำลังพากลับไปหน้าเข้าสู่ระบบ...";
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 2000);
+                    }
+                    
+                    registerSuccess.style.display = 'block';
                 }
-            });
-            
-            if (error) {
-                registerError.innerText = error.message || "เกิดข้อผิดพลาดในการสมัครสมาชิก";
+            } catch (err) {
+                console.error("Sign up error:", err);
+                registerError.innerText = "เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง";
                 registerError.style.display = 'block';
                 if (registerSubmitBtn) { registerSubmitBtn.disabled = false; registerSubmitBtn.innerText = 'สมัครสมาชิก'; }
-            } else {
-                // Success
-                registerError.style.display = 'none';
-                
-                // ตรวจสอบว่าต้องยืนยันอีเมลหรือไม่
-                if (data.user && data.user.identities && data.user.identities.length === 0) {
-                    registerSuccess.innerText = "อีเมลนี้ถูกใช้งานไปแล้ว หรือมีข้อผิดพลาด";
-                    registerSuccess.style.backgroundColor = "var(--alert-red-bg)";
-                    registerSuccess.style.color = "var(--alert-red)";
-                } else if (data.session === null) {
-                    registerSuccess.innerText = "สมัครสำเร็จ! กรุณาตรวจสอบอีเมลของคุณเพื่อยืนยันตัวตน";
-                } else {
-                    registerSuccess.innerText = "สมัครสมาชิกสำเร็จ! กำลังพากลับไปหน้าเข้าสู่ระบบ...";
-                    setTimeout(() => {
-                        window.location.href = 'login.html';
-                    }, 2000);
-                }
-                
-                registerSuccess.style.display = 'block';
             }
         });
     }
@@ -114,24 +121,31 @@ document.addEventListener('DOMContentLoaded', async () => {
             const password = document.getElementById('password').value;
             
             // Supabase Sign In
-            const { data, error } = await supabaseClient.auth.signInWithPassword({
-                email: email,
-                password: password,
-            });
-            
-            if (error) {
-                // Fail
-                loginError.innerText = error.message === 'Invalid login credentials' ? 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' : error.message;
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: password,
+                });
+                
+                if (error) {
+                    // Fail
+                    loginError.innerText = error.message === 'Invalid login credentials' ? 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' : error.message;
+                    loginError.style.display = 'block';
+                    
+                    if (loginSubmitBtn) { loginSubmitBtn.disabled = false; loginSubmitBtn.innerText = 'เข้าสู่ระบบ'; }
+                    
+                    setTimeout(() => {
+                        loginError.style.display = 'none';
+                    }, 3000);
+                } else {
+                    // Login Success
+                    window.location.href = 'dashboard.html';
+                }
+            } catch (err) {
+                console.error("Login error:", err);
+                loginError.innerText = "เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง";
                 loginError.style.display = 'block';
-                
                 if (loginSubmitBtn) { loginSubmitBtn.disabled = false; loginSubmitBtn.innerText = 'เข้าสู่ระบบ'; }
-                
-                setTimeout(() => {
-                    loginError.style.display = 'none';
-                }, 3000);
-            } else {
-                // Login Success
-                window.location.href = 'dashboard.html';
             }
         });
     }
@@ -213,3 +227,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 });
+
+// ==========================================
+// Global Utilities
+// ==========================================
+window.sanitizeHTML = function(str) {
+    if (typeof str !== 'string') return str;
+    return str.replace(/[&<>"']/g, function(m) {
+        return {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        }[m];
+    });
+};

@@ -167,6 +167,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert("กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน (ประเภทคำสั่ง, สินค้า, ปริมาณ, ราคา)");
                 return;
             }
+            
+            if (orderData.quantity <= 0 || orderData.price <= 0) {
+                alert("กรุณาระบุปริมาณและราคาให้ถูกต้อง (ต้องมากกว่า 0)");
+                return;
+            }
 
             // แจ้งผู้ใช้ว่ากำลังบันทึก
             const originalText = saveBtn.innerText;
@@ -174,16 +179,93 @@ document.addEventListener('DOMContentLoaded', () => {
             saveBtn.disabled = true;
 
             try {
-                // พยายามบันทึกลงตาราง orders ใน Supabase
-                const { data, error } = await window.supabaseClient
+                // 1. ค้นหาคำสั่งที่รออยู่ (Pending) ในฝั่งตรงข้าม และสินค้าเดียวกัน
+                const oppositeType = orderData.order_type === 'Buy' ? 'Sell' : 'Buy';
+                let matchedOrder = null;
+                let isMatched = false;
+                
+                let query = window.supabaseClient
                     .from('orders')
-                    .insert([orderData]);
+                    .select('*')
+                    .in('status', ['Open', 'Pending', 'PENDING', 'open', 'pending'])
+                    .eq('order_type', oppositeType)
+                    .eq('product', orderData.product)
+                    .neq('user_id', session.user.id); // ไม่จับคู่กับตัวเอง
 
-                if (error) {
-                    throw error;
+                // ตรวจสอบความเข้ากันได้ของราคา (Price Compatibility)
+                if (orderData.order_type === 'Buy') {
+                    // ถ้าเราซื้อ ต้องหาคนขายที่ตั้งราคาขาย "น้อยกว่าหรือเท่ากับ" ราคาที่เรายอมจ่าย
+                    query = query.lte('price', orderData.price);
+                } else {
+                    // ถ้าเราขาย ต้องหาคนซื้อที่ตั้งราคารับซื้อ "มากกว่าหรือเท่ากับ" ราคาที่เราอยากขาย
+                    query = query.gte('price', orderData.price);
                 }
 
-                alert('✅ บันทึกคำสั่งซื้อขายสำเร็จ!');
+                const { data: matchCandidates, error: matchError } = await query.limit(1);
+
+                if (matchError) throw matchError;
+
+                if (matchCandidates && matchCandidates.length > 0) {
+                    matchedOrder = matchCandidates[0];
+                    isMatched = true;
+                }
+
+                let matchedUserName = 'คู่สัญญา (Partner)';
+                let myName = 'ผู้ใช้ระบบ';
+
+                // ดึงชื่อเราเอง
+                if (session && session.user && session.user.user_metadata) {
+                    const meta = session.user.user_metadata;
+                    if (meta.firstname) myName = meta.firstname + ' ' + (meta.lastname || '');
+                }
+
+                if (isMatched) {
+                    // ดึงชื่อคู่สัญญาจากที่ซ่อนไว้ใน PENDING
+                    if (matchedOrder.matched_with_name && matchedOrder.matched_with_name.startsWith('CREATOR:')) {
+                        matchedUserName = matchedOrder.matched_with_name.replace('CREATOR:', '');
+                    }
+
+                    orderData.status = 'Matched';
+                    orderData.matched_with_name = matchedUserName + '|' + matchedOrder.id; // ชั่วคราว
+                    
+                    // [สำคัญมาก] การปรับยอด (Reconciliation) ให้ตรงกับคนที่ตั้งรอก่อน (Maker)
+                    orderData.price = matchedOrder.price;
+                    orderData.quantity = matchedOrder.quantity;
+                    
+                } else {
+                    orderData.status = 'Pending';
+                    orderData.matched_with_name = 'CREATOR:' + myName; // ซ่อนชื่อตัวเองไว้ให้คนอื่นมาหาเจอ
+                }
+
+                // พยายามบันทึกลงตาราง orders ใน Supabase (ใช้ .select() เพื่อดึง ID กลับมา)
+                const { data, error } = await window.supabaseClient
+                    .from('orders')
+                    .insert([orderData])
+                    .select();
+
+                if (error) throw error;
+                if (!data || data.length === 0) throw new Error("ไม่สามารถบันทึกข้อมูลได้ (Empty Data)");
+                
+                const newOrder = data[0];
+
+                if (isMatched) {
+                    // 1. อัปเดตออเดอร์ของคู่สัญญา (ฝั่งนู้น) ให้เป็น Matched และใส่ชื่อ/ID ของเราลงไป
+                    const { error: updateError } = await window.supabaseClient
+                        .from('orders')
+                        .update({ 
+                            status: 'Matched', 
+                            matched_with_name: myName + '|' + newOrder.id
+                        })
+                        .eq('id', matchedOrder.id);
+                    
+                    if (updateError) console.warn("Failed to update matched order:", updateError);
+                        
+                    const sortedIds = [newOrder.id.substring(0, 8), matchedOrder.id.substring(0, 8)].sort();
+                    const contractRef = `MATCH-${sortedIds[0]}-${sortedIds[1]}`.toUpperCase();
+                    alert(` จับคู่สำเร็จทันที! (Immediate Match)\nระบบพบคำสั่งที่ตรงกันในตลาด สถานะของคุณคือ "Matched"\n\n รหัสสัญญาของคุณคือ: ${contractRef}`);
+                } else {
+                    alert(' บันทึกคำสั่งซื้อขายสำเร็จ!\nคำสั่งของคุณอยู่ในสถานะ "Pending" เพื่อรอการจับคู่');
+                }
                 
                 // สลับไปแท็บรายการคำสั่งซื้อขายและโหลดข้อมูลใหม่ (ถ้ามี)
                 document.querySelector('.order-tab[data-target="tab-list"]').click();
@@ -197,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Save order error:", err);
                 
                 // ถอด Demo Mode ออก และให้แสดง Error ตามจริง 100%
-                alert('เกิดข้อผิดพลาดจากระบบหลังบ้าน (Database Error):\n' + (err.message || 'Unknown Error') + '\n\nข้อมูลยังไม่ถูกบันทึก กรุณาตรวจสอบโครงสร้างตารางหรือ RLS Policy');
+                alert('เกิดข้อผิดพลาดจากระบบหลังบ้าน (Database Error):\n' + (err.message || 'Unknown Error') + '\n\nข้อมูลยังไม่ถูกบันทึก');
             } finally {
                 saveBtn.innerText = originalText;
                 saveBtn.disabled = false;
@@ -206,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // === โหลดข้อมูลรายการคำสั่งซื้อจริงจาก Supabase ===
-    async function loadMyOrders() {
+    window.loadMyOrders = async function loadMyOrders() {
         const listContainer = document.getElementById('tab-list');
         if (!listContainer || !window.supabaseClient) return;
         
@@ -214,16 +296,72 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!session) return;
 
         try {
-            const { data: orders, error } = await window.supabaseClient
+            const { data: rawOrders, error } = await window.supabaseClient
                 .from('orders')
                 .select('*')
                 .eq('user_id', session.user.id)
                 .order('created_at', { ascending: false });
 
             if (error) throw error;
+            
+            let orders = rawOrders || [];
+            
+            // --- Apply Filters ---
+            const searchInput = document.getElementById('orderSearchInput');
+            const statusFilter = document.getElementById('orderStatusFilter');
+            const typeFilter = document.getElementById('orderTypeFilter');
+            const timeFilter = document.getElementById('orderTimeFilter');
+            
+            if (searchInput && searchInput.value) {
+                const term = searchInput.value.toLowerCase();
+                orders = orders.filter(o => {
+                    const product = (o.product_name || o.product || '').toLowerCase();
+                    const idStr = (o.id || '').toString().toLowerCase();
+                    return product.includes(term) || idStr.includes(term);
+                });
+            }
+            
+            if (statusFilter && statusFilter.value !== 'ทุกสถานะ') {
+                const val = statusFilter.value;
+                orders = orders.filter(o => {
+                    const status = (o.status || 'ACTIVE').toUpperCase();
+                    if (val === 'รอดำเนินการ' && (status === 'PENDING' || status === 'ACTIVE' || status === 'OPEN')) return true;
+                    if (val === 'จับคู่แล้ว' && status === 'MATCHED') return true;
+                    return false;
+                });
+            }
+            
+            if (typeFilter && typeFilter.value !== 'ทุกประเภท') {
+                const val = typeFilter.value;
+                orders = orders.filter(o => {
+                    const isBuy = o.order_type === 'Buy';
+                    if (val === 'Buy Order' && isBuy) return true;
+                    if (val === 'Sell Order' && !isBuy) return true;
+                    return false;
+                });
+            }
+            
+            if (timeFilter && timeFilter.value !== 'ทุกช่วงเวลา') {
+                const val = timeFilter.value;
+                const now = new Date();
+                orders = orders.filter(o => {
+                    if (!o.created_at) return true;
+                    const orderDate = new Date(o.created_at);
+                    if (val === 'สัปดาห์นี้') {
+                        const diffTime = Math.abs(now - orderDate);
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                        return diffDays <= 7;
+                    }
+                    if (val === 'เดือนนี้') {
+                        return orderDate.getMonth() === now.getMonth() && orderDate.getFullYear() === now.getFullYear();
+                    }
+                    return true;
+                });
+            }
+            // --- End Filters ---
 
-            const countSpan = listContainer.querySelector('span[style*="color: var(--text-muted)"]');
-            if (countSpan) countSpan.innerText = `${orders.length} orders`;
+            const countSpan = document.getElementById('orders-count');
+            if (countSpan) countSpan.innerText = `${orders.length}`;
 
             // ลบของเดิม
             const emptyState = listContainer.querySelector('div[style*="text-align: center; padding: 40px"]');
@@ -240,7 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 empty.className = 'empty-state-message';
                 empty.style = 'text-align: center; padding: 40px; color: var(--text-muted);';
                 empty.innerHTML = `
-                    <div style="font-size: 3rem; margin-bottom: 10px; opacity: 0.5;">📦</div>
+                    <div style="font-size: 3rem; margin-bottom: 10px; opacity: 0.5;"></div>
                     <div>ยังไม่มีรายการคำสั่งซื้อขาย</div>
                 `;
                 listContainer.appendChild(empty);
@@ -256,7 +394,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 // ค่าเริ่มต้นถ้าไม่มี order_type ให้เป็น Sell Order
                 const typeLabel = order.order_type ? (isBuy ? 'Buy Order' : 'Sell Order') : 'Sell Order'; 
                 const statusStr = order.status ? order.status.toUpperCase() : 'ACTIVE';
-                const statusColor = statusStr === 'PENDING' ? '#f59e0b' : (statusStr === 'ACTIVE' ? '#3b82f6' : '#64748b');
+                
+                let statusColor = '#64748b';
+                if (statusStr === 'PENDING') statusColor = '#f59e0b'; // ส้ม
+                else if (statusStr === 'MATCHED') statusColor = '#10b981'; // เขียว
+                else if (statusStr === 'ACTIVE') statusColor = '#3b82f6'; // ฟ้า
                 
                 const dateObj = new Date(order.created_at);
                 const formattedDate = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ', ' + dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute:'2-digit' });
@@ -267,7 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const shortId = order.id ? order.id.toString().substring(0,6).toUpperCase() : (orders.length - index);
                 
                 // แก้ไขให้รองรับทั้ง product_name และ product
-                const productName = order.product_name || order.product || 'ไม่ระบุชื่อสินค้า';
+                const productName = window.sanitizeHTML(order.product_name || order.product || 'ไม่ระบุชื่อสินค้า');
                 const unit = order.unit || 'MT';
                 
                 // Fallbacks สำหรับข้อมูลรายละเอียด
@@ -278,78 +420,85 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 card.style = `
                     background: white; 
-                    border: 1px solid #e2e8f0; 
-                    border-left: 4px solid #10b981; 
                     border-radius: 12px; 
-                    padding: 24px; 
+                    border: 1px solid #e2e8f0; 
+                    overflow: hidden; 
                     margin-bottom: 20px; 
-                    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+                    transition: all 0.2s ease; 
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
                     position: relative;
                 `;
 
+                card.onmouseover = function() { this.style.boxShadow = '0 8px 25px rgba(15,23,42,0.08)'; this.style.transform = 'translateY(-2px)'; };
+                card.onmouseout = function() { this.style.boxShadow = '0 2px 10px rgba(0,0,0,0.03)'; this.style.transform = 'translateY(0)'; };
+
                 card.innerHTML = `
-                    <!-- Top Row -->
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <div style="display: flex; align-items: center; gap: 15px;">
-                            <div style="font-size: 0.8rem; font-weight: 700; color: #64748b; letter-spacing: 0.5px;">ORDER <br><span style="font-size: 1.2rem; color: #0f172a;">#${shortId}</span></div>
-                            <span style="background-color: #f1f5f9; color: #475569; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
-                                ${typeLabel}
-                            </span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="background-color: ${statusColor}15; color: ${statusColor}; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 6px;">
-                                <span style="display: inline-block; width: 8px; height: 8px; background-color: ${statusColor}; border-radius: 50%;"></span> ${statusStr}
-                            </span>
-                            <button style="background: none; border: none; font-size: 1.2rem; color: #94a3b8; cursor: pointer; padding: 5px;">⋮</button>
-                        </div>
-                    </div>
-
-                    <!-- Middle Row -->
-                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
-                        <div>
-                            <h3 style="font-size: 1.5rem; color: #0f172a; margin-bottom: 8px; font-weight: 700;">${productName}</h3>
-                            <div style="display: flex; gap: 15px; font-size: 0.95rem; font-weight: 600;">
-                                <span style="color: #64748b;">${qty.toLocaleString()} ${unit}</span>
-                                <span style="color: #10b981;">฿${price.toLocaleString()}/${unit}</span>
+                    <!-- Left color accent bar -->
+                    <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: ${isBuy ? '#10b981' : '#3b82f6'}; border-radius: 12px 0 0 12px;"></div>
+                    
+                    <div style="padding: 24px 30px 20px 34px;">
+                        <!-- Top Row -->
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                            <div style="display: flex; gap: 18px; align-items: center;">
+                                <div style="width: 52px; height: 52px; border-radius: 14px; background: ${isBuy ? '#ecfdf5' : '#eff6ff'}; color: ${isBuy ? '#10b981' : '#3b82f6'}; display: flex; align-items: center; justify-content: center; border: 1px solid ${isBuy ? '#d1fae5' : '#dbeafe'}; flex-shrink: 0;">
+                                    ${isBuy ? `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>` 
+                                    : `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>`}
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                                        <span style="font-weight: 800; color: #0f172a; font-size: 1.15rem; line-height: 1.2;">${productName}</span>
+                                        <span style="background: ${isBuy ? '#f0fdf4' : '#eff6ff'}; color: ${isBuy ? '#16a34a' : '#2563eb'}; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; white-space: nowrap; border: 1px solid ${isBuy ? '#bbf7d0' : '#bfdbfe'};">${typeLabel}</span>
+                                    </div>
+                                    <div style="color: #64748b; font-size: 0.9rem; font-weight: 600;">
+                                        ORDER #${shortId}
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 24px;">
+                                <div style="text-align: right;">
+                                    <div style="font-size: 0.75rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 2px; letter-spacing: 0.5px;">Total Value</div>
+                                    <div style="font-size: 1.4rem; font-weight: 800; color: #0f172a; letter-spacing: -0.5px;">฿${totalValue}</div>
+                                </div>
+                                <div style="width: 1px; height: 40px; background: #e2e8f0;"></div>
+                                ${statusStr === 'PENDING' ? `<span style="background: #fffbeb; color: #f59e0b; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; border: 1px solid #fde68a;">${statusStr}</span>` 
+                                : statusStr === 'MATCHED' || statusStr === 'COMPLETED' ? `<span style="background: #ecfdf5; color: #10b981; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; border: 1px solid #a7f3d0;">${statusStr}</span>`
+                                : `<span style="background: #f1f5f9; color: #64748b; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; border: 1px solid #cbd5e1;">${statusStr}</span>`}
                             </div>
                         </div>
-                        <div style="text-align: right;">
-                            <div style="font-size: 0.75rem; font-weight: 700; color: #64748b; letter-spacing: 0.5px; margin-bottom: 5px; text-transform: uppercase;">TOTAL VALUE</div>
-                            <div style="font-size: 1.6rem; font-weight: 800; color: #0f172a; letter-spacing: -0.5px;">฿${totalValue}</div>
-                        </div>
-                    </div>
 
-                    <!-- Details Row -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
-                        <div>
-                            <div style="font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 5px; display: flex; align-items: center; gap: 5px;">
-                                <span>📅</span> Contract & Payment
-                            </div>
-                            <div style="font-size: 0.95rem; font-weight: 600; color: #1e293b;">
-                                ${order.contract_type || 'ระยะสั้น'} • ${order.payment_term || 'เงินสด / โอนเต็มจำนวน'}
-                            </div>
-                        </div>
-                        <div>
-                            <div style="font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 5px;">สร้างเมื่อ</div>
-                            <div style="font-size: 0.95rem; font-weight: 600; color: #1e293b;">
-                                ${formattedDate}
-                            </div>
-                        </div>
-                    </div>
+                        <hr style="border: none; border-top: 1px dashed #e2e8f0; margin: 20px 0;">
 
-                    <!-- Remark Box (Optional based on location) -->
-                    <div style="background-color: #f8fafc; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
-                        <div style="font-size: 0.75rem; font-weight: 700; color: #64748b; margin-bottom: 6px;">สถานที่จัดส่ง / ตลาด</div>
-                        <div style="font-size: 0.95rem; font-weight: 500; color: #334155; font-style: italic;">
-                            ${order.marketplace || 'ตลาดท้องถิ่น (ในประเทศ)'}${order.province ? ', ' + order.province : ''}
+                        <!-- Details Row -->
+                        <div style="display: flex; gap: 30px; margin-bottom: 10px;">
+                            <div style="flex: 1;">
+                                <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 6px; font-weight: 600;">ปริมาณ / ราคา</div>
+                                <div style="font-weight: 700; color: #334155; font-size: 0.95rem;">${qty.toLocaleString()} ${unit} <span style="color: #10b981; margin-left: 8px;">฿${price.toLocaleString()}/${unit}</span></div>
+                            </div>
+                            <div style="width: 1px; background: #e2e8f0;"></div>
+                            <div style="flex: 1;">
+                                <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 6px; font-weight: 600;">เงื่อนไขสัญญา</div>
+                                <div style="font-weight: 600; color: #334155; font-size: 0.95rem;">${order.contract_type || 'ระยะสั้น'} • ${order.payment_term || 'เงินสด'}</div>
+                            </div>
+                            <div style="width: 1px; background: #e2e8f0;"></div>
+                            <div style="flex: 1.5;">
+                                <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 6px; font-weight: 600;">สถานที่จัดส่ง</div>
+                                <div style="font-weight: 600; color: #334155; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                    ${order.marketplace || 'ตลาดท้องถิ่น'}${order.province ? ', ' + order.province : ''}
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Bottom Action -->
-                    <div>
-                        <button class="view-details-btn" data-index="${index}" style="background-color: #3b82f6; color: white; border: none; border-radius: 6px; padding: 12px 24px; font-size: 0.95rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#2563eb'" onmouseout="this.style.backgroundColor='#3b82f6'">
-                            <span>👁️</span> ดูรายละเอียด
-                        </button>
+                        <!-- Bottom Action -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 25px; padding-top: 15px; border-top: 1px solid #f1f5f9;">
+                            <div style="color: #94a3b8; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 6px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                สร้างเมื่อ: ${formattedDate}
+                            </div>
+                            <button class="view-details-btn" data-index="${index}" style="background: white; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 24px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.02); display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='#f8fafc'; this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.04)';" onmouseout="this.style.background='white'; this.style.borderColor='#e2e8f0'; this.style.boxShadow='0 1px 2px rgba(0,0,0,0.02)';">
+                                ดูรายละเอียดเอกสาร <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+                            </button>
+                        </div>
                     </div>
                 `;
                 listContainer.appendChild(card);
@@ -397,8 +546,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             invoiceBtn = `<button class="btn" style="padding: 8px 16px; font-size: 0.9rem; width: 100%; background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; cursor: not-allowed;">รอใบแจ้งหนี้</button>`;
                         }
 
-                        const shortId = order.id ? order.id.toString().substring(0,8).toUpperCase() : `CT-2026-00${index+1}`;
-                        const productName = order.product_name || order.product || 'ไม่ระบุชื่อสินค้า';
+                        const shortId = window.sanitizeHTML(order.id ? order.id.toString().substring(0,8).toUpperCase() : `CT-2026-00${index+1}`);
+                        const productName = window.sanitizeHTML(order.product_name || order.product || 'ไม่ระบุชื่อสินค้า');
                         const qty = parseFloat(order.quantity) || 0;
                         const price = parseFloat(order.price) || 0;
                         const unit = order.unit || 'MT';
@@ -423,15 +572,15 @@ document.addEventListener('DOMContentLoaded', () => {
                                     <div style="font-size: 1.3rem; font-weight: 800; color: #0f172a; margin-bottom: 8px;">฿${(qty * price).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
                                     
                                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.85rem; color: #475569;">
-                                        <div><strong>💳 การชำระเงิน:</strong> L/C at sight</div>
-                                        <div><strong>🚚 การจัดส่ง:</strong> FOB แหลมฉบัง</div>
-                                        <div style="grid-column: 1/-1;"><strong>🤝 คู่สัญญา:</strong> ${order.matched_with_name ? `<span style="color: #10b981; font-weight: 600;">${order.matched_with_name}</span>` : 'ปกปิดข้อมูลเพื่อความปลอดภัย (Blind Trade)'}</div>
+                                        <div><strong> การชำระเงิน:</strong> L/C at sight</div>
+                                        <div><strong> การจัดส่ง:</strong> FOB แหลมฉบัง</div>
+                                        <div style="grid-column: 1/-1;"><strong> คู่สัญญา:</strong> ${order.matched_with_name ? `<span style="color: #10b981; font-weight: 600;">${order.matched_with_name}</span>` : 'ปกปิดข้อมูลเพื่อความปลอดภัย (Blind Trade)'}</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="contract-actions" style="text-align: right; min-width: 200px;">
                                 <button onclick="localStorage.setItem('currentContractId', '${order.id}'); window.location.href='contract.html';" class="btn btn-outline" style="padding: 10px 16px; font-size: 0.9rem; margin-bottom: 10px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                                    <span style="font-size: 1.1rem;">📄</span> ดูสัญญาฉบับเต็ม (PDF)
+                                    <span style="font-size: 1.1rem;"></span> ดูสัญญาฉบับเต็ม (PDF)
                                 </button>
                                 ${invoiceBtn}
                             </div>
@@ -456,7 +605,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const typeColor = isBuy ? '#10b981' : '#64748b';
         const typeLabel = isBuy ? 'เสนอซื้อ (BUY ORDER)' : 'เสนอขาย (SELL ORDER)';
         const statusStr = order.status ? order.status.toUpperCase() : 'ACTIVE';
-        const statusColor = statusStr === 'PENDING' ? '#f59e0b' : (statusStr === 'ACTIVE' ? '#3b82f6' : '#64748b');
+        
+        let statusColor = '#64748b';
+        if (statusStr === 'PENDING') statusColor = '#f59e0b';
+        else if (statusStr === 'MATCHED') statusColor = '#10b981';
+        else if (statusStr === 'ACTIVE') statusColor = '#3b82f6';
         
         const dateObj = new Date(order.created_at);
         const formattedDate = dateObj.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -478,7 +631,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     <!-- Section 1: ข้อมูลสินค้า -->
                     <div style="background-color: #f8fafc; border-radius: 12px; padding: 24px; margin-bottom: 16px; border: 1px solid #f1f5f9;">
-                        <div style="font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">📦 ข้อมูลสินค้า (Product Information)</div>
+                        <div style="font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;"> ข้อมูลสินค้า (Product Information)</div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                             <div>
                                 <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 6px; font-weight: 600;">ปริมาณ (Quantity)</div>
@@ -501,7 +654,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     <!-- Section 2: การจัดส่งและสถานที่ -->
                     <div style="background-color: #f8fafc; border-radius: 12px; padding: 24px; margin-bottom: 16px; border: 1px solid #f1f5f9;">
-                        <div style="font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">🚚 การจัดส่งและสถานที่ (Delivery & Location)</div>
+                        <div style="font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;"> การจัดส่งและสถานที่ (Delivery & Location)</div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                             <div>
                                 <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 6px; font-weight: 600;">เงื่อนไขการจัดส่ง (Marketplace)</div>
@@ -524,7 +677,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     <!-- Section 3: ระยะเวลาและการชำระเงิน -->
                     <div style="background-color: #f8fafc; border-radius: 12px; padding: 24px; border: 1px solid #f1f5f9;">
-                        <div style="font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">📅 ระยะเวลาและการชำระเงิน (Timeline & Payment)</div>
+                        <div style="font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;"> ระยะเวลาและการชำระเงิน (Timeline & Payment)</div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                             <div>
                                 <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 6px; font-weight: 600;">วันที่สร้างคำสั่ง (Created Date)</div>

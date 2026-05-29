@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คำสั่งซื้อใหม่ - BiomassX</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        body {
+            background-color: #f8fafc;
+            background-image: radial-gradient(at 0% 0%, hsla(152,100%,94%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(210,100%,97%,1) 0, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .btn-outline { background: white; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 20px; font-weight: 600; transition: all 0.2s; }
+        .btn-outline:hover { background: #f8fafc; border-color: #cbd5e1; }
+
+        .page-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            border: 1px solid #e2e8f0;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #334155;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.9);
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+        }
+
+        .type-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 24px;
+        }
+
+        .type-btn {
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+            color: #64748b;
+        }
+
+        .type-btn.active {
+            border-color: #10b981;
+            background: #f0fdf4;
+            color: #059669;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);
+        }
+        
+        .type-btn h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .type-btn p {
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <!-- Header -->
+        <div class="header-bar">
+            <a href="dashboard.html" class="logo" style="text-decoration: none; font-size: 1.5rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+                <span style="color: #10b981;">X</span> BiomassX
+            </a>
+            
+            <a href="dashboard.html" class="btn btn-outline" style="display: flex; align-items: center; gap: 5px;">
+                ยกเลิก / ย้อนกลับ
+            </a>
+        </div>
+
+        <!-- Main Card -->
+        <div class="glass-card">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h1 style="font-size: 2.2rem; font-weight: 800; color: #0f172a; margin-bottom: 10px;">สร้างคำสั่งซื้อใหม่</h1>
+                <p style="color: #64748b; font-size: 1.1rem;">กรอกรายละเอียดเพื่อประกาศรับซื้อ หรือ เสนอขายเชื้อเพลิงชีวมวล</p>
+            </div>
+
+            <form onsubmit="event.preventDefault(); alert('ระบบได้บันทึกคำสั่งซื้อของคุณเรียบร้อยแล้ว'); window.location.href='order.html';">
+                
+                <div class="type-selector">
+                    <div class="type-btn active" onclick="document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active');">
+                        <h4>รับซื้อ (Buy)</h4>
+                        <p>ต้องการหาเชื้อเพลิงชีวมวล</p>
+                    </div>
+                    <div class="type-btn" onclick="document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active');">
+                        <h4>เสนอขาย (Sell)</h4>
+                        <p>มีเชื้อเพลิงชีวมวลพร้อมขาย</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">ประเภทชีวมวล (Biomass Type)</label>
+                    <select class="form-control" required>
+                        <option value="">เลือกประเภทชีวมวล</option>
+                        <option value="wood_chips">สับไม้ (Wood Chips)</option>
+                        <option value="wood_pellets">ไม้สับอัดเม็ด (Wood Pellets)</option>
+                        <option value="bagasse">ชานอ้อย (Bagasse)</option>
+                        <option value="rice_husk">แกลบ (Rice Husk)</option>
+                    </select>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label class="form-label">ปริมาณ (ตัน)</label>
+                        <input type="number" min="1" class="form-control" placeholder="เช่น 100" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">ราคาต่อตัน (บาท)</label>
+                        <input type="number" min="1" class="form-control" placeholder="เช่น 1500" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">รายละเอียดเพิ่มเติม (Optional)</label>
+                    <textarea class="form-control" placeholder="ความชื้น ค่าความร้อน หรือเงื่อนไขการจัดส่ง..." style="min-height: 100px;"></textarea>
+                </div>
+
+                <button type="submit" style="width: 100%; padding: 16px; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 1.2rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    สร้างคำสั่งซื้อ
+                </button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

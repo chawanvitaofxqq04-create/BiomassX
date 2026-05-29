@@ -12,26 +12,94 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .btn-outline { background: white; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 20px; font-weight: 600; transition: all 0.2s; }
+        .btn-outline:hover { background: #f8fafc; border-color: #cbd5e1; }
+        
+        /* Premium Invoices Page Styles */
+        body {
+            background-color: #f8fafc;
+            background-image: radial-gradient(at 0% 0%, hsla(152,100%,94%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(210,100%,97%,1) 0, transparent 50%);
+            background-attachment: fixed;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .stat-card {
+            padding: 30px; 
+            border-radius: 20px; 
+            position: relative; 
+            overflow: hidden; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .stat-card .bg-icon {
+            position: absolute; 
+            right: -10px; 
+            top: -10px; 
+            font-size: 8rem; 
+            opacity: 0.05;
+            transition: all 0.5s ease;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .stat-card:hover .bg-icon {
+            transform: scale(1.1) rotate(5deg);
+            opacity: 0.1;
+        }
+        
+        .filter-container {
+            display: flex; 
+            gap: 4px; 
+            margin-bottom: 30px; 
+            align-items: center; 
+            background: rgba(255,255,255,0.7); 
+            backdrop-filter: blur(10px);
+            padding: 6px; 
+            border-radius: 100px; 
+            border: 1px solid rgba(226, 232, 240, 0.8); 
+            width: fit-content; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        
+        .filter-btn {
+            padding: 10px 24px; 
+            border-radius: 100px; 
+            border: none; 
+            background: transparent; 
+            color: #64748b; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            font-size: 0.95rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .filter-btn.active {
+            color: #0f172a;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .filter-btn.active[data-val="all"] { background: white; }
+        .filter-btn.active[data-val="pending"] { background: white; color: #d97706; }
+        .filter-btn.active[data-val="paid"] { background: white; color: #059669; }
+    </style>
 </head>
 <body>
-
-    <!-- Secondary Navbar (Dashboard menu) -->
-    <div class="dashboard-nav-secondary">
-        <div class="container dashboard-nav-links">
-            <a href="dashboard.html" class="dashboard-nav-link">
-                <span>🏠</span> หน้าแรก
-            </a>
-            <a href="order.html" class="dashboard-nav-link">
-                <span>🛒</span> ซื้อขายสินค้า
-            </a>
-            <a href="invoices.html" class="dashboard-nav-link active">
-                <span>📄</span> ใบแจ้งหนี้
-            </a>
-            <a href="dashboard-insights.html" class="dashboard-nav-link">
-                <span>📈</span> ข้อมูลตลาด
-            </a>
-        </div>
-    </div>
 
     <!-- Main Navbar -->
     <nav class="navbar">
@@ -48,80 +116,115 @@
             </div>
 
             <div class="nav-actions" style="margin-left: auto;">
-                <div class="dashboard-user-info">
-                    <span id="userNameDisplay" class="company-name">กำลังโหลดข้อมูล...</span>
-                    <a href="dashboard.html" class="btn" style="background-color: #bef264; color: #3f6212; display: flex; align-items: center; gap: 5px; font-weight: 600;">
-                        <span>←</span> กลับสู่แดชบอร์ด
-                    </a>
-                    <a href="#" id="logoutBtn" class="btn btn-danger" style="display: flex; align-items: center; gap: 5px;">
-                        <span>🚪</span> ออกจากระบบ
-                    </a>
-                </div>
+                <div class="dashboard-user-info" style="display: flex; gap: 15px; align-items: center;">
+                <span id="userNameDisplay" class="company-name" style="font-weight: 600; color: #0f172a;">กำลังโหลดข้อมูล...</span>
+                <a href="profile.html" class="btn btn-outline" style="display: flex; align-items: center; gap: 5px;">
+                     โปรไฟล์
+                </a>
+                <a href="#" id="logoutBtn" class="btn btn-danger" style="display: flex; align-items: center; gap: 5px;">
+                     ออกจากระบบ
+                </a>
+            </div>
             </div>
         </div>
     </nav>
 
+    <!-- Secondary Navbar (Dashboard menu) -->
+    <div class="dashboard-nav-secondary">
+        <div class="container dashboard-nav-links">
+            <a href="dashboard.html" class="dashboard-nav-link">
+                 หน้าแรก
+            </a>
+            <a href="order.html" class="dashboard-nav-link">
+                 ซื้อขายสินค้า
+            </a>
+            <a href="invoices.html" class="dashboard-nav-link active">
+                 ใบแจ้งหนี้
+            </a>
+            <a href="dashboard-insights.html" class="dashboard-nav-link">
+                 ข้อมูลตลาด
+            </a>
+        </div>
+    </div>
+
     <!-- Page Content -->
     <div class="container" style="max-width: 1400px;">
         
-        <div class="page-header">
-            <h2 class="page-title">📄 ใบแจ้งหนี้ของฉัน</h2>
+        <div class="page-header" style="text-align: center; margin-bottom: 40px; margin-top: 30px; border-bottom: none; padding-bottom: 0;">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 16px; margin-bottom: 12px;">
+                <div style="background: linear-gradient(135deg, #dcfce7, #f0fdf4); color: #16a34a; width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 8px 15px -3px rgba(22, 163, 74, 0.15); border: 1px solid rgba(22, 163, 74, 0.1);">
+                    🧾
+                </div>
+                <h2 style="font-size: 2.2rem; font-weight: 800; color: #0f172a; letter-spacing: -1px; margin: 0;">
+                    ระบบจัดการใบแจ้งหนี้
+                </h2>
+            </div>
+            <p style="color: #64748b; font-size: 1.05rem;">ติดตามและจัดการยอดชำระเงินของคุณได้อย่างง่ายดาย</p>
         </div>
 
         <!-- Stats Grid -->
-        <div class="invoice-stats">
-            <div class="invoice-stat-card border-blue">
-                <div class="invoice-stat-label">จำนวนใบแจ้งหนี้</div>
-                <div class="invoice-stat-value" id="stat-invoice-count">0</div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px;">
+            <!-- Total Count -->
+            <div class="stat-card" style="background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,250,252,0.9));">
+                <div class="bg-icon">📄</div>
+                <div style="color: #64748b; font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">จำนวนใบแจ้งหนี้ทั้งหมด</div>
+                <div id="stat-invoice-count" style="font-size: 2.8rem; font-weight: 800; color: #0f172a; line-height: 1;">0</div>
             </div>
             
-            <div class="invoice-stat-card border-red">
-                <div class="invoice-stat-label">ยอดคงค้าง (Pending)</div>
-                <div class="invoice-stat-value" id="stat-pending-amount">฿0.00</div>
+            <!-- Pending -->
+            <div class="stat-card" style="background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,251,235,0.9)); border-color: rgba(253, 230, 138, 0.5);">
+                <div class="bg-icon" style="color: #f59e0b; opacity: 0.08; animation-delay: 1s;">⏳</div>
+                <div style="color: #d97706; font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
+                    <span style="display: inline-block; width: 8px; height: 8px; background: #f59e0b; border-radius: 50%; box-shadow: 0 0 8px #f59e0b;"></span> 
+                    ยอดคงค้าง (Pending)
+                </div>
+                <div id="stat-pending-amount" style="font-size: 2.4rem; font-weight: 800; color: #b45309; letter-spacing: -0.5px; line-height: 1.1;">฿0.00</div>
             </div>
             
-            <div class="invoice-stat-card border-green">
-                <div class="invoice-stat-label">ชำระแล้ว (Paid)</div>
-                <div class="invoice-stat-value" id="stat-paid-amount">฿0.00</div>
+            <!-- Paid -->
+            <div class="stat-card" style="background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,253,244,0.9)); border-color: rgba(187, 247, 208, 0.5);">
+                <div class="bg-icon" style="color: #10b981; opacity: 0.08; animation-delay: 2s;">✓</div>
+                <div style="color: #059669; font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
+                    <span style="display: inline-block; width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981;"></span> 
+                    ชำระเงินแล้ว (Paid)
+                </div>
+                <div id="stat-paid-amount" style="font-size: 2.4rem; font-weight: 800; color: #047857; letter-spacing: -0.5px; line-height: 1.1;">฿0.00</div>
             </div>
         </div>
 
         <!-- Filters -->
-        <div class="invoice-filters">
-            <div class="filter-group">
-                <label class="filter-label">สถานะ</label>
-                <select class="filter-input" id="filter-status">
-                    <option value="all">สถานะทั้งหมด</option>
-                    <option value="pending">ค้างชำระ (PENDING)</option>
-                    <option value="paid">ชำระแล้ว (PAID)</option>
-                </select>
-            </div>
+        <div class="filter-container">
+            <span style="font-size: 0.85rem; font-weight: 700; color: #94a3b8; margin: 0 10px; text-transform: uppercase; letter-spacing: 0.5px;">ตัวกรอง</span>
+            <button class="filter-btn active" data-val="all">ทั้งหมด</button>
+            <button class="filter-btn" data-val="pending">⏳ ค้างชำระ</button>
+            <button class="filter-btn" data-val="paid">✓ ชำระแล้ว</button>
         </div>
+        
+        <!-- Hidden select to trigger existing JS logic -->
+        <select id="filter-status" style="display: none;">
+            <option value="all">all</option>
+            <option value="pending">pending</option>
+            <option value="paid">paid</option>
+        </select>
+        
+        <script>
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-btn').forEach(b => { 
+                        b.classList.remove('active');
+                    });
+                    e.target.classList.add('active');
+                    
+                    const select = document.getElementById('filter-status');
+                    select.value = e.target.dataset.val;
+                    select.dispatchEvent(new Event('change'));
+                });
+            });
+        </script>
 
         <!-- Dynamic Invoice List Container -->
-        <div id="invoice-list-container" style="display: flex; flex-direction: column; gap: 40px; margin-top: 30px;">
+        <div id="invoice-list-container" style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
             <!-- Invoices will be rendered here by JS -->
-            <div style="text-align: center; padding: 50px; color: #94a3b8;">
-                กำลังโหลดข้อมูลใบแจ้งหนี้...
-            </div>
-                        ยืนยันการชำระเงิน
-                    </button>
-                    <p style="text-align: center; font-size: 0.8rem; color: #94a3b8; margin-top: 12px;">การชำระเงินได้รับการคุ้มครองด้วยระบบ Escrow ของ BiomassX</p>
-                </div>
-
-                <!-- Document Action Box -->
-                <div style="background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 24px; border: 1px solid #e2e8f0;">
-                    <h3 style="font-size: 1.1rem; color: #0f172a; margin-bottom: 16px; font-weight: 700;">📄 เอกสารที่เกี่ยวข้อง</h3>
-                    <div style="display: flex; flex-direction: column; gap: 10px;">
-                        <button onclick="alert('ปุ่มในหน้านี้เป็นเพียงตัวอย่าง (Mockup) ครับ ระบบจริงต้องกดจากหน้า คำสั่งซื้อขาย (แท็บที่ 3) เท่านั้นครับ!')" style="display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px; background: white; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; color: #334155; font-weight: 600; text-align: left; transition: background 0.2s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='white'">
-                            <span style="font-size: 1.2rem;">📝</span> สัญญาซื้อขาย (Smart Contract)
-                        </button>
-                        <button style="display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px; background: white; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; color: #334155; font-weight: 600; text-align: left; transition: background 0.2s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='white'">
-                            <span style="font-size: 1.2rem;">⬇️</span> ดาวน์โหลด Invoice เป็น PDF
-                        </button>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </div>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรไฟล์ของฉัน - BiomassX</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        body {
+            background-color: #f8fafc;
+            background-image: radial-gradient(at 0% 0%, hsla(152,100%,94%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(210,100%,97%,1) 0, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .btn-outline { background: white; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 20px; font-weight: 600; transition: all 0.2s; }
+        .btn-outline:hover { background: #f8fafc; border-color: #cbd5e1; }
+        
+        .btn-danger { background: #fee2e2; color: #ef4444; border: 1px solid #fecaca; border-radius: 8px; padding: 10px 20px; font-weight: 600; transition: all 0.2s; }
+        .btn-danger:hover { background: #fecaca; }
+
+        .profile-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            border: 1px solid #e2e8f0;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-section {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px dashed #cbd5e1;
+        }
+
+        .avatar-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            font-weight: 700;
+            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.3);
+            text-transform: uppercase;
+        }
+
+        .profile-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -1px;
+            margin-bottom: 5px;
+        }
+
+        .profile-email {
+            color: #64748b;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .info-group {
+            background: rgba(248, 250, 252, 0.7);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+        
+        .info-group:hover {
+            background: #fff;
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            color: #334155;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title span {
+            display: inline-block;
+            width: 8px;
+            height: 24px;
+            background: #10b981;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        <!-- Header -->
+        <div class="profile-header">
+            <a href="dashboard.html" class="logo" style="text-decoration: none; font-size: 1.5rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+                <span style="color: #10b981;">X</span> BiomassX
+            </a>
+            
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <span id="userNameDisplay" class="company-name" style="font-weight: 600; color: #0f172a;">กำลังโหลด...</span>
+                <a href="dashboard.html" class="btn btn-outline" style="display: flex; align-items: center; gap: 5px;">
+                    ย้อนกลับไปหน้าหลัก
+                </a>
+            </div>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="glass-card">
+            <div class="avatar-section">
+                <div class="avatar-circle" id="profileInitials">
+                    -
+                </div>
+                <div>
+                    <div class="profile-title" id="profileFullName">กำลังโหลดข้อมูล...</div>
+                    <div class="profile-email">
+                        ✉️ <span id="profileEmailAddress">กำลังโหลด...</span>
+                    </div>
+                </div>
+                <div style="margin-left: auto;">
+                    <a href="#" onclick="logoutUser(event)" class="btn btn-danger" style="display: flex; align-items: center; gap: 8px;">
+                        ออกจากระบบ (Logout)
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-title">
+                <span></span> ข้อมูลส่วนตัว (Personal Info)
+            </div>
+            
+            <div class="info-grid" style="margin-bottom: 40px;">
+                <div class="info-group">
+                    <div class="info-label">ชื่อจริง (First Name)</div>
+                    <div class="info-value" id="infoFirstName">-</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">นามสกุล (Last Name)</div>
+                    <div class="info-value" id="infoLastName">-</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">บทบาท (Role)</div>
+                    <div class="info-value" style="color: #10b981;">ผู้ใช้งานระบบ (User)</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">สถานะยืนยันตัวตน (Verification)</div>
+                    <div class="info-value" style="display: flex; align-items: center; gap: 6px;">
+                        <span style="width: 10px; height: 10px; background: #10b981; border-radius: 50%; display: inline-block;"></span> 
+                        ยืนยันอีเมลแล้ว
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">
+                <span style="background: #3b82f6;"></span> ข้อมูลบริษัท (Company Details) - <span style="font-size: 0.9rem; color: #94a3b8; font-weight: 400;">ตัวอย่างข้อมูล</span>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-group" style="grid-column: 1 / -1;">
+                    <div class="info-label">ชื่อบริษัท (Company Name)</div>
+                    <div class="info-value">บริษัท ไบโอแมส เอ็กซ์ จำกัด (ตัวอย่าง)</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">เลขประจำตัวผู้เสียภาษี (Tax ID)</div>
+                    <div class="info-value">010555xxxxxxx</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">เบอร์โทรศัพท์ (Phone)</div>
+                    <div class="info-value">02-xxx-xxxx</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase CDN & Main Logic -->
+    <script src="js/supabase.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // รอจนกว่า supabase จะถูกโหลดจาก main.js
+            setTimeout(async () => {
+                if (window.supabaseClient) {
+                    const { data: { session }, error } = await window.supabaseClient.auth.getSession();
+                    
+                    if (session && session.user) {
+                        const metadata = session.user.user_metadata || {};
+                        const email = session.user.email;
+                        const fName = metadata.firstname || 'ผู้';
+                        const lName = metadata.lastname || 'ใช้งาน';
+                        
+                        // Set Avatar
+                        document.getElementById('profileInitials').innerText = fName.charAt(0);
+                        
+                        // Set Names
+                        document.getElementById('profileFullName').innerText = fName + ' ' + lName;
+                        document.getElementById('profileEmailAddress').innerText = email;
+                        
+                        // Set Info Grid
+                        document.getElementById('infoFirstName').innerText = fName;
+                        document.getElementById('infoLastName').innerText = lName;
+                    }
+                }
+            }, 500); // ดีเลย์ให้แน่ใจว่า main.js ตรวจสอบ session เสร็จแล้ว
+        });
+    </script>
+</body>
+</html>

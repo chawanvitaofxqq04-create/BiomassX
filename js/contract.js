@@ -9,12 +9,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // ถ้ายังไม่มีอีก (เช่น กดมาจากหน้า invoice จริงๆ) ให้แสดง Mockup
     if (!orderId) {
-        alert("🚨 ระบบตรวจพบว่าคุณกำลังเปิดหน้า PDF โดยไม่มีข้อมูลรหัสสัญญา\n\nสาเหตุที่เป็นไปได้:\n1. คุณกดปุ่มผิดหน้า (ต้องกดจากหน้า คำสั่งซื้อขาย แท็บ 3)\n2. คุณเปิดหน้านี้ตรงๆ จาก URL\n\nระบบจะแสดงข้อมูล 'ตัวอย่าง' (Mockup) แทนครับ");
+        alert(" ระบบตรวจพบว่าคุณกำลังเปิดหน้า PDF โดยไม่มีข้อมูลรหัสสัญญา\n\nสาเหตุที่เป็นไปได้:\n1. คุณกดปุ่มผิดหน้า (ต้องกดจากหน้า คำสั่งซื้อขาย แท็บ 3)\n2. คุณเปิดหน้านี้ตรงๆ จาก URL\n\nระบบจะแสดงข้อมูล 'ตัวอย่าง' (Mockup) แทนครับ");
         return; // ออกจากสคริปต์
     }
 
     if (!window.supabaseClient) {
-        alert("🚨 ระบบเชื่อมต่อฐานข้อมูล Supabase ไม่ทำงานในหน้านี้ (อาจถูกบล็อกโดยเบราว์เซอร์)");
+        alert(" ระบบเชื่อมต่อฐานข้อมูล Supabase ไม่ทำงานในหน้านี้ (อาจถูกบล็อกโดยเบราว์เซอร์)");
         return;
     }
 
@@ -53,15 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         let buyerAddress = 'ที่อยู่ตามระบบทะเบียน';
         let sellerAddress = 'ที่อยู่ตามระบบทะเบียน';
 
-        // ดึงชื่อคู่สัญญาจากฐานข้อมูลจริงๆ (สุ่มคนอื่นมาจับคู่)
-        let partnerName = 'สมชาย ดีเลิศ'; // Fallback เริ่มต้นเป็นผู้ใช้คนที่ 2 ในระบบ
-        if (currentUserName.includes('สมชาย')) {
-            partnerName = 'สมศรี นามี'; // สลับ Fallback ถ้าผู้ใช้ล็อกอินด้วยชื่อสมชาย
-        } else if (currentUserName.includes('สมศรี')) {
-            partnerName = 'สมชาย ดีเลิศ';
-        }
-        
-        // ค้นหาชื่อจริงของผู้สร้างออเดอร์ (Creator) จากฐานข้อมูลเพื่อป้องกัน Role สลับ
+        // ค้นหาชื่อจริงของผู้สร้างออเดอร์ (Creator) จากฐานข้อมูล
         let creatorName = currentUserName;
         let creatorAddress = currentUserAddress + ' ' + currentUserTaxId;
         
@@ -74,31 +66,44 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
                 if (creatorProfile) {
                     creatorName = creatorProfile.firstname + ' ' + (creatorProfile.lastname || '');
-                    // For mock, we keep address generic if we don't fetch it
                     creatorAddress = 'ที่อยู่ตามระบบทะเบียน';
                 }
             } catch(e) { console.log(e); }
         }
 
-        let dbPartnerName = order.matched_with_name;
-        if (!dbPartnerName || dbPartnerName.includes('ชวัลวิชญ์')) {
-            dbPartnerName = (order.user_id === session.user.id) ? partnerName : currentUserName;
+        let dbPartnerName = order.matched_with_name || '';
+        let partnerOrderId = null;
+        if (dbPartnerName.includes('|')) {
+            const parts = dbPartnerName.split('|');
+            dbPartnerName = parts[0];
+            partnerOrderId = parts[1];
+        } else if (dbPartnerName.startsWith('CREATOR:')) {
+            dbPartnerName = ''; // ถ้าออเดอร์ยัง Pending จะมีแท็กนี้ซ่อนอยู่ ไม่ใช่ชื่อคู่สัญญา
+        }
+
+        // นำชื่อจริงของคู่สัญญาจากฐานข้อมูลมาใช้ (ลบระบบสุ่มชื่อจำลองออก)
+        if (!dbPartnerName) {
+            dbPartnerName = 'ไม่ระบุชื่อคู่สัญญา';
         }
 
         if ((order.order_type || '').toLowerCase() === 'buy') {
-            // ถ้าออเดอร์เป็นประเภทซื้อ (คนที่สร้างตั้งใจซื้อ) 
             buyerName = creatorName;
             buyerAddress = creatorAddress;
             sellerName = dbPartnerName;
         } else {
-            // ถ้าออเดอร์เป็นประเภทขาย (คนที่สร้างตั้งใจขาย)
             sellerName = creatorName;
             sellerAddress = creatorAddress;
             buyerName = dbPartnerName;
         }
 
         // 5. Update HTML Elements
-        document.getElementById('contract-ref').innerText = order.id.toString().substring(0,8).toUpperCase();
+        let refId = order.id.toString().substring(0,8).toUpperCase();
+        if (partnerOrderId) {
+            // เรียง ID ของเราและคู่สัญญาตามตัวอักษร เพื่อให้ได้ Contract Ref อันเดียวกันเป๊ะทั้ง 2 ฝั่ง!
+            const ids = [order.id, partnerOrderId].sort();
+            refId = "MATCH-" + ids[0].toString().substring(0,6).toUpperCase();
+        }
+        document.getElementById('contract-ref').innerText = refId;
         
         const dateObj = new Date(order.created_at);
         const thaiDate = dateObj.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -144,6 +149,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     } catch (error) {
         console.error("Error loading contract:", error);
-        alert("ไม่สามารถดึงข้อมูลสัญญาได้");
+        alert(" ขออภัย ไม่พบข้อมูลสัญญาในระบบ หรือถูกลบไปแล้ว\nระบบจะนำคุณกลับไปหน้าหลัก");
+        window.location.href = 'index.html';
     }
 });

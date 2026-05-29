@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายงานและสถิติ - BiomassX</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        body {
+            background-color: #f8fafc;
+            background-image: radial-gradient(at 0% 0%, hsla(152,100%,94%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(210,100%,97%,1) 0, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .btn-outline { background: white; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 20px; font-weight: 600; transition: all 0.2s; }
+        .btn-outline:hover { background: #f8fafc; border-color: #cbd5e1; }
+
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            border: 1px solid #e2e8f0;
+        }
+
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .report-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            transition: all 0.3s;
+        }
+        
+        .report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 24px;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 10px 0;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Mock Bar Chart CSS */
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 250px;
+            padding-top: 20px;
+            border-bottom: 2px solid #e2e8f0;
+            margin-top: 20px;
+            position: relative;
+        }
+        
+        .bar {
+            width: 40px;
+            background: linear-gradient(180deg, #3b82f6, #10b981);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            animation: growUp 1s ease-out forwards;
+            transform-origin: bottom;
+            opacity: 0;
+        }
+        
+        @keyframes growUp {
+            from { transform: scaleY(0); opacity: 0; }
+            to { transform: scaleY(1); opacity: 1; }
+        }
+
+        .bar::after {
+            content: attr(data-month);
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <!-- Header -->
+        <div class="header-bar">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <a href="dashboard.html" class="logo" style="text-decoration: none; font-size: 1.5rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+                    <span style="color: #10b981;">X</span> BiomassX
+                </a>
+                <span style="font-size: 1.2rem; font-weight: 700; color: #334155; border-left: 2px solid #e2e8f0; padding-left: 20px;">
+                    รายงานและสถิติ (Reports)
+                </span>
+            </div>
+            
+            <a href="dashboard.html" class="btn btn-outline" style="display: flex; align-items: center; gap: 5px;">
+                ย้อนกลับไปหน้าหลัก
+            </a>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+            <button class="btn" style="background: #0f172a; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; display: flex; gap: 8px; align-items: center; cursor: pointer;">
+                📥 ดาวน์โหลดรายงาน (PDF)
+            </button>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="report-grid">
+            <div class="report-card">
+                <div class="stat-label" style="color: #3b82f6;">ปริมาณซื้อขายรวม (MT)</div>
+                <div class="stat-value">12,450</div>
+                <div style="color: #10b981; font-weight: 600; font-size: 0.9rem;">+15% จากเดือนที่แล้ว</div>
+            </div>
+            <div class="report-card">
+                <div class="stat-label" style="color: #10b981;">มูลค่ารวม (THB)</div>
+                <div class="stat-value">18.6M</div>
+                <div style="color: #10b981; font-weight: 600; font-size: 0.9rem;">+8.2% จากเดือนที่แล้ว</div>
+            </div>
+            <div class="report-card">
+                <div class="stat-label" style="color: #f59e0b;">ลด CO2 รวม (ตัน)</div>
+                <div class="stat-value" style="color: #f59e0b;">3,205</div>
+                <div style="color: #10b981; font-weight: 600; font-size: 0.9rem;">เทียบเท่าปลูกต้นไม้ 320,000 ต้น</div>
+            </div>
+        </div>
+
+        <!-- Chart Section -->
+        <div class="chart-card">
+            <h3 style="font-size: 1.4rem; font-weight: 700; color: #0f172a; margin-bottom: 10px;">ปริมาณการซื้อขายย้อนหลัง 6 เดือน (ตัน)</h3>
+            
+            <div class="bar-chart">
+                <!-- Helper lines -->
+                <div style="position: absolute; left: 0; right: 0; top: 20%; border-top: 1px dashed #e2e8f0; z-index: 0;"></div>
+                <div style="position: absolute; left: 0; right: 0; top: 40%; border-top: 1px dashed #e2e8f0; z-index: 0;"></div>
+                <div style="position: absolute; left: 0; right: 0; top: 60%; border-top: 1px dashed #e2e8f0; z-index: 0;"></div>
+                <div style="position: absolute; left: 0; right: 0; top: 80%; border-top: 1px dashed #e2e8f0; z-index: 0;"></div>
+
+                <!-- Bars -->
+                <div class="bar" style="height: 30%; animation-delay: 0.1s;" data-month="ม.ค."></div>
+                <div class="bar" style="height: 45%; animation-delay: 0.2s;" data-month="ก.พ."></div>
+                <div class="bar" style="height: 40%; animation-delay: 0.3s;" data-month="มี.ค."></div>
+                <div class="bar" style="height: 60%; animation-delay: 0.4s;" data-month="เม.ย."></div>
+                <div class="bar" style="height: 75%; animation-delay: 0.5s;" data-month="พ.ค."></div>
+                <div class="bar" style="height: 90%; animation-delay: 0.6s; background: linear-gradient(180deg, #f59e0b, #ef4444);" data-month="มิ.ย."></div>
+            </div>
+            <div style="text-align: center; margin-top: 40px; color: #64748b; font-weight: 500;">
+                (ข้อมูลเดือนล่าสุดเป็นตัวเลขประเมิน)
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

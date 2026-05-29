@@ -104,22 +104,32 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             const typeColor = order.order_type === 'Buy' ? 'var(--primary-green)' : '#f59e0b';
             const typeLabel = order.order_type === 'Buy' ? 'ซื้อ' : 'ขาย';
-            const productName = order.product_name || order.product || '-';
+            const productName = window.sanitizeHTML(order.product_name || order.product || '-');
+            const marketplace = window.sanitizeHTML(order.marketplace || '-');
+            const province = window.sanitizeHTML(order.province || '-');
+            const amphoe = window.sanitizeHTML(order.amphoe || '-');
+            const paymentTerm = window.sanitizeHTML(order.payment_term || '-');
+            const unit = window.sanitizeHTML(order.unit || 'MT');
+
+            const isBuy = order.order_type === 'Buy';
+            const badgeBg = isBuy ? '#ecfdf5' : '#fffbeb';
+            const badgeColor = isBuy ? '#10b981' : '#f59e0b';
+            const badgeBorder = isBuy ? '#d1fae5' : '#fef3c7';
 
             tr.innerHTML = `
                 <td>
-                    <span style="background-color: ${typeColor}; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">
+                    <span style="background-color: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder}; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">
                         ${typeLabel}
                     </span>
                 </td>
-                <td style="font-weight: 500;">${productName}</td>
-                <td>${(order.quantity || 0).toLocaleString()} ${order.unit || 'MT'}</td>
-                <td><strong style="color: #047857;">${(order.price || 0).toLocaleString()}</strong></td>
-                <td>${order.marketplace || '-'}</td>
-                <td>${order.province || '-'}</td>
-                <td>${order.amphoe || '-'}</td>
-                <td>${order.payment_term || '-'}</td>
-                <td style="color: var(--text-muted);">${formattedDate}</td>
+                <td><div style="font-weight: 700; color: #0f172a;">${productName}</div></td>
+                <td><div style="font-weight: 600; color: #475569;">${(order.quantity || 0).toLocaleString()} <span style="font-size: 0.8rem; color: #94a3b8;">${unit}</span></div></td>
+                <td><div style="font-weight: 800; color: #10b981;">฿${(order.price || 0).toLocaleString()}</div></td>
+                <td style="color: #475569; font-weight: 500;">${marketplace}</td>
+                <td style="color: #475569; font-weight: 500;">${province}</td>
+                <td style="color: #475569; font-weight: 500;">${amphoe}</td>
+                <td style="color: #475569; font-weight: 500;">${paymentTerm}</td>
+                <td style="color: #94a3b8; font-size: 0.85rem; font-weight: 500;">${formattedDate}</td>
             `;
             tableBody.appendChild(tr);
         });

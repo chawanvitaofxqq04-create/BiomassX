@@ -66,15 +66,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 notifContainer.innerHTML = ''; // ล้างของเดิม
                 // โชว์แค่ 3 รายการล่าสุด
                 matchedOrders.slice(0, 3).forEach(order => {
-                    const shortId = order.id ? order.id.toString().substring(0,8).toUpperCase() : 'N/A';
-                    const productName = order.product_name || order.product || 'สินค้าชีวมวล';
+                    const shortId = window.sanitizeHTML(order.id ? order.id.toString().substring(0,8).toUpperCase() : 'N/A');
+                    const productName = window.sanitizeHTML(order.product_name || order.product || 'สินค้าชีวมวล');
                     
                     const notifHtml = `
-                        <div class="notification-item" style="border-bottom: 1px solid var(--border-color); padding: 15px 0; display: flex; gap: 15px; align-items: flex-start;">
-                            <div class="notification-icon" style="background-color: #dcfce7; color: #16a34a; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">🎉</div>
+                        <div class="notification-item" style="border-bottom: 1px dashed #e2e8f0; padding: 18px 0; display: flex; gap: 16px; align-items: flex-start;">
+                            <div class="notification-icon" style="background-color: #ecfdf5; color: #10b981; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid #d1fae5;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            </div>
                             <div class="notification-content">
-                                <h4 style="margin: 0 0 5px 0; font-size: 0.95rem; color: var(--text-main);">จับคู่คำสั่งซื้อสำเร็จ!</h4>
-                                <p style="margin: 0; color: var(--text-muted); font-size: 0.85rem; line-height: 1.4;">ออเดอร์ <strong>${productName}</strong> (Ref: ${shortId}) ของคุณได้รับการจับคู่แล้ว <a href="javascript:void(0)" onclick="localStorage.setItem('currentContractId', '${order.id}'); window.location.href='contract.html?id=${order.id}';" style="color: var(--primary-green); text-decoration: none; font-weight: 600; cursor: pointer;">คลิกเพื่อดูสัญญา</a></p>
+                                <h4 style="margin: 0 0 6px 0; font-size: 0.95rem; color: #0f172a; font-weight: 700;">จับคู่คำสั่งซื้อสำเร็จ!</h4>
+                                <p style="margin: 0; color: #64748b; font-size: 0.85rem; line-height: 1.5;">ออเดอร์ <strong style="color: #334155;">${productName}</strong> (Ref: ${shortId}) ของคุณได้รับการจับคู่แล้ว <a href="javascript:void(0)" onclick="localStorage.setItem('currentContractId', '${order.id}'); window.location.href='contract.html?id=${order.id}';" style="color: #10b981; text-decoration: none; font-weight: 700; cursor: pointer; margin-left: 4px;">คลิกเพื่อดูสัญญา →</a></p>
                             </div>
                         </div>
                     `;
@@ -119,26 +121,33 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             // เอามาแค่ 3 รายการล่าสุด
             orders.slice(0, 3).forEach(order => {
-                const shortId = order.id ? order.id.toString().substring(0,8).toUpperCase() : 'N/A';
-                const productName = order.product_name || order.product || 'ไม่ระบุชื่อสินค้า';
-                const statusStr = order.status ? order.status.toUpperCase() : 'PENDING';
+                const shortId = window.sanitizeHTML(order.id ? order.id.toString().substring(0,8).toUpperCase() : 'N/A');
+                const productName = window.sanitizeHTML(order.product_name || order.product || 'ไม่ระบุชื่อสินค้า');
+                const statusStr = window.sanitizeHTML(order.status ? order.status.toUpperCase() : 'PENDING');
                 const isMatched = statusStr === 'MATCHED' || statusStr === 'COMPLETED';
                 const statusColor = isMatched ? '#10b981' : '#f59e0b';
                 
                 const itemHtml = `
-                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; cursor: pointer;" onmouseover="this.style.borderColor='#cbd5e1'; this.style.backgroundColor='white';" onmouseout="this.style.borderColor='#e2e8f0'; this.style.backgroundColor='#f8fafc';" onclick="localStorage.setItem('activeTab', 'tab-list'); window.location.href='order.html?tab=list'">
-                        <div>
-                            <div style="font-weight: 600; color: #1e293b; font-size: 0.95rem; margin-bottom: 3px;">${productName}</div>
-                            <div style="font-size: 0.8rem; color: #64748b;">Ref: ${shortId}</div>
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px 20px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.01);" onmouseover="this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.04)'; this.style.transform='translateY(-1px)';" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.01)'; this.style.transform='translateY(0)';" onclick="localStorage.setItem('activeTab', 'tab-list'); window.location.href='order.html?tab=list'">
+                        <div style="display: flex; gap: 14px; align-items: center;">
+                            <div style="width: 40px; height: 40px; border-radius: 10px; background: ${isMatched ? '#ecfdf5' : '#fffbeb'}; color: ${statusColor}; display: flex; align-items: center; justify-content: center; border: 1px solid ${isMatched ? '#d1fae5' : '#fef3c7'};">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            </div>
+                            <div>
+                                <div style="font-weight: 700; color: #0f172a; font-size: 0.95rem; margin-bottom: 4px;">${productName}</div>
+                                <div style="font-size: 0.8rem; color: #64748b; font-weight: 500;">Ref: ${shortId}</div>
+                            </div>
                         </div>
                         <div style="text-align: right;">
-                            <span style="background-color: ${statusColor}15; color: ${statusColor}; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">
+                            <span style="background-color: ${statusColor}15; color: ${statusColor}; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; border: 1px solid ${statusColor}40;">
                                 ${statusStr}
                             </span>
                         </div>
                     </div>
                 `;
                 recentOrdersContainer.insertAdjacentHTML('beforeend', itemHtml);
+            });
+        }
     } catch (err) {
         console.error("Error loading dashboard data:", err);
     }

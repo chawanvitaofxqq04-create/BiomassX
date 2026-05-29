@@ -52,7 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(err => {
             console.error("Failed to load Thai address data", err);
-            provinceSelect.innerHTML = '<option value="">โหลดข้อมูลล้มเหลว</option>';
+            // เปลี่ยน Select เป็น Input Text แทนเพื่อให้พิมพ์เองได้เลย
+            provinceSelect.outerHTML = '<input type="text" class="province-select" placeholder="พิมพ์ชื่อจังหวัด (ระบบมีปัญหาดึงข้อมูลอัตโนมัติ)" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1;">';
+            if (amphoeSelect) amphoeSelect.outerHTML = '<input type="text" class="small-select" placeholder="เขต/อำเภอ" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1;">';
+            if (tambonSelect) tambonSelect.outerHTML = '<input type="text" class="small-select" placeholder="แขวง/ตำบล" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1;">';
         });
 
     // เมื่อเลือกจังหวัด

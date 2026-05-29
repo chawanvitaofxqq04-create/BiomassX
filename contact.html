@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ติดต่อเรา - BiomassX</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        body {
+            background-color: #f8fafc;
+            background-image: radial-gradient(at 0% 0%, hsla(152,100%,94%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(210,100%,97%,1) 0, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .btn-outline { background: white; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 20px; font-weight: 600; transition: all 0.2s; }
+        .btn-outline:hover { background: #f8fafc; border-color: #cbd5e1; }
+
+        .page-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            border: 1px solid #e2e8f0;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 40px;
+        }
+
+        .contact-info-card {
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.3);
+        }
+
+        .info-item {
+            margin-bottom: 30px;
+        }
+
+        .info-item h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .info-item p {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.9);
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <!-- Header -->
+        <div class="header-bar">
+            <a href="dashboard.html" class="logo" style="text-decoration: none; font-size: 1.5rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+                <span style="color: #10b981;">X</span> BiomassX
+            </a>
+            
+            <a href="dashboard.html" class="btn btn-outline" style="display: flex; align-items: center; gap: 5px;">
+                ย้อนกลับไปหน้าหลัก
+            </a>
+        </div>
+
+        <!-- Main Card -->
+        <div class="glass-card">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h1 style="font-size: 2.2rem; font-weight: 800; color: #0f172a; margin-bottom: 10px;">ติดต่อเรา</h1>
+                <p style="color: #64748b; font-size: 1.1rem;">มีคำถามหรือข้อสงสัย? ส่งข้อความหาทีมงานของเราได้เลย</p>
+            </div>
+
+            <div class="contact-grid">
+                <!-- Left: Info -->
+                <div class="contact-info-card">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 30px;">ข้อมูลติดต่อ</h3>
+                    
+                    <div class="info-item">
+                        <h4>เบอร์โทรศัพท์</h4>
+                        <p>02-999-9999</p>
+                    </div>
+                    
+                    <div class="info-item">
+                        <h4>อีเมล</h4>
+                        <p>support@biomassx.com</p>
+                    </div>
+                    
+                    <div class="info-item">
+                        <h4>เวลาทำการ</h4>
+                        <p>จันทร์ - ศุกร์<br>09:00 - 18:00 น.</p>
+                    </div>
+                </div>
+
+                <!-- Right: Form -->
+                <div>
+                    <form onsubmit="event.preventDefault(); alert('ส่งข้อความเรียบร้อยแล้ว ทีมงานจะติดต่อกลับโดยเร็วที่สุด'); window.location.href='dashboard.html';">
+                        <div class="form-group">
+                            <label class="form-label">หัวข้อ</label>
+                            <select class="form-control" required>
+                                <option value="">เลือกหัวข้อ</option>
+                                <option value="support">แจ้งปัญหาการใช้งาน</option>
+                                <option value="billing">สอบถามเรื่องการชำระเงิน</option>
+                                <option value="partnership">ติดต่อธุรกิจ</option>
+                                <option value="other">อื่นๆ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">ชื่อ - นามสกุล</label>
+                            <input type="text" class="form-control" placeholder="ชื่อของคุณ" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">ข้อความ</label>
+                            <textarea class="form-control" placeholder="พิมพ์ข้อความของคุณที่นี่..." required></textarea>
+                        </div>
+                        <button type="submit" style="width: 100%; padding: 14px; background: #0f172a; color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#1e293b'" onmouseout="this.style.background='#0f172a'">
+                            ส่งข้อความ
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

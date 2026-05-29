@@ -42,6 +42,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     product = 'Wood Pellets (ไม้อัดเม็ด)';
                 } else if (product.toLowerCase().includes('กะลาปาล์ม') || product.toLowerCase().includes('pks')) {
                     product = 'Palm Kernel Shell (กะลาปาล์ม)';
+                } else if (product.includes('ชานอ้อยอัดเม็ด') || product.toLowerCase().includes('bagasse pellet')) {
+                    product = 'Bagasse Pellets (ชานอ้อยอัดเม็ด)';
+                } else if (product.includes('ชานอ้อยอัดก้อน') || product.toLowerCase().includes('baled bagasse')) {
+                    product = 'Baled Bagasse (ชานอ้อยอัดก้อน)';
                 } else if (product.toLowerCase().includes('ชานอ้อย') || product.toLowerCase().includes('bagasse')) {
                     product = 'Bagasse (ชานอ้อย)';
                 } else if (product.toLowerCase().includes('สับไม้') || product.toLowerCase().includes('wood chip')) {
@@ -111,21 +115,45 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const txtAvgSell = avgSell > 0 ? '฿' + avgSell.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) : 'ไม่มีข้อมูล';
 
                     const cardHtml = `
-                        <div class="index-card" style="background: white; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; width: 100%; margin-bottom: 20px;">
-                            <h3 style="margin-bottom: 20px; font-size: 1.2rem; color: #1e293b; font-weight: 700;">${prodName}</h3>
-                            <div class="index-price-row" style="display: flex; border-radius: 8px; overflow: hidden; margin-bottom: 20px; gap: 10px;">
-                                <div class="price-box price-buy" style="flex: 1; padding: 20px; background: #dcfce7; border-radius: 8px;">
-                                    <div class="label" style="font-size: 0.85rem; color: #166534; margin-bottom: 5px; font-weight: 600; text-transform: uppercase;">เฉลี่ยซื้อ (AVG BUY)</div>
-                                    <div class="value" style="color: #16a34a; font-weight: 700; font-size: ${avgBuy > 0 ? '1.8rem' : '1.2rem'};">${txtAvgBuy}</div>
-                                </div>
-                                <div class="price-box price-sell" style="flex: 1; padding: 20px; background: #ffe4e6; border-radius: 8px;">
-                                    <div class="label" style="font-size: 0.85rem; color: #9f1239; margin-bottom: 5px; font-weight: 600; text-transform: uppercase;">เฉลี่ยขาย (AVG SELL)</div>
-                                    <div class="value" style="color: #e11d48; font-weight: 700; font-size: ${avgSell > 0 ? '1.8rem' : '1.2rem'};">${txtAvgSell}</div>
-                                </div>
+                        <div class="index-card" style="background: white; border-radius: 12px; padding: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); margin-bottom: 20px;">
+                            
+                            <!-- Header -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                <h3 style="margin: 0; font-size: 1.15rem; font-weight: 700; color: var(--text-main);">${prodName}</h3>
+                                <span style="font-size: 0.8rem; color: var(--text-muted); background: var(--bg-color); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 6px; font-weight: 500;">
+                                     ปริมาณการซื้อขาย 30 วัน: ${stats.orderCount30Days.toLocaleString()} รายการ
+                                </span>
                             </div>
-                            <div class="index-footer" style="font-size: 0.85rem; color: #64748b; display: flex; flex-direction: column; gap: 5px;">
-                                <span>ต่อ MT (DAP)</span>
-                                <span>📊 ${stats.orderCount30Days.toLocaleString()} คำสั่งซื้อขาย (30 วัน)</span>
+
+                            <!-- Metrics Grid -->
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                
+                                <!-- BUY METRIC -->
+                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; border-left: 4px solid #10b981;">
+                                    <div style="font-size: 0.85rem; color: #64748b; font-weight: 600; margin-bottom: 5px; display: flex; align-items: center; gap: 5px;">
+                                        <span style="color: #10b981;">●</span> ราคาเสนอซื้อเฉลี่ย (AVG BUY)
+                                    </div>
+                                    <div style="font-size: ${avgBuy > 0 ? '1.75rem' : '1.2rem'}; font-weight: 700; color: #0f172a; line-height: 1.2;">
+                                        ${txtAvgBuy}
+                                    </div>
+                                    <div style="font-size: 0.75rem; color: #94a3b8; margin-top: 5px;">
+                                        หน่วย: MT (Metric Tons) | เงื่อนไข: DAP
+                                    </div>
+                                </div>
+
+                                <!-- SELL METRIC -->
+                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; border-left: 4px solid #f43f5e;">
+                                    <div style="font-size: 0.85rem; color: #64748b; font-weight: 600; margin-bottom: 5px; display: flex; align-items: center; gap: 5px;">
+                                        <span style="color: #f43f5e;">●</span> ราคาเสนอขายเฉลี่ย (AVG SELL)
+                                    </div>
+                                    <div style="font-size: ${avgSell > 0 ? '1.75rem' : '1.2rem'}; font-weight: 700; color: #0f172a; line-height: 1.2;">
+                                        ${txtAvgSell}
+                                    </div>
+                                    <div style="font-size: 0.75rem; color: #94a3b8; margin-top: 5px;">
+                                        หน่วย: MT (Metric Tons) | เงื่อนไข: DAP
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
                     `;

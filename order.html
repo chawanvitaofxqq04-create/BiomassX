@@ -61,6 +61,8 @@
             background-color: #dcfce7;
             color: #16a34a;
         }
+        .btn-outline { background: white; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 20px; font-weight: 600; transition: all 0.2s; }
+        .btn-outline:hover { background: #f8fafc; border-color: #cbd5e1; }
     </style>
 </head>
 <body style="background-color: #f8fafc;">
@@ -68,26 +70,31 @@
     <div class="order-container">
         
         <!-- Top Header -->
-        <div class="order-header-top">
-            <a href="dashboard.html" class="logo" style="text-decoration: none;">
-                <span class="logo-icon">X</span> BiomassX
+        <div class="order-header-top" style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 20px 30px; border-radius: 16px; margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); border: 1px solid #e2e8f0;">
+            <a href="dashboard.html" class="logo" style="text-decoration: none; font-size: 1.5rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+                <span style="color: #10b981;">X</span> BiomassX
             </a>
             
-            <div style="display: flex; gap: 10px;">
-                <a href="dashboard.html" class="btn" style="background-color: #bef264; color: #3f6212; border: none; font-weight: 600;">
-                    &#8592; กลับสู่แดชบอร์ด
-                </a>
-                <a href="#" id="logoutBtn" class="btn btn-danger">
-                    &#10142; ออกจากระบบ
+            <div class="dashboard-user-info" style="display: flex; gap: 15px; align-items: center;">
+                <span id="userNameDisplay" class="company-name" style="font-weight: 600; color: #0f172a;">กำลังโหลดข้อมูล...</span>
+                <a href="dashboard.html" class="btn btn-outline" style="display: flex; align-items: center; gap: 5px;">
+                     ย้อนกลับไปหน้าหลัก
                 </a>
             </div>
         </div>
 
-        <div class="order-title">
-            <h1>คำสั่งซื้อขายของฉัน</h1>
+        <div class="order-title" style="margin-bottom: 25px;">
+            <h1 style="font-size: 2rem; font-weight: 800; color: #0f172a; margin: 0;">คำสั่งซื้อขายของฉัน</h1>
+            <p style="color: #64748b; margin-top: 5px; font-size: 1.05rem;">จัดการคำสั่งซื้อขายและสัญญาทั้งหมดของคุณ</p>
         </div>
 
         <!-- Tabs -->
+        <style>
+            .order-tabs { display: flex; gap: 10px; margin-bottom: 30px; background: white; padding: 10px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; width: fit-content; }
+            .order-tab { background: transparent; border: none; font-size: 1.05rem; font-weight: 600; color: #64748b; padding: 12px 24px; cursor: pointer; border-radius: 8px; transition: all 0.2s; }
+            .order-tab:hover { background: #f8fafc; color: #334155; }
+            .order-tab.active { background: #10b981; color: white; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2); }
+        </style>
         <div class="order-tabs">
             <button class="order-tab active" data-target="tab-create">สร้างคำสั่งซื้อขาย</button>
             <button class="order-tab" data-target="tab-list">รายการคำสั่งซื้อขาย</button>
@@ -141,21 +148,20 @@
                 <!-- Dynamic Specs Container Removed as requested -->
                 
                 <div class="form-group">
-                    <label>ปริมาณ</label>
-                    <input type="number" id="quantity" placeholder="ระบุจำนวน">
+                    <label for="quantity">ปริมาณ (Quantity)</label>
+                    <input type="number" id="quantity" placeholder="ระบุจำนวน" min="1" required>
                 </div>
                 <div class="form-group">
-                    <label>หน่วยนับ</label>
-                    <select id="unit">
-                        <option value="">Select Unit</option>
-                        <option value="MT">MT (Metric Ton)</option>
-                        <option value="KG">KG (Kilogram)</option>
+                    <label for="unit">หน่วย (Unit)</label>
+                    <select id="unit" required>
+                        <option value="MT">MT (Metric Tons)</option>
+                        <option value="KG">KG (Kilograms)</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
-                    <label>ราคาต่อหน่วย</label>
-                    <input type="number" id="price" placeholder="ระบุราคา">
+                    <label for="price">ราคาเสนอ (Price) ต่อหน่วย</label>
+                    <input type="number" id="price" placeholder="ระบุราคา" min="1" required>
                 </div>
                 <div class="form-group">
                     <label>สกุลเงิน</label>
@@ -223,7 +229,7 @@
             <div class="location-box">
                 <div class="location-title-area">
                     <div class="location-icon-text">
-                        <span style="color: #ef4444;">📍</span> Local<br>Location<br>Details
+                        <span style="color: #ef4444;"></span> Local<br>Location<br>Details
                     </div>
                     <div class="location-main-title">
                         จุดส่งมอบ<br>สินค้าใน<br>ประเทศ
@@ -268,39 +274,53 @@
 
         <!-- Tab 2: Order List -->
         <div class="tab-content" id="tab-list">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; background: white; padding: 20px 25px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
                 <div>
-                    <h2 style="margin-bottom: 5px;">คำสั่งซื้อขายของคุณ</h2>
-                    <span style="color: var(--text-muted); font-size: 0.9rem;">0 orders</span>
+                    <h2 style="margin-bottom: 5px; font-weight: 800; font-size: 1.5rem; color: #0f172a;">คำสั่งซื้อขายของคุณ</h2>
+                    <span style="color: #64748b; font-size: 0.95rem; font-weight: 500;">ทั้งหมด <span id="orders-count" style="color: #10b981; font-weight: 700;">0</span> orders</span>
                 </div>
-                <button class="btn btn-primary" onclick="document.querySelector('.order-tab[data-target=\'tab-create\']').click()">+ เพิ่มคำสั่งซื้อขายใหม่</button>
+                <button class="btn" style="background: #10b981; color: white; border: none; font-weight: 600; padding: 12px 24px; border-radius: 8px; cursor: pointer; transition: background 0.2s; box-shadow: 0 4px 10px rgba(16,185,129,0.2);" onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'" onclick="document.querySelector('.order-tab[data-target=\'tab-create\']').click()">+ สร้างคำสั่งซื้อขายใหม่</button>
             </div>
             
-            <div class="filter-box">
-                <div class="form-grid" style="margin-bottom: 15px;">
-                    <div class="form-group">
-                        <label>&#128269; ค้นหา</label>
-                        <input type="text" placeholder="ค้นหาตามชื่อผลิตภัณฑ์...">
+            <div class="filter-box" style="background: white; padding: 25px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
+                <div class="form-grid" style="margin-bottom: 20px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px;">
+                        <label style="color: #64748b; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">ค้นหา</label>
+                        <input type="text" id="orderSearchInput" placeholder="พิมพ์ชื่อผลิตภัณฑ์..." style="padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; transition: border 0.2s;" onfocus="this.style.borderColor='#10b981'" onblur="this.style.borderColor='#cbd5e1'" oninput="loadMyOrders()">
                     </div>
-                    <div class="form-group">
-                        <label>&#128197; ช่วงเวลา</label>
-                        <select><option>ทุกช่วงเวลา</option></select>
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px;">
+                        <label style="color: #64748b; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">ช่วงเวลา</label>
+                        <select id="orderTimeFilter" style="padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; background: white; cursor: pointer; appearance: none;" onchange="loadMyOrders()">
+                            <option value="ทุกช่วงเวลา">ทุกช่วงเวลา</option>
+                            <option value="สัปดาห์นี้">สัปดาห์นี้</option>
+                            <option value="เดือนนี้">เดือนนี้</option>
+                        </select>
                     </div>
-                    <div class="form-group">
-                        <label>&#128202; สถานะ</label>
-                        <select><option>ทุกสถานะ</option></select>
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px;">
+                        <label style="color: #64748b; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">สถานะ</label>
+                        <select id="orderStatusFilter" style="padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; background: white; cursor: pointer; appearance: none;" onchange="loadMyOrders()">
+                            <option value="ทุกสถานะ">ทุกสถานะ</option>
+                            <option value="รอดำเนินการ">รอดำเนินการ (Pending/Active)</option>
+                            <option value="จับคู่แล้ว">จับคู่แล้ว (Matched)</option>
+                        </select>
                     </div>
-                    <div class="form-group">
-                        <label>&#128179; คำสั่งซื้อขาย</label>
-                        <select><option>ทุกประเภท</option></select>
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px;">
+                        <label style="color: #64748b; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">ประเภท</label>
+                        <select id="orderTypeFilter" style="padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; background: white; cursor: pointer; appearance: none;" onchange="loadMyOrders()">
+                            <option value="ทุกประเภท">ทุกประเภท</option>
+                            <option value="Buy Order">เสนอซื้อ (Buy Order)</option>
+                            <option value="Sell Order">เสนอขาย (Sell Order)</option>
+                        </select>
                     </div>
                 </div>
-                <button class="btn-danger" style="width: auto;">&#8635; ล้างทั้งหมด</button>
+                <div style="display: flex; justify-content: flex-end;">
+                    <button onclick="document.getElementById('orderSearchInput').value=''; document.getElementById('orderTimeFilter').value='ทุกช่วงเวลา'; document.getElementById('orderStatusFilter').value='ทุกสถานะ'; document.getElementById('orderTypeFilter').value='ทุกประเภท'; loadMyOrders();" class="btn" style="background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; font-weight: 600; padding: 10px 24px; border-radius: 8px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">ล้างตัวกรองทั้งหมด</button>
+                </div>
             </div>
             
             <!-- Empty State -->
             <div style="text-align: center; padding: 40px; color: var(--text-muted);">
-                <div style="font-size: 3rem; margin-bottom: 10px; opacity: 0.5;">📦</div>
+                <div style="font-size: 3rem; margin-bottom: 10px; opacity: 0.5;"></div>
                 <div>ยังไม่มีรายการคำสั่งซื้อขาย</div>
             </div>
         </div>

@@ -1,17 +1,21 @@
 :root {
-  --primary-green: #1ea362;
-  --primary-hover: #178a51;
-  --dark-green: #0d5e35;
-  --light-green: #e6f6eb;
-  --bg-color: #f8f9fa;
-  --text-main: #2d3748;
-  --text-muted: #718096;
-  --border-color: #e2e8f0;
+  /* Eco-Trust Theme: Emerald Green + Slate Navy */
+  --primary-green: #059669; /* Emerald 600 */
+  --primary-hover: #047857; /* Emerald 700 */
+  --dark-green: #064e3b; /* Emerald 900 */
+  --light-green: #ecfdf5; /* Emerald 50 */
+  
+  --bg-color: #f8fafc; /* Slate 50 */
+  --text-main: #0f172a; /* Slate 900 (Navy base) */
+  --text-muted: #64748b; /* Slate 500 */
+  --border-color: #e2e8f0; /* Slate 200 */
+  
   --card-bg: #ffffff;
-  --alert-red: #fc8181;
-  --alert-red-bg: #fff5f5;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.05);
+  --alert-red: #ef4444; /* Red 500 */
+  --alert-red-bg: #fef2f2; /* Red 50 */
+  
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 4px 6px rgba(15, 23, 42, 0.05);
   --border-radius: 8px;
   --border-radius-lg: 12px;
 }
@@ -1344,4 +1348,19 @@ a {
 .suggestion-en {
   font-size: 0.85rem;
   color: var(--text-muted);
+}
+
+/* Invoice Accordion */
+.invoice-accordion summary::-webkit-details-marker {
+  display: none;
+}
+.invoice-accordion summary {
+  list-style: none;
+}
+.invoice-accordion[open] summary {
+  border-bottom: 1px solid var(--border-color);
+  background-color: #f8fafc !important;
+}
+.invoice-accordion summary:hover {
+  background-color: #f8fafc !important;
 }
