@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+﻿document.addEventListener('DOMContentLoaded', () => {
     // ข้อมูลสินค้าชีวมวล (ไทย-อังกฤษ)
     const biomassProducts = [
         { th: "ไม้ท่อน (กระถินเทพา/ณรงค์/ลูกผสม)", en: "Wood Logs (Acacia/Eucalyptus)" },
