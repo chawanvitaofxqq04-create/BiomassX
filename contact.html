@@ -25,7 +25,6 @@
             color: #334155;
         }
 
-        /* Hero Banner */
         .contact-hero {
             background: linear-gradient(135deg, #047857, #10b981);
             color: white;
@@ -33,6 +32,15 @@
             padding: 80px 20px;
             margin: 0 20px 40px;
             border-radius: 0 0 24px 24px;
+        }
+
+        @media (max-width: 768px) {
+            .contact-hero {
+                padding: 40px 15px;
+                margin: 0 0 30px;
+                border-radius: 0 0 16px 16px;
+            }
+            .contact-hero h1 { font-size: 2rem; }
         }
         
         .contact-hero h1 {

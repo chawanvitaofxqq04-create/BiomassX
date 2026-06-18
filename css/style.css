@@ -1454,3 +1454,44 @@ body { top: 0px !important; }
   color: #94a3b8;
   font-size: 0.9rem;
 }
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+  /* Navbar */
+  .nav-content {
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+  }
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  /* Footer */
+  .footer-links {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .site-footer {
+    padding: 30px 15px;
+  }
+
+  /* Global Typography & Spacing */
+  .hero {
+    padding: 40px 15px;
+  }
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-buttons .btn {
+    width: 100%;
+    margin: 5px 0;
+  }
+}
+
