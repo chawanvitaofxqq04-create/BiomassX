@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=2">
     
     <style>
         body {
@@ -73,8 +73,8 @@
         }
 
         .nav-item.active {
-            border-left-color: #10b981;
-            color: #10b981;
+            border-left-color: var(--primary-green);
+            color: var(--primary-green);
             background: #f0fdf4;
         }
 
@@ -157,21 +157,22 @@
         }
 
         input:checked + .slider {
-            background-color: #10b981;
+            background-color: var(--primary-green);
         }
 
         input:checked + .slider:before {
             transform: translateX(22px);
         }
     </style>
-</head>
+
+    </head>
 <body>
 
     <div class="page-container">
         <!-- Header -->
         <div class="header-bar">
             <a href="dashboard.html" class="logo" style="text-decoration: none; font-size: 1.5rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 8px;">
-                <span style="color: #10b981;">X</span> BiomassX
+                <span style="color: var(--primary-green);">X</span> BiomassX
             </a>
             
             <a href="dashboard.html" class="btn btn-outline" style="display: flex; align-items: center; gap: 5px;">
@@ -245,7 +246,7 @@
                 </div>
 
                 <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
-                    <button class="btn" onclick="alert('บันทึกการตั้งค่าเรียบร้อยแล้ว')" style="background: #10b981; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'">
+                    <button class="btn" onclick="alert('บันทึกการตั้งค่าเรียบร้อยแล้ว')" style="background: var(--primary-green); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='var(--primary-hover)'" onmouseout="this.style.background='var(--primary-green)'">
                         บันทึกการตั้งค่า
                     </button>
                 </div>
@@ -253,5 +254,37 @@
         </div>
     </div>
 
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
+    <script src="js/translations.js?v=11"></script>
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
+    <script src="js/i18n.js?v=7"></script>
 </body>
 </html>
+

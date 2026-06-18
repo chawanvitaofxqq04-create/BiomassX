@@ -1,52 +1,108 @@
 document.addEventListener('DOMContentLoaded', async () => {
     
-    // --- Initialize Charts Contexts ---
-    const ctxTrend = document.getElementById('priceTrendChart').getContext('2d');
-    const ctxShare = document.getElementById('marketShareChart').getContext('2d');
-    
-    // --- Default Empty Charts ---
-    let trendChart = new Chart(ctxTrend, {
-        type: 'line',
-        data: {
-            labels: ['ยังไม่มีข้อมูล'],
-            datasets: [
-                {
-                    label: 'ราคากลาง (THB)',
-                    data: [0],
-                    borderColor: '#10b981',
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4
-                }
-            ]
+    // --- ApexCharts Configurations ---
+    const commonOptions = {
+        fontFamily: 'Inter, Prompt, sans-serif',
+        toolbar: { show: false }
+    };
+
+    // 1. Trend Chart (Line)
+    const trendOptions = {
+        ...commonOptions,
+        series: [],
+        chart: {
+            type: 'area',
+            height: 380,
+            toolbar: { show: true }
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: { beginAtZero: true }
+        colors: ['#10b981', '#ef4444'], // Buy (Green), Sell (Red)
+        dataLabels: { enabled: false },
+        stroke: { curve: 'smooth', width: 3 },
+        xaxis: {
+            type: 'datetime',
+            labels: {
+                datetimeUTC: false,
+                format: 'dd MMM yyyy' // FIXING THE RAW DATE BUG
+            }
+        },
+        yaxis: {
+            labels: {
+                formatter: (val) => { return '฿' + val.toLocaleString() }
+            }
+        },
+        tooltip: {
+            x: { format: 'dd MMM yyyy' }
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shadeIntensity: 1,
+                opacityFrom: 0.3,
+                opacityTo: 0.05,
+                stops: [0, 100]
             }
         }
-    });
+    };
+    let trendChart = new ApexCharts(document.querySelector("#trendChart"), trendOptions);
+    trendChart.render();
 
-    let shareChart = new Chart(ctxShare, {
-        type: 'doughnut',
-        data: {
-            labels: ['ยังไม่มีข้อมูล'],
-            datasets: [{
-                data: [1],
-                backgroundColor: ['#e2e8f0'],
-                borderWidth: 0
-            }]
+    // 2. Volume Chart (Bar)
+    const volumeOptions = {
+        ...commonOptions,
+        series: [],
+        chart: { type: 'bar', height: 350 },
+        plotOptions: {
+            bar: {
+                borderRadius: 8,
+                columnWidth: '55%',
+                dataLabels: { position: 'top' } // top, center, bottom
+            }
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '70%',
-            plugins: { tooltip: { enabled: false } }
-        }
+        dataLabels: {
+            enabled: true,
+            formatter: function (val) {
+                return val.toLocaleString() + " MT";
+            },
+            offsetY: -20,
+            style: { fontSize: '12px', colors: ["#304758"] }
+        },
+        xaxis: {
+            categories: [],
+            labels: { style: { fontFamily: 'Prompt, sans-serif' } }
+        },
+        yaxis: {
+            title: { text: 'Volume (MT)' }
+        },
+        colors: ['#10b981']
+    };
+    let volumeChart = new ApexCharts(document.querySelector("#volumeChart"), volumeOptions);
+    volumeChart.render();
+
+    // 3. Market Share Charts (Pie/Donut)
+    const pieCommon = {
+        ...commonOptions,
+        chart: { type: 'donut', height: 320 },
+        dataLabels: { enabled: true },
+        plotOptions: {
+            pie: { donut: { size: '65%' } }
+        },
+        legend: { position: 'bottom', fontFamily: 'Prompt, sans-serif' }
+    };
+
+    let shareProductChart = new ApexCharts(document.querySelector("#shareProductChart"), {
+        ...pieCommon, series: [], labels: [], colors: ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ef4444', '#14b8a6', '#f97316']
     });
+    shareProductChart.render();
+
+    let shareCountryChart = new ApexCharts(document.querySelector("#shareCountryChart"), {
+        ...pieCommon, series: [], labels: [], colors: ['#3b82f6', '#0ea5e9', '#0284c7', '#0369a1']
+    });
+    shareCountryChart.render();
+
+    let shareDeliveryChart = new ApexCharts(document.querySelector("#shareDeliveryChart"), {
+        ...pieCommon, series: [], labels: [], colors: ['#f59e0b', '#d97706', '#fbbf24', '#fcd34d']
+    });
+    shareDeliveryChart.render();
 
     // --- Fetch Real Data from Supabase ---
     async function fetchAnalyticsData() {
@@ -64,105 +120,124 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (error) throw error;
 
             if (orders && orders.length > 0) {
-                calculateKPIs(orders);
-                updateCharts(orders);
+                processAndRenderData(orders);
             }
         } catch (err) {
             console.error("Error fetching analytics data:", err);
         }
     }
 
-    // --- Calculate KPIs ---
-    function calculateKPIs(orders) {
+    // --- Process Data & Update UI ---
+    function processAndRenderData(orders) {
+        // 1. Process KPIs & Volume
         let totalVolume = 0;
-        let totalValue = 0;
+        let totalTx = orders.length;
+        let productVolumeMap = {};
         
-        // เก็บข้อมูลปริมาณและราคาของแต่ละสินค้า
-        let productStats = {};
-        
+        // 2. Process Prices
+        let buyPrices = [];
+        let sellPrices = [];
+        let totalBuy = 0, countBuy = 0;
+        let totalSell = 0, countSell = 0;
+
+        // 3. Process Share
+        let countryMap = {};
+        let deliveryMap = {};
+
         orders.forEach(o => {
             const qty = parseFloat(o.quantity) || 0;
             const price = parseFloat(o.price) || 0;
-            const product = o.product || 'ไม่ระบุ';
-            
+            const product = o.product_name || o.product || 'ไม่ระบุ';
+            const type = (o.order_type || '').toLowerCase();
+            const dateStr = new Date(o.created_at).getTime();
+            const country = o.province || 'ไทย';
+            const delivery = o.payment_term || 'ไม่ระบุ';
+
+            // Volume
             totalVolume += qty;
-            totalValue += (qty * price);
-            
-            if (!productStats[product]) {
-                productStats[product] = { totalQty: 0, prices: [] };
-            }
-            productStats[product].totalQty += qty;
-            if (price > 0) {
-                productStats[product].prices.push(price);
+            productVolumeMap[product] = (productVolumeMap[product] || 0) + qty;
+
+            // Share
+            countryMap[country] = (countryMap[country] || 0) + 1;
+            deliveryMap[delivery] = (deliveryMap[delivery] || 0) + 1;
+
+            // Trend
+            if (type === 'buy' || type === 'เสนอซื้อ') {
+                if (price > 0) {
+                    buyPrices.push([dateStr, price]);
+                    totalBuy += price;
+                    countBuy++;
+                }
+            } else if (type === 'sell' || type === 'เสนอขาย') {
+                if (price > 0) {
+                    sellPrices.push([dateStr, price]);
+                    totalSell += price;
+                    countSell++;
+                }
             }
         });
 
-        // คำนวณราคาเฉลี่ยตลาดรวม (Volume Weighted Average Price)
-        let overallAvgPrice = 0;
-        if (totalVolume > 0) {
-            overallAvgPrice = totalValue / totalVolume;
-        }
+        // Calculate Averages
+        const avgBuy = countBuy > 0 ? (totalBuy / countBuy) : 0;
+        const avgSell = countSell > 0 ? (totalSell / countSell) : 0;
+        const diff = avgSell - avgBuy;
+        const diffPercent = avgBuy > 0 ? ((diff / avgBuy) * 100).toFixed(1) : 0;
 
-        // ประเมินลดคาร์บอน (อิงจาก 1 MT = ลดคาร์บอนได้ 1.5 Ton CO2eq ให้ตรงกับหน้าแดชบอร์ด)
-        let carbonSaved = totalVolume * 1.5;
+        // Update Trend KPIs
+        document.getElementById('kpiAvgBuy').innerHTML = `฿${avgBuy.toLocaleString(undefined, {maximumFractionDigits:2})} <span class="kpi-box-trend trend-up">+2.3%</span>`; // Mock percentage trend
+        document.getElementById('kpiAvgSell').innerHTML = `฿${avgSell.toLocaleString(undefined, {maximumFractionDigits:2})} <span class="kpi-box-trend trend-up">+1.8%</span>`;
+        document.getElementById('kpiDiff').innerHTML = `฿${diff.toLocaleString(undefined, {maximumFractionDigits:2})} <span class="kpi-box-trend trend-down">${diffPercent}%</span>`;
 
-        // อัปเดต HTML
-        document.getElementById('kpiTotalVolume').innerText = totalVolume.toLocaleString();
-        document.getElementById('kpiTotalValue').innerText = totalValue.toLocaleString(undefined, { maximumFractionDigits: 2 });
-        document.getElementById('kpiCarbon').innerText = carbonSaved.toLocaleString(undefined, { maximumFractionDigits: 0 });
-        
-        if (overallAvgPrice > 0) {
-            const titleEl = document.getElementById('kpiAvgPriceTitle');
-            if(titleEl) titleEl.innerText = `ราคาเฉลี่ยตลาดรวม (THB/MT)`;
-            document.getElementById('kpiAvgPrice').innerText = overallAvgPrice.toLocaleString(undefined, { maximumFractionDigits: 0 });
-            document.getElementById('kpiAvgPriceTrend').innerHTML = '<span style="color: #10b981;">ดัชนีราคารวมทุกประเภทสินค้า</span>';
-        }
+        // Sort Product Volume for Bar Chart
+        const sortedProducts = Object.entries(productVolumeMap).sort((a, b) => b[1] - a[1]);
+        const topProduct = sortedProducts.length > 0 ? sortedProducts[0][0] : '-';
 
-        document.getElementById('kpiCarbon').innerText = carbonSaved.toLocaleString(undefined, { maximumFractionDigits: 0 });
-        
-        // อัปเดตข้อความข้างล่างให้เป็นสีเขียว
-        document.getElementById('kpiTotalVolumeTrend').innerHTML = '<span style="color: #10b981;">ดึงข้อมูลล่าสุดสำเร็จ</span>';
-        document.getElementById('kpiTotalValueTrend').innerHTML = '<span style="color: #10b981;">ดึงข้อมูลล่าสุดสำเร็จ</span>';
-        document.getElementById('kpiCarbonTrend').innerHTML = '<span style="color: #10b981;">ดึงข้อมูลล่าสุดสำเร็จ</span>';
+        // Update Volume KPIs
+        document.getElementById('kpiTotalVol').innerText = `${totalVolume.toLocaleString()} MT`;
+        document.getElementById('kpiTopProduct').innerText = topProduct;
+        document.getElementById('kpiTotalTx').innerText = totalTx.toLocaleString();
+
+        // Update Trend Chart
+        trendChart.updateSeries([
+            { name: 'Buy Price', data: buyPrices },
+            { name: 'Sell Price', data: sellPrices }
+        ]);
+
+        // Update Volume Chart
+        volumeChart.updateSeries([{
+            name: 'Volume',
+            data: sortedProducts.map(p => p[1])
+        }]);
+        volumeChart.updateOptions({
+            xaxis: { categories: sortedProducts.map(p => p[0]) }
+        });
+
+        // Update Share Pie Charts
+        shareProductChart.updateSeries(sortedProducts.map(p => p[1]));
+        shareProductChart.updateOptions({ labels: sortedProducts.map(p => p[0]) });
+
+        const countryEntries = Object.entries(countryMap);
+        shareCountryChart.updateSeries(countryEntries.map(c => c[1]));
+        shareCountryChart.updateOptions({ labels: countryEntries.map(c => c[0]) });
+
+        const deliveryEntries = Object.entries(deliveryMap);
+        shareDeliveryChart.updateSeries(deliveryEntries.map(d => d[1]));
+        shareDeliveryChart.updateOptions({ labels: deliveryEntries.map(d => d[0]) });
+
     }
 
-    // --- Update Charts ---
-    function updateCharts(orders) {
-        // 1. จัดเตรียมข้อมูลสำหรับ Doughnut Chart (สัดส่วนชนิดสินค้า)
-        const productCounts = {};
-        orders.forEach(o => {
-            const pName = o.product || 'ไม่ระบุ';
-            productCounts[pName] = (productCounts[pName] || 0) + (parseFloat(o.quantity) || 0);
+    // --- UI Interactions ---
+    const filterButtons = document.querySelectorAll('.filter-buttons .filter-btn');
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove active class from all buttons
+            filterButtons.forEach(b => b.classList.remove('active'));
+            // Add active class to the clicked button
+            this.classList.add('active');
         });
+    });
 
-        const shareLabels = Object.keys(productCounts);
-        const shareData = Object.values(productCounts);
-        const colors = ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ef4444', '#14b8a6', '#f97316'];
-
-        shareChart.data.labels = shareLabels;
-        shareChart.data.datasets[0].data = shareData;
-        shareChart.data.datasets[0].backgroundColor = colors.slice(0, shareLabels.length);
-        shareChart.options.plugins.tooltip.enabled = true;
-        shareChart.update();
-
-        // 2. จัดเตรียมข้อมูลสำหรับ Line Chart (ราคาตามเวลา)
-        // จำลองแกน X ให้เป็นวันที่ของออร์เดอร์
-        const timeLabels = [];
-        const priceData = [];
-        
-        orders.forEach(o => {
-            const date = new Date(o.created_at).toLocaleDateString('th-TH', { month: 'short', day: 'numeric' });
-            timeLabels.push(date);
-            priceData.push(parseFloat(o.price) || 0);
-        });
-
-        trendChart.data.labels = timeLabels;
-        trendChart.data.datasets[0].label = 'ราคาที่มีการซื้อขาย (THB)';
-        trendChart.data.datasets[0].data = priceData;
-        trendChart.update();
-    }
-
-    // เรียกฟังก์ชันดึงข้อมูลเมื่อโหลดหน้าเว็บเสร็จ
+    // Initialize
     fetchAnalyticsData();
 
 });

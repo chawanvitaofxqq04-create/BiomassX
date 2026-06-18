@@ -13,20 +13,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
     
-    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey, {
+        auth: {
+            storage: window.sessionStorage // ใช้ sessionStorage เพื่อให้บังคับล็อกอินใหม่เมื่อเปิดแท็บใหม่หรือเข้าลิงก์ใหม่
+        }
+    });
     window.supabaseClient = supabaseClient; // ส่งออกให้สคริปต์อื่นใช้ได้
 
-    // ==========================================
-    // 2. Language Select Logic
-    // ==========================================
-    const langSelect = document.querySelector('.lang-select');
-    if (langSelect) {
-        langSelect.addEventListener('change', (e) => {
-            console.log('Language changed to:', e.target.value);
-        });
-    }
-
-    // ==========================================
+    // Language logic is now handled natively in i18n.js    // ==========================================
     // 3. Supabase Authentication System
     // ==========================================
     
@@ -46,6 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             const firstname = document.getElementById('firstname').value;
             const lastname = document.getElementById('lastname').value;
+            const consumerSegment = document.getElementById('consumer_segment') ? document.getElementById('consumer_segment').value : '';
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
@@ -66,7 +61,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     options: {
                         data: {
                             firstname: firstname,
-                            lastname: lastname
+                            lastname: lastname,
+                            consumer_segment: consumerSegment
                         }
                     }
                 });

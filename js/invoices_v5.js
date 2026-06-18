@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             const invoiceHtml = `
-            <details class="invoice-accordion" style="background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); border-radius: 16px; border: 1px solid rgba(226, 232, 240, 0.8); overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 12px; animation: slideUpFade 0.5s ease backwards; animation-delay: ${index * 0.08}s;">
+            <details class="invoice-accordion" style="background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); border-radius: 16px; border: 1px solid rgba(226, 232, 240, 0.8); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 12px; animation: slideUpFade 0.5s ease backwards; animation-delay: ${index * 0.08}s;">
                 <summary style="padding: 24px 30px; cursor: pointer; list-style: none; outline: none; background: transparent; display: grid; grid-template-columns: 2.5fr 1fr 1.5fr 1.5fr 40px; align-items: center; gap: 20px;" onmouseover="this.style.background='rgba(255,255,255,0.9)'" onmouseout="this.style.background='transparent'">
                     
                     <!-- Col 1: ID & Partner -->

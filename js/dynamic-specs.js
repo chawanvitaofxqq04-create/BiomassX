@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'แกลบอัดเม็ด': 'pellets',
 
         'ไม้ท่อน (กระถินเทพา/ณรงค์/ลูกผสม)': 'logs',
+        'ไม้ท่อนกระถิน': 'logs',
 
         'ชานอ้อย': 'raw_chips',
         'ไผ่': 'raw_chips',
@@ -66,6 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'แกลบ': 'raw_chips',
         'ขี้เลื่อยไม้ยางพารา': 'raw_chips',
         'ปีกไม้ยางพารา': 'raw_chips',
+        'ไม้กระถินสับ': 'raw_chips',
+        'กระถิน': 'raw_chips',
 
         'กะลาปาล์ม': 'pks',
 

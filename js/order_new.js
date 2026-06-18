@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         saveBtn.addEventListener('click', async () => {
             // เช็คว่าล็อกอินหรือไม่
             if (!window.supabaseClient) {
-                alert('กรุณาล็อกอินก่อนทำการบันทึกข้อมูล');
+                Swal.fire({ icon: 'warning', title: 'กรุณาล็อกอิน', text: 'กรุณาล็อกอินก่อนทำการบันทึกข้อมูล' });
                 return;
             }
 
@@ -162,14 +162,44 @@ document.addEventListener('DOMContentLoaded', () => {
                 created_at: new Date().toISOString()
             };
 
+            // จัดการข้อมูลสำหรับ Global Market
+            const marketplace = document.getElementById('marketplace') ? document.getElementById('marketplace').value : 'Local Market';
+            if (marketplace === 'Global Market' || marketplace.includes('ตลาดโลก')) {
+                const globalPort = document.getElementById('globalPort') ? document.getElementById('globalPort').value : '';
+                const globalIncoterms = document.getElementById('globalIncoterms') ? document.getElementById('globalIncoterms').value : '';
+                const globalPeriod = document.getElementById('globalPeriod') ? document.getElementById('globalPeriod').value : '';
+                const globalRegion = document.getElementById('globalRegion') ? document.getElementById('globalRegion').value : '';
+
+                if (orderData.order_type && orderData.order_type.toUpperCase() === 'BUY') {
+                    orderData.destination_port = globalPort;
+                    orderData.origin_port = '-'; // ยังไม่ระบุต้นทาง (เป็นฝั่งซื้อรับของ)
+                } else {
+                    orderData.origin_port = globalPort;
+                    orderData.destination_port = '-'; // ยังไม่ระบุปลายทาง (เป็นฝั่งขายส่งของ)
+                }
+                
+                orderData.delivery_terms = globalIncoterms;
+                orderData.delivery_period = globalPeriod;
+                orderData.region = globalRegion;
+                
+                // สำหรับตลาดโลก จะไม่ได้ใช้ที่อยู่ตำบล/อำเภอ/จังหวัดในประเทศ
+                orderData.province = '-';
+                orderData.amphoe = '-';
+                orderData.tambon = '-';
+            } else {
+                orderData.delivery_terms = document.getElementById('contractType') ? document.getElementById('contractType').value : 'EXW'; // ตลาดในประเทศ
+                orderData.origin_port = '-';
+                orderData.destination_port = '-';
+            }
+
             // ตรวจสอบข้อมูลเบื้องต้น
             if (!orderData.order_type || !orderData.product || !orderData.quantity || !orderData.price) {
-                alert("กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน (ประเภทคำสั่ง, สินค้า, ปริมาณ, ราคา)");
+                Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบถ้วน', text: 'กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน (ประเภทคำสั่ง, สินค้า, ปริมาณ, ราคา)' });
                 return;
             }
             
             if (orderData.quantity <= 0 || orderData.price <= 0) {
-                alert("กรุณาระบุปริมาณและราคาให้ถูกต้อง (ต้องมากกว่า 0)");
+                Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ถูกต้อง', text: 'กรุณาระบุปริมาณและราคาให้ถูกต้อง (ต้องมากกว่า 0)' });
                 return;
             }
 
@@ -262,9 +292,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                     const sortedIds = [newOrder.id.substring(0, 8), matchedOrder.id.substring(0, 8)].sort();
                     const contractRef = `MATCH-${sortedIds[0]}-${sortedIds[1]}`.toUpperCase();
-                    alert(` จับคู่สำเร็จทันที! (Immediate Match)\nระบบพบคำสั่งที่ตรงกันในตลาด สถานะของคุณคือ "Matched"\n\n รหัสสัญญาของคุณคือ: ${contractRef}`);
+                    Swal.fire({ icon: 'success', title: 'จับคู่สำเร็จทันที!', html: `ระบบพบคำสั่งที่ตรงกันในตลาด สถานะของคุณคือ "Matched"<br><br><b>รหัสสัญญา:</b> ${contractRef}` });
                 } else {
-                    alert(' บันทึกคำสั่งซื้อขายสำเร็จ!\nคำสั่งของคุณอยู่ในสถานะ "Pending" เพื่อรอการจับคู่');
+                    Swal.fire({ icon: 'success', title: 'บันทึกสำเร็จ!', text: 'คำสั่งของคุณอยู่ในสถานะ "Pending" เพื่อรอการจับคู่' });
                 }
                 
                 // สลับไปแท็บรายการคำสั่งซื้อขายและโหลดข้อมูลใหม่ (ถ้ามี)
@@ -279,13 +309,168 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Save order error:", err);
                 
                 // ถอด Demo Mode ออก และให้แสดง Error ตามจริง 100%
-                alert('เกิดข้อผิดพลาดจากระบบหลังบ้าน (Database Error):\n' + (err.message || 'Unknown Error') + '\n\nข้อมูลยังไม่ถูกบันทึก');
+                Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: (err.message || 'Unknown Error') + '\n\nข้อมูลยังไม่ถูกบันทึก' });
             } finally {
                 saveBtn.innerText = originalText;
                 saveBtn.disabled = false;
             }
         });
     }
+
+
+
+    // === Smart Market Insight Logic (Unified UI) ===
+    const productSelectInput = document.getElementById('productSelect');
+    const provinceSelectInput = document.getElementById('provinceSelect');
+    const smartInsightBox = document.getElementById('smartInsightBox');
+    
+    const triggerInsightLoad = () => {
+        const prod = productSelectInput && productSelectInput.value ? productSelectInput.value.trim() : '';
+        const prov = provinceSelectInput && provinceSelectInput.value ? provinceSelectInput.value.trim() : '';
+        if (prod) {
+            if(typeof window.loadOrderBookInsight === 'function') {
+                window.loadOrderBookInsight(prod, prov);
+            }
+        } else {
+            if(smartInsightBox) smartInsightBox.style.display = 'block';
+            const bidsList = document.getElementById('bidsListInsight');
+            const asksList = document.getElementById('asksListInsight');
+            const labelElement = document.getElementById('insightLocation');
+            if (labelElement) labelElement.innerText = 'รอการระบุสินค้า';
+            if (bidsList) bidsList.innerHTML = '<div style="text-align: center; color: #cbd5e1; padding: 60px 20px; font-family: Inter, sans-serif; font-size: 0.95rem;"><i class="ph ph-magnifying-glass" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.5; display: block;"></i>รอการเลือกสินค้า...</div>';
+            if (asksList) asksList.innerHTML = '<div style="text-align: center; color: #cbd5e1; padding: 60px 20px; font-family: Inter, sans-serif; font-size: 0.95rem;"><i class="ph ph-magnifying-glass" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.5; display: block;"></i>รอการเลือกสินค้า...</div>';
+        }
+    };
+
+    if (productSelectInput) productSelectInput.addEventListener('change', triggerInsightLoad);
+    if (productSelectInput) productSelectInput.addEventListener('input', triggerInsightLoad);
+    if (provinceSelectInput) provinceSelectInput.addEventListener('change', triggerInsightLoad);
+
+    window.loadOrderBookInsight = async function(contractId, province) {
+        const bidsList = document.getElementById('bidsListInsight');
+        const asksList = document.getElementById('asksListInsight');
+        if (!bidsList || !asksList || !window.supabaseClient) return;
+
+        if (smartInsightBox) smartInsightBox.style.display = 'block';
+
+        const labelElement = document.getElementById('insightLocation');
+        if (labelElement) {
+            labelElement.innerText = contractId + ` (ทั่วประเทศ)`;
+        }
+
+        bidsList.innerHTML = '<div style="text-align: center; color: #94a3b8; padding: 40px 20px; font-family: Inter, sans-serif;">กำลังโหลด...</div>';
+        asksList.innerHTML = '<div style="text-align: center; color: #94a3b8; padding: 40px 20px; font-family: Inter, sans-serif;">กำลังโหลด...</div>';
+
+        try {
+            let bidQuery = window.supabaseClient
+                .from('orders')
+                .select('price, quantity, province, created_at')
+                .in('status', ['Open', 'Pending', 'PENDING', 'open', 'pending'])
+                .in('order_type', ['Buy', 'buy', 'BUY', 'เสนอซื้อ'])
+                .eq('product_name', contractId)
+                .order('price', { ascending: false })
+                .order('created_at', { ascending: true })
+                .limit(50);
+
+            let askQuery = window.supabaseClient
+                .from('orders')
+                .select('price, quantity, province, created_at')
+                .in('status', ['Open', 'Pending', 'PENDING', 'open', 'pending'])
+                .in('order_type', ['Sell', 'sell', 'SELL', 'เสนอขาย'])
+                .eq('product_name', contractId)
+                .order('price', { ascending: true })
+                .order('created_at', { ascending: true })
+                .limit(50);
+
+            const { data: bids } = await bidQuery;
+            const { data: asks } = await askQuery;
+
+            const aggregateOrders = (orders) => {
+                if (!orders || orders.length === 0) return [];
+                const grouped = {};
+                orders.forEach(o => {
+                    const p = o.price;
+                    if (!grouped[p]) {
+                        grouped[p] = { price: p, quantity: 0, latest_time: o.created_at, count: 0, provinces: [] };
+                    }
+                    grouped[p].quantity += parseFloat(o.quantity) || 0;
+                    grouped[p].count += 1;
+                    if (o.province && !grouped[p].provinces.includes(o.province)) grouped[p].provinces.push(o.province);
+                    if (new Date(o.created_at) > new Date(grouped[p].latest_time)) {
+                        grouped[p].latest_time = o.created_at;
+                    }
+                });
+                return Object.values(grouped);
+            };
+
+            const aggBids = aggregateOrders(bids).sort((a,b) => b.price - a.price).slice(0, 5);
+            const aggAsks = aggregateOrders(asks).sort((a,b) => a.price - b.price).slice(0, 5);
+
+            if (aggBids && aggBids.length > 0) {
+                bidsList.innerHTML = aggBids.map(b => `<div class="orderbook-row bid-row" data-price="${b.price}" title="${b.provinces.length > 0 ? 'จังหวัด: ' + b.provinces.join(', ') : 'ไม่ระบุ'}" style="position: relative; display: flex; justify-content: space-between; padding: 12px 20px; cursor: pointer; transition: all 0.2s; align-items: center;" onmouseover="if(!this.classList.contains('highlighted-row')) this.style.background='rgba(16,185,129,0.08)'" onmouseout="if(!this.classList.contains('highlighted-row')) this.style.background='transparent'">
+                    <div style="position: absolute; right: 0; top: 0; bottom: 0; width: ${Math.min((b.quantity / 1000) * 100, 100)}%; background: rgba(16,185,129,0.1); z-index: 0;"></div>
+                    <div style="display: flex; flex-direction: column; align-items: flex-start; z-index: 1;">
+                        <span style="color:#64748b; font-size: 1.05rem;">${b.quantity.toLocaleString(undefined, {minimumFractionDigits:0, maximumFractionDigits:2})}</span>
+                        <span style="color:#94a3b8; font-size: 0.75rem; margin-top: 2px;">${b.count > 1 ? `รวม ${b.count} ออเดอร์` : `เวลา ${new Date(b.latest_time).toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'})} น.`}</span>
+                    </div>
+                    <span style="color:#10b981; font-weight:700; z-index: 1; font-size: 1.1rem;">${b.price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                </div>`).join('');
+            } else {
+                bidsList.innerHTML = '<div style="text-align: center; color: #94a3b8; padding: 60px 20px; font-family: Inter, sans-serif; font-size: 1rem;">ไม่มีผู้ตั้งรับซื้อ</div>';
+            }
+
+            if (aggAsks && aggAsks.length > 0) {
+                asksList.innerHTML = aggAsks.map(a => `<div class="orderbook-row ask-row" data-price="${a.price}" title="${a.provinces.length > 0 ? 'จังหวัด: ' + a.provinces.join(', ') : 'ไม่ระบุ'}" style="position: relative; display: flex; justify-content: space-between; padding: 12px 20px; cursor: pointer; transition: all 0.2s; align-items: center;" onmouseover="if(!this.classList.contains('highlighted-row')) this.style.background='rgba(239,68,68,0.08)'" onmouseout="if(!this.classList.contains('highlighted-row')) this.style.background='transparent'">
+                    <div style="position: absolute; left: 0; top: 0; bottom: 0; width: ${Math.min((a.quantity / 1000) * 100, 100)}%; background: rgba(239,68,68,0.1); z-index: 0;"></div>
+                    <span style="color:#ef4444; font-weight:700; z-index: 1; font-size: 1.1rem;">${a.price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                    <div style="display: flex; flex-direction: column; align-items: flex-end; z-index: 1;">
+                        <span style="color:#64748b; font-size: 1.05rem;">${a.quantity.toLocaleString(undefined, {minimumFractionDigits:0, maximumFractionDigits:2})}</span>
+                        <span style="color:#94a3b8; font-size: 0.75rem; margin-top: 2px;">${a.count > 1 ? `รวม ${a.count} ออเดอร์` : `เวลา ${new Date(a.latest_time).toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'})} น.`}</span>
+                    </div>
+                </div>`).join('');
+            } else {
+                asksList.innerHTML = '<div style="text-align: center; color: #94a3b8; padding: 60px 20px; font-family: Inter, sans-serif; font-size: 1rem;">ไม่มีผู้เสนอขาย</div>';
+            }
+            
+            if (typeof window.highlightClosestPrice === 'function') {
+                window.highlightClosestPrice();
+            }
+        } catch(e) {
+            console.error("Error loading insight:", e);
+        }
+    };
+
+    window.highlightClosestPrice = function() {
+        const priceInput = document.getElementById('price');
+        const typeSelect = document.getElementById('orderType');
+        if (!priceInput) return;
+        
+        const userPrice = parseFloat(priceInput.value);
+        const orderType = typeSelect ? typeSelect.value : '';
+        
+        const allRows = document.querySelectorAll('.orderbook-row');
+        allRows.forEach(row => {
+            row.classList.remove('highlighted-row');
+            row.style.boxShadow = 'none';
+            row.style.backgroundColor = 'transparent';
+        });
+        
+        if (isNaN(userPrice) || userPrice <= 0 || allRows.length === 0) return;
+        
+        let targetRows = Array.from(allRows);
+        if (orderType === 'Buy') {
+            targetRows = targetRows.filter(r => r.classList.contains('ask-row') && parseFloat(r.getAttribute('data-price')) <= userPrice);
+        } else if (orderType === 'Sell') {
+            targetRows = targetRows.filter(r => r.classList.contains('bid-row') && parseFloat(r.getAttribute('data-price')) >= userPrice);
+        }
+        
+        if (targetRows.length > 0) {
+            const bestRow = targetRows[0];
+            bestRow.classList.add('highlighted-row');
+            bestRow.style.boxShadow = '0 0 0 2px #f59e0b';
+            bestRow.style.backgroundColor = 'rgba(245, 158, 11, 0.1)';
+        }
+    };
 
     // === โหลดข้อมูลรายการคำสั่งซื้อจริงจาก Supabase ===
     window.loadMyOrders = async function loadMyOrders() {
@@ -520,12 +705,39 @@ document.addEventListener('DOMContentLoaded', () => {
             if (contractsContainer) {
                 contractsContainer.innerHTML = ''; // ลบ Mockup เก่าทิ้ง
                 
-                // กรองเอาเฉพาะออเดอร์ที่จับคู่แล้ว หรือสถานะไม่ใช่ Pending
-                const contracts = orders.filter(o => o.status && o.status.toLowerCase() !== 'pending');
+                // ดึงข้อมูลสัญญาที่เชื่อมโยงกับออเดอร์ของผู้ใช้นี้
+                let contracts = orders.filter(o => o.status && o.status.toLowerCase() !== 'pending');
+                try {
+                    const orderIds = orders.map(o => o.id);
+                    if (orderIds.length > 0) {
+                        const { data: realContracts, error: contractErr } = await window.supabaseClient
+                            .from('contracts')
+                            .select('*')
+                            .in('order_id', orderIds);
+                        
+                        // ถ้ามีข้อมูลจากตาราง contracts จริง ให้ใช้ข้อมูลนั้น (ผสานกับ order เดิมเพื่อเอา UI เก่ามาใช้)
+                        if (!contractErr && realContracts && realContracts.length > 0) {
+                            contracts = realContracts.map(c => {
+                                const origOrder = orders.find(o => o.id === c.order_id) || {};
+                                return {
+                                    ...origOrder,
+                                    contract_id: c.id,
+                                    status: c.status || 'Matched',
+                                    contract_date: c.created_at || origOrder.created_at
+                                };
+                            });
+                        }
+                    }
+                } catch(e) {
+                    console.warn('Could not fetch contracts table, falling back to orders table', e);
+                }
                 
                 // อัปเดตตัวเลขจำนวนสัญญา
-                const contractCountSpan = document.querySelector('#tab-contract span[style*="color: var(--text-muted)"]');
-                if (contractCountSpan) contractCountSpan.innerText = `${contracts.length} contracts`;
+                const contractCountSpan = document.getElementById('contracts-count');
+                if (contractCountSpan) contractCountSpan.innerText = contracts.length;
+                
+                const tabBadge = document.querySelector('button[data-target="tab-contract"] span');
+                if (tabBadge) tabBadge.innerText = contracts.length;
 
                 if (contracts.length === 0) {
                     contractsContainer.innerHTML = '<div style="text-align:center; padding:30px; color:#64748b; grid-column: 1/-1;">ยังไม่มีสัญญาที่จับคู่สำเร็จ</div>';
@@ -748,12 +960,34 @@ document.addEventListener('DOMContentLoaded', () => {
         if(!confirm('ยืนยันจำลองการจับคู่ออเดอร์นี้? (ระบบจะเปลี่ยนสถานะเป็น Matched)')) return;
         
         try {
+            // 1. อัปเดตสถานะในตาราง orders
             const { error } = await window.supabaseClient
                 .from('orders')
                 .update({ status: 'Matched' })
                 .eq('id', orderId);
                 
             if (error) throw error;
+            
+            // 2. ดึงข้อมูลออเดอร์มาเพื่อสร้างสัญญา
+            const { data: orderData } = await window.supabaseClient
+                .from('orders')
+                .select('*')
+                .eq('id', orderId)
+                .single();
+                
+            if (orderData) {
+                // 3. บันทึกลงตาราง contracts
+                await window.supabaseClient
+                    .from('contracts')
+                    .insert([{
+                        order_id: orderId,
+                        product_name: orderData.product_name || orderData.product || '-',
+                        quantity: orderData.quantity || 0,
+                        price: orderData.price || 0,
+                        total_value: (orderData.quantity || 0) * (orderData.price || 0),
+                        status: 'Active'
+                    }]);
+            }
             
             alert('จำลองการจับคู่สำเร็จ! สถานะเป็น Matched แล้ว (คุณสามารถดูเอกสารได้ในแท็บสัญญา และแท็บใบแจ้งหนี้)');
             loadMyOrders();

@@ -1,0 +1,142 @@
+1	สบู่ดำ	พืชพลังงานบนดิน	พลังงานชีวภาพ	EN 14214-Standard	Seeds, Oil	Jatropha plantations	Biodiesel	0.02x
+2	สาหร่ายเคลป์	พืชพลังงานในน้ำ	พลังงานชีวภาพ, โภชนาการสัตว์	Feed Grade / ISO 17225	Raw, Dried	Marine cultivation	Biogas, Animal feed	0.05x
+3	ปอ	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ, เยื่อและกระดาษ	ISO 17225-1-Standard	Bales, Fiber	Crop residue	Paper pulp, Boilers	0.015x
+4	ปออัดเม็ด	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-6-Standard	Pellets	Processed fibers	Industrial heating	0.015x
+5	ใบกระถินสับ	พืชอาหารสัตว์	โภชนาการสัตว์	TAS 8805	Chopped	Leucaena plantations	Ruminant feed	0.01x
+6	ใบกระถินป่น	พืชอาหารสัตว์	โภชนาการสัตว์	TAS 8805	Powder	Dried leaves	Feed additive	0.01x
+7	ใบกระถินอัดเม็ด	พืชอาหารสัตว์	โภชนาการสัตว์	TAS 8805	Pellets	Compressed powder	Livestock feed	0.01x
+8	ไม้ท่อน (กระถินยักษ์)	พืชพลังงานบนดิน	พลังงานชีวภาพ	ISO 17225-1-Standard	Logs, Billets	Energy crop farming	Energy generation	0.01x
+9	ปลายไม้ (เศษวัสดุทำไม้)	ไม้ชีวมวล	พลังงานชีวภาพ	ISO 17225-1-Standard	Chips, Scrap	Sawmills	Biomass power	0.012x
+10	ปุ๋ยมูลสัตว์	ขยะอินทรีย์	พลังงานชีวภาพ, วัสดุฯ	Organic Standard	Solid, Composted	Livestock farms	Biogas, Fertilizer	0.04x
+11	หญ้ามิสแคนทัส	พืชพลังงานบนดิน, พืชอาหารสัตว์	พลังงานชีวภาพ, โภชนาการสัตว์	ISO 17225-1-Standard	Baled, Chopped	Dedicated plantations	Combustion, Bedding	0.02x
+12	หญ้าเนเปียร์	พืชพลังงานบนดิน, พืชอาหารสัตว์	พลังงานชีวภาพ, โภชนาการสัตว์	Biogas Feedstock	Fresh, Silage	Napier plantations	Biogas, Cattle feed	0.02x
+13	หน้าเนเปียร์อัดเม็ด	พืชพลังงานบนดิน, พืชอาหารสัตว์	พลังงานชีวภาพ, โภชนาการสัตว์	ISO 17225-6-Standard	Pellets	Compressed grass	Biomass boilers	0.02x
+14	เปลือกถั่ว	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Loose, Briquettes	Nut processing	Direct combustion	0.015x
+15	ไม้พาเลทรองสินค้า	ไม้ชีวมวล	พลังงานชีวภาพ	Recycled Wood Standard	Shredded, Chips	Warehousing waste	Heating	0.01x
+16	ทะลายปาล์ม	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Shredded	Palm oil mills	Power plants	0.018x
+17	กะลาปาล์ม	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Crushed shells	Palm oil mills	Co-firing	0.025x
+18	ทางปาล์ม	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Chopped	Palm plantations	Combustion	0.015x
+19	ต้นนุ่น	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Raw, Baled	Crop residue	Heating	0.015x
+20	เศษไม้ก่อสร้าง	ไม้ชีวมวล	พลังงานชีวภาพ	Recycled Wood Standard	Chips, Scrap	Construction sites	Biomass boilers	0.012x
+21	กากการกลั่น	ขยะอินทรีย์	พลังงานชีวภาพ	Waste Management Std	Sludge	Distilleries	Biogas	0.03x
+22	แหน	พืชพลังงานในน้ำ	พลังงานชีวภาพ, โภชนาการสัตว์	Feed Grade	Fresh, Dried	Waterways	Feed, Biogas	0.04x
+23	สาหร่ายดูนาลิเอลล่า	พืชพลังงานในน้ำ	พลังงานชีวภาพ, โภชนาฯ, วัสดุฯ	Bio Grade	Extract, Powder	Aquaculture	Biochemicals	0.05x
+24	ไม้ท่อน (ยูคาลิปตัส)	พืชพลังงานบนดิน	พลังงานชีวภาพ	EN 14961-1	Logs	Eucalyptus farms	Power generation	0.01x
+25	ตอไม้ยูคาลิปตัส	ไม้ชีวมวล	พลังงานชีวภาพ	ISO 17225-1-Standard	Shredded roots	Plantations	Industrial heating	0.012x
+26	ไม้ฟืน	ไม้ชีวมวล	พลังงานชีวภาพ	ISO 17225-5-Standard	Split logs	Forestry	Domestic/Ind heating	0.01x
+27	เศษอาหาร	ขยะอินทรีย์	พลังงานชีวภาพ	Organic Waste Std	Mixed wet	Municipal	Biogas	0.04x
+28	เมล็ดผลไม้	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Pits, Seeds	Food processing	Combustion	0.02x
+29	กากผลไม้	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	Organic Residue Std	Sludge, Dried	Juice factories	Biogas, Compost	0.025x
+30	ต้นอ้อยยักษ์	พืชพลังงานบนดิน	พลังงานชีวภาพ	ISO 17225-1-Standard	Baled, Chopped	Energy farms	Power generation	0.02x
+31	สาหร่ายกราซิลาเรีย	พืชพลังงานในน้ำ	พลังงานชีวภาพ, โภชนาการสัตว์	Feed Grade	Dried	Marine farms	Feed additive	0.05x
+32	กรีนไฮโดรเจน	-	พลังงานชีวภาพ	ISO 14687	Gas	Electrolysis plants	Fuel cells	0.00x
+33	ความร้อน	-	พลังงานชีวภาพ	Thermal Energy Std	Thermal	Biomass plants	Industrial use	0.00x
+34	กัญชง	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ, เยื่อและกระดาษ	Fiber Grade	Hurd, Fiber	Hemp farms	Textiles, Heating	0.015x
+35	น้ำมัน HVO	พืชพลังงานบนดิน	พลังงานชีวภาพ	EN 15940	Liquid fuel	Bio-refineries	Transportation	0.01x
+36	แป้งมันฝรั่งเกรดอุตสาหกรรม	ขยะอินทรีย์	พลังงานชีวภาพ	Industrial Starch Std	Powder	Food waste	Bioethanol	0.02x
+37	แป้งมันสำปะหลังหยาบ	ขยะอินทรีย์	พลังงานชีวภาพ	Industrial Grade	Powder	Cassava mills	Ethanol production	0.02x
+38	เปลือกมะพร้าว	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Whole, Husk	Coconut farms	Direct heating	0.015x
+39	เปลือกมะพร้าวสับ	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Chopped	Processors	Boilers	0.015x
+40	เปลือกมะพร้าวอัดเม็ด	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-6-Standard	Pellets	Processors	Power plants	0.015x
+41	ถ่านกะลามะพร้าว	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	Charcoal Standard	Crushed	Kilns	Cooking, Ind heating	0.01x
+42	ถ่านกะลามะพร้าวอัดแท่ง	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	Charcoal Briquette Std	Briquettes	Processing plants	BBQ, Heating	0.01x
+43	กะลามะพร้าว	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Halves, Crushed	Coconut farms	Co-firing	0.02x
+44	ทางมะพร้าว	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Shredded	Plantations	Combustion	0.015x
+45	กากกาแฟ	ขยะอินทรีย์	พลังงานชีวภาพ	Organic Waste Std	Wet grounds	Cafes, Factories	Biogas, Compost	0.03x
+46	กากกาแฟอัดเม็ด	ขยะอินทรีย์	พลังงานชีวภาพ	ISO 17225-6-Standard	Pellets	Processors	Pellet stoves	0.02x
+47	เศษวัสดุก่อสร้าง	ไม้ชีวมวล	พลังงานชีวภาพ	Recycled Wood Std	Mixed scrap	Demolition	Boilers	0.015x
+48	ความเย็น	-	พลังงานชีวภาพ	Cooling Energy Std	Thermal	Tri-generation	HVAC	0.00x
+49	ข้าวโพด	พืชพลังงานบนดิน, พืชอาหารสัตว์	พลังงานชีวภาพ	Feed/Energy Grade	Whole grain	Farms	Ethanol, Feed	0.02x
+50	ซังข้าวโพด	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Whole cob	Farms	Direct heating	0.015x
+51	ซังข้าวโพดสับ	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Chopped	Mills	Boilers	0.015x
+52	ซังข้าวโพดอัดเม็ด	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-6-Standard	Pellets	Processors	Power plants	0.015x
+53	ใบข้าวโพด	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Baled	Farms	Combustion	0.015x
+54	ฟางข้าวโพด	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Baled	Farms	Heating, Bedding	0.015x
+55	ไบโอดีเซล	พืชพลังงานบนดิน	พลังงานชีวภาพ	EN 14214	Liquid	Refineries	Vehicles	0.01x
+56	ไบโอเอทานอล	พืชพลังงานบนดิน	พลังงานชีวภาพ	EN 15376	Liquid	Distilleries	Fuel blending	0.01x
+57	ไบโอแก๊ส	ขยะอินทรีย์	พลังงานชีวภาพ	Biogas Standard	Gas	Digesters	Power gen, Heating	0.005x
+58	ไบโอ LNG	ขยะอินทรีย์	พลังงานชีวภาพ	Bio-LNG Standard	Liquefied Gas	Upgrading plants	Transport	0.005x
+59	ไบโอมีเทน	ขยะอินทรีย์	พลังงานชีวภาพ	Bio-methane Std	Gas	Upgrading plants	Grid injection	0.005x
+60	น้ำมันยางดำ	ขยะอินทรีย์	พลังงานชีวภาพ	Pyrolysis Oil Std	Viscous liquid	Pyrolysis plants	Industrial heating	0.015x
+61	กากเบียร์	ขยะอินทรีย์	พลังงานชีวภาพ	Wet Spends Std	Wet solid	Breweries	Animal feed, Biogas	0.03x
+62	บิวทานอล	พืชพลังงานบนดิน	พลังงานชีวภาพ	Bio-butanol Std	Liquid	Bio-refineries	Solvent, Fuel	0.01x
+63	หัวมันสำปะหลัง	พืชพลังงานบนดิน, พืชอาหารสัตว์	พลังงานชีวภาพ	Feed/Energy Grade	Fresh roots	Farms	Ethanol, Feed	0.02x
+64	ใบมันสำปะหลัง	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	Organic Std	Dried, Chopped	Farms	Feed, Composting	0.015x
+65	เหง้ามัน	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Chunks	Farms	Biomass boilers	0.015x
+66	ต้นมันสำปะหลังสับ	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Chopped	Farms	Heating	0.015x
+67	ต้นมันสำปะหลังอัดเม็ด	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-6-Standard	Pellets	Processors	Power plants	0.015x
+68	ต้นมันสำปะหลัง	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Whole stems	Farms	Combustion	0.015x
+69	เอทานอลจากเซลลูโลส	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	Advanced Biofuel Std	Liquid	Advanced refineries	Transport fuel	0.005x
+70	ถ่าน	ไม้ชีวมวล	พลังงานชีวภาพ	General Charcoal Std	Lumps	Kilns	Cooking, Heating	0.01x
+71	ถ่านอัดเม็ด	ไม้ชีวมวล	พลังงานชีวภาพ	Charcoal Pellet Std	Pellets	Processors	Heating	0.01x
+72	สาหร่ายคลอเรลล่า	พืชพลังงานในน้ำ	พลังงานชีวภาพ, โภชนาฯ, วัสดุฯ	Bio Grade	Powder	Aquaculture	Supplements, Fuel	0.05x
+73	ไม้ท่อน (กระถินเทพา/ณรงค์/ลูกผสม)	พืชพลังงานบนดิน	พลังงานชีวภาพ	ISO 17225-1-Standard	Logs	Acacia plantations	Power generation	0.01x
+74	ชานอ้อย	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ, เยื่อและกระดาษ	ISO 17225-1-Standard	Fibrous residue	Sugar mills	Mill power, Paper	0.015x
+75	ชานอ้อยอัดก้อน	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Bales	Sugar mills	Power plants	0.015x
+76	ชานอ้อยอัดเม็ด	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-6-Standard	Pellets	Processors	Heating	0.015x
+77	ไผ่	พืชพลังงานบนดิน	พลังงานชีวภาพ, เยื่อและกระดาษ	ISO 17225-1-Standard	Poles	Bamboo farms	Construction, Paper	0.01x
+78	ถ่านไผ่	พืชพลังงานบนดิน	พลังงานชีวภาพ	Charcoal Standard	Lumps	Bamboo kilns	Filtration, Heating	0.01x
+79	ถ่านไผ่อัดแท่ง	พืชพลังงานบนดิน	พลังงานชีวภาพ	Briquette Standard	Briquettes	Processors	BBQ	0.01x
+80	ไผ่สับ	พืชพลังงานบนดิน	พลังงานชีวภาพ	ISO 17225-1-Standard	Chips	Farms	Boilers	0.01x
+81	ไผ่อัดเม็ด	พืชพลังงานบนดิน	พลังงานชีวภาพ	ISO 17225-6-Standard	Pellets	Processors	Pellet stoves	0.01x
+82	เปลือกไม้	ไม้ชีวมวล	พลังงานชีวภาพ	ISO 17225-1-Standard	Shredded	Sawmills	Landscaping, Heating	0.015x
+83	ถ่านไบโอชาร์	ไม้ชีวมวล	พลังงานชีวภาพ, วัสดุฯ	Biochar Standard	Granules	Pyrolysis plants	Soil amendment	0.005x
+84	ไบโอ CNG	ขยะอินทรีย์	พลังงานชีวภาพ	Bio-CNG Standard	Compressed gas	Upgrading plants	Vehicles	0.005x
+85	ถ่านหินชีวภาพ (ทำจากวัสดุไม่ใช่ไม้)	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	Biocoal Standard	Pellets, Briquettes	Torrefaction plants	Coal replacement	0.01x
+86	ถ่านหินชีวภาพ (ทำจากไม้)	ไม้ชีวมวล	พลังงานชีวภาพ	Biocoal Standard	Pellets, Briquettes	Torrefaction plants	Coal replacement	0.01x
+87	ถ่านไบโอโค้ก	ไม้ชีวมวล	พลังงานชีวภาพ	Biocoke Standard	Lumps	Advanced kilns	Metallurgy	0.01x
+88	ตอปาล์ม	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Shredded	Plantations	Power plants	0.018x
+89	ต้นปาล์ม	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Trunks	Plantations	Plywood, Heating	0.018x
+90	กระดาษและกระดาษแข็ง	ไม้ชีวมวล	พลังงานชีวภาพ, เยื่อและกระดาษ	Recycling Standard	Baled	Waste management	Recycling, Pellets	0.01x
+91	กากตะกอนเยื่อกระดาษ	ขยะอินทรีย์	พลังงานชีวภาพ	Paper Sludge Std	Sludge	Paper mills	Biogas, Incineration	0.03x
+92	ใบสับปะรด	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	Fiber Grade	Fresh, Dried	Plantations	Textiles, Biogas	0.02x
+93	ไม้ท่อน (สน)	พืชพลังงานบนดิน	พลังงานชีวภาพ	EN 14961-1	Logs	Pine forests	Lumber, Power gen	0.01x
+94	ไม้โป๊ปลาร์	พืชพลังงานบนดิน	พลังงานชีวภาพ	EN 14961-1	Logs	Poplar plantations	Power gen	0.01x
+95	วัสดุรองคอสัตว์ปีก	ขยะอินทรีย์	พลังงานชีวภาพ, วัสดุฯ	Litter Standard	Mixed waste	Poultry farms	Biogas, Fertilizer	0.04x
+96	ไฟฟ้า	-	พลังงานชีวภาพ	Grid Standard	Energy	Biomass plants	Power grid	0.00x
+97	เค้กอุตสาหกรรมน้ำมันพืช	ขยะอินทรีย์	พลังงานชีวภาพ, วัสดุฯ	Press Cake Std	Solid cake	Oil refineries	Feed, Biogas	0.02x
+98	สาหร่ายแดง (โรโดไฟตา)	พืชพลังงานในน้ำ	พลังงานชีวภาพ, โภชนาการสัตว์	Bio/Feed Grade	Dried	Marine farms	Agar, Feed	0.05x
+99	หญ้าริบบิ้น	พืชพลังงานบนดิน, พืชอาหารสัตว์	พลังงานชีวภาพ, โภชนาการสัตว์	Feed Grade	Fresh, Baled	Farms	Forage, Biogas	0.02x
+100	ก๊าซธรรมชาติหมุนเวียน	ขยะอินทรีย์	พลังงานชีวภาพ	RNG Standard	Gas	Biogas upgrading	Grid injection	0.005x
+101	แกลบ	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Loose Husk	Rice mills	Biomass boilers	0.015x
+102	ฟางข้าว	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ, เยื่อฯ, โภชนาฯ	ISO 17225-1-Standard	Baled	Rice farms	Feed, Power plants	0.015x
+103	ฟางข้าวอัดเม็ด	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-6-Standard	Pellets	Processors	Heating	0.015x
+104	ไม้ท่อน (ยางพารา)	พืชพลังงานบนดิน	พลังงานชีวภาพ	EN 14961-1	Logs	Rubber plantations	Furniture, Power	0.01x
+105	ตอไม้ยางพารา	ไม้ชีวมวล	พลังงานชีวภาพ	ISO 17225-1-Standard	Shredded roots	Plantations	Power plants	0.012x
+106	ไม้ป่น	ไม้ชีวมวล	พลังงานชีวภาพ	ISO 17225-1-Standard	Sawdust	Sawmills	Pellets, Briquettes	0.01x
+107	ไม้อัดเม็ด	ไม้ชีวมวล	พลังงานชีวภาพ	ENplus A1/A2	Pellets (6mm-8mm)	Pellet plants	Domestic heating	0.01x
+108	ปีกไม้	ไม้ชีวมวล	พลังงานชีวภาพ	ISO 17225-1-Standard	Slabs	Sawmills	Chipping, Boilers	0.01x
+109	ของเสียสวน	ขยะอินทรีย์	พลังงานชีวภาพ	Green Waste Std	Mixed green	Municipalities	Composting, Biogas	0.03x
+110	มันเส้น	พืชพลังงานบนดิน	พลังงานชีวภาพ	Energy Grade	Chips	Cassava farms	Ethanol	0.02x
+111	เศษตัดแต่งส่วนไม้ตาย	ไม้ชีวมวล	พลังงานชีวภาพ	ISO 17225-1-Standard	Branches	Forestry	Chipping	0.01x
+112	เศษตัดขยายระยะ	ไม้ชีวมวล	พลังงานชีวภาพ	ISO 17225-1-Standard	Thinning wood	Plantations	Boilers	0.01x
+113	เศษตัดแต่งต้นไม้	ไม้ชีวมวล	พลังงานชีวภาพ	Green Waste Std	Branches, Leaves	Urban forestry	Mulch, Biomass	0.015x
+114	สาหร่ายผักกาดทะเล	พืชพลังงานในน้ำ	พลังงานชีวภาพ, โภชนาการสัตว์	Feed Grade	Fresh, Dried	Aquaculture	Feed, Biogas	0.05x
+115	น้ำมันพืชใช้แล้ว	ขยะอินทรีย์	พลังงานชีวภาพ	UCO Standard	Liquid	Restaurants	Biodiesel	0.01x
+116	กากน้ำมันพืช	ขยะอินทรีย์	พลังงานชีวภาพ	Waste Oil Std	Sludge	Refineries	Biodiesel, Biogas	0.02x
+117	ผักตบชวา	พืชพลังงานในน้ำ	พลังงานชีวภาพ, โภชนาการสัตว์	Bio Grade	Fresh, Dried	Waterways	Biogas, Handicrafts	0.04x
+118	ฟางข้าวฟ่าง	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ, โภชนาการสัตว์	Feed Grade	Baled	Sorghum farms	Feed, Heating	0.015x
+119	ต้นข้าวสาลีอัดเม็ด	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-6-Standard	Pellets	Processors	Heating	0.015x
+120	ต้นหลิว	พืชพลังงานบนดิน	พลังงานชีวภาพ	EN 14961-1	Logs, Chips	Willow farms	Power generation	0.01x
+121	ไม้อัดก้อน	ไม้ชีวมวล	พลังงานชีวภาพ	Briquette Standard	Briquettes	Processors	Heating	0.01x
+122	ถ่านไม้	ไม้ชีวมวล	พลังงานชีวภาพ	Charcoal Standard	Lumps	Kilns	BBQ, Heating	0.01x
+123	ถ่านไม้อัดแท่ง	ไม้ชีวมวล	พลังงานชีวภาพ	Briquette Standard	Extruded logs	Processors	BBQ	0.01x
+124	ไม้สับ (เชื้อเพลิง)	ไม้ชีวมวล	พลังงานชีวภาพ	ISO 17225-4-Standard	Wood chips	Sawmills	Power plants	0.01x
+125	ไม้สับ (เยื่อและกระดาษ)	ไม้ชีวมวล	เยื่อและกระดาษ	Pulp Grade Chips	Clean chips	Forestry	Paper pulp	0.01x
+126	ผงไม้บด	ไม้ชีวมวล	พลังงานชีวภาพ	ISO 17225-1-Standard	Powder	Processors	Pellets, WPC	0.01x
+127	ไม้ท่อน (ระบุชนิดไม้ที่หมายเหตุ)	พืชพลังงานบนดิน	พลังงานชีวภาพ	EN 14961-1	Logs	Mixed forestry	Heating, Timber	0.01x
+128	สาหร่ายซาร์กาสซัม	พืชพลังงานในน้ำ	พลังงานชีวภาพ, โภชนาการสัตว์	Bio Grade	Dried	Coastal areas	Fertilizer, Biogas	0.05x
+129	ขี้เลื่อย	ไม้ชีวมวล	พลังงานชีวภาพ	ISO 17225-1-Standard	Sawdust	Furniture plants	Pellets, Briquettes	0.01x
+130	สาหร่ายทะเล	พืชพลังงานในน้ำ	พลังงานชีวภาพ, โภชนาการสัตว์	Feed Grade	Dried	Marine farms	Feed, Extracts	0.05x
+131	กากตะกอนน้ำเสีย	ขยะอินทรีย์	พลังงานชีวภาพ	Sewage Sludge Std	Dried sludge	Treatment plants	Incineration, Biogas	0.04x
+132	ขี้กบ	ไม้ชีวมวล	พลังงานชีวภาพ	ISO 17225-1-Standard	Shavings	Carpentry	Animal bedding, Pellets	0.01x
+133	กากโรงฆ่าสัตว์	ขยะอินทรีย์	พลังงานชีวภาพ	ABPR Standard	Meat/Bone meal	Abattoirs	Biogas, Pet food	0.03x
+134	ข้าวฟ่าง	พืชพลังงานบนดิน, พืชอาหารสัตว์	พลังงานชีวภาพ, โภชนาการสัตว์	Feed Grade	Grain	Farms	Ethanol, Feed	0.02x
+135	ต้นข้าวฟ่างอัดเม็ด	พืชพลังงานบนดิน	พลังงานชีวภาพ	ISO 17225-6-Standard	Pellets	Processors	Heating	0.015x
+136	สาหร่ายสไปรูลินา	พืชพลังงานในน้ำ	พลังงานชีวภาพ, วัสดุฯ, โภชนาฯ	Food/Feed Grade	Powder	Aquaculture	Nutrition, Pigments	0.05x
+137	ไอน้ำ	-	พลังงานชีวภาพ	Thermal Std	Steam	Biomass boilers	Industrial processing	0.00x
+138	อ้อย	พืชพลังงานบนดิน, พืชอาหารสัตว์	พลังงานชีวภาพ, โภชนาการสัตว์	Energy Grade	Canes	Sugarcane farms	Ethanol, Sugar	0.02x
+139	ใบอ้อยมัด	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ, โภชนาการสัตว์	ISO 17225-1-Standard	Bales	Farms	Power plants, Feed	0.015x
+140	ใบอ้อยอัดก้อน	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-1-Standard	Bales	Processors	Power plants	0.015x
+141	ใบอ้อยอัดเม็ด	เศษวัสดุทางการเกษตร	พลังงานชีวภาพ	ISO 17225-6-Standard	Pellets	Processors	Heating	0.015x
+142	หญ้าสวิตช์กราซ	พืชพลังงานบนดิน, พืชอาหารสัตว์	พลังงานชีวภาพ	Energy Crop Std	Baled, Chopped	Dedicated farms	Combustion, Ethanol	0.02x

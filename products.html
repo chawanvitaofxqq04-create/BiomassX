@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -11,8 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-</head>
+    <link rel="stylesheet" href="css/style.css?v=10">
+
+    </head>
 <body style="background-color: #f8fafc;">
 
     <!-- Main Navbar -->
@@ -33,6 +34,17 @@
                 <select class="lang-select">
                     <option value="th">TH</option>
                     <option value="en">EN</option>
+                    <option value="kr">KR</option>
+                    <option value="jp">JP</option>
+                    <option value="vi">VI</option>
+                    <option value="pt">PT</option>
+                    <option value="es">ES</option>
+                    <option value="id">ID</option>
+                    <option value="de">DE</option>
+                    <option value="hi">HI</option>
+                    <option value="fr">FR</option>
+                    <option value="ru">RU</option>
+                    <option value="zh">中文</option>
                 </select>
                 <a href="login.html" class="btn btn-outline" style="border: 2px solid var(--primary-green);">เข้าสู่ระบบ</a>
             </div>
@@ -53,6 +65,16 @@
         </div>
         
         <div class="filter-row">
+            <div class="filter-group">
+                <label>ตลาด</label>
+                <select id="marketFilter">
+                    <option value="">ทุกตลาด</option>
+                    <option value="พลังงานชีวภาพ">พลังงานชีวภาพ (Bio-energy)</option>
+                    <option value="โภชนาการสัตว์">โภชนาการสัตว์ (Animal Feed)</option>
+                    <option value="คาร์บอนเครดิต">คาร์บอนเครดิต (Carbon Credit)</option>
+                    <option value="เยื่อและกระดาษ">เยื่อและกระดาษ (Pulp & Paper)</option>
+                </select>
+            </div>
             <div class="filter-group">
                 <label>หมวดหมู่</label>
                 <select id="categoryFilter">
@@ -77,6 +99,10 @@
             <button id="applyFilterBtn" class="btn btn-primary">ใช้ตัวกรอง</button>
             <button id="clearFilterBtn" class="btn btn-outline">ล้างตัวกรอง</button>
         </div>
+    </div>
+
+    <div style="max-width: 1200px; margin: 0 auto 15px auto; padding: 0 20px;">
+        <span style="color: #64748b; font-size: 0.95rem;"><span id="productCount">0</span> สินค้าที่พบ</span>
     </div>
 
     <!-- Products Grid -->
@@ -106,9 +132,27 @@
         </div>
     </div>
 
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
     <!-- Supabase CDN -->
     <script src="js/supabase.js"></script>
-    <script src="js/main.js?v=4"></script>
-    <script src="js/products.js?v=3"></script>
+    <script src="js/main.js?v=2"></script>
+    <script src="js/products.js?v=10"></script>
+
+<script src="js/translations.js?v=11"></script>
+<script src="js/i18n.js?v=7"></script>
 </body>
 </html>
+

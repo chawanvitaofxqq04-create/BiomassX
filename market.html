@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ข้อมูลตลาด - BiomassX Dashboard</title>
+    <title>ข้อมูลตลาด - BiomassX</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,35 +12,8 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css?v=2">
+
     <style>
-        /* Premium Insights Styles */
-        body { background-color: #f8fafc; font-family: 'Inter', 'Prompt', sans-serif; }
-        .insights-container { display: flex; gap: 24px; padding: 0 20px; max-width: 1400px; margin: 30px auto; }
-        .filters-sidebar { background: white; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); padding: 24px; width: 280px; flex-shrink: 0; align-self: flex-start; }
-        .filters-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 20px; }
-        .filters-header h3 { font-size: 1.15rem; font-weight: 700; color: #0f172a; margin: 0; }
-        .filters-header a { color: var(--primary-green); font-size: 0.85rem; text-decoration: none; font-weight: 600; transition: color 0.2s; }
-        .filters-header a:hover { color: var(--primary-hover); }
-        .filter-section { margin-bottom: 24px; }
-        .filter-section h4 { font-size: 0.9rem; font-weight: 700; color: #475569; margin-bottom: 12px; }
-        .radio-group { display: flex; flex-direction: column; gap: 10px; }
-        .radio-label { display: flex; align-items: center; gap: 8px; color: #334155; font-size: 0.9rem; cursor: pointer; }
-        .select-full { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; background-color: white; color: #334155; font-size: 0.9rem; outline: none; transition: border-color 0.2s; font-family: inherit; }
-        .select-full:focus { border-color: var(--primary-green); box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
-        .insights-main { flex: 1; min-width: 0; }
-        .search-bar-container { display: flex; justify-content: flex-end; align-items: center; margin-bottom: 20px; }
-        .sort-group { display: flex; align-items: center; gap: 10px; background: white; padding: 8px 16px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.01); }
-        .sort-group label { font-size: 0.85rem; font-weight: 600; color: #64748b; }
-        .sort-group select { border: none; background: transparent; font-weight: 600; color: #0f172a; font-size: 0.9rem; outline: none; cursor: pointer; font-family: inherit; }
-        .data-table-container { background: white; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); overflow: hidden; }
-        .data-table { width: 100%; border-collapse: collapse; }
-        .data-table th { background: #f8fafc; padding: 16px 20px; text-align: left; font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e2e8f0; }
-        .data-table td { padding: 16px 20px; font-size: 0.9rem; color: #334155; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
-        .data-table tbody tr { transition: background-color 0.2s; }
-        .data-table tbody tr:hover { background-color: #f8fafc; }
-        .btn-outline { background: white; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 20px; font-weight: 600; transition: all 0.2s; }
-        .btn-outline:hover { background: #f8fafc; border-color: #cbd5e1; }
-        
         /* Order Modal Styles */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -88,6 +61,8 @@
             background: #eff6ff; border-radius: 12px; padding: 25px; text-align: center;
             border: 1px solid #dbeafe; margin-top: 30px;
         }
+        
+        /* New Table Column */
         .btn-view {
             background: var(--primary-green); color: white; border: none; padding: 6px 12px;
             border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer;
@@ -97,16 +72,23 @@
     </style>
 
     </head>
-<body style="background-color: #f8fafc;">
+<body>
 
-    <!-- Main Navbar (Dashboard Version) -->
+    <!-- Main Navbar -->
     <nav class="navbar">
         <div class="container nav-content">
             <a href="index.html" class="logo">
                 <span class="logo-icon">X</span> BiomassX
             </a>
             
-            <div class="nav-actions" style="margin-left: 20px;">
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">หน้าแรก</a>
+                <a href="market.html" class="nav-link active">ข้อมูลตลาด</a>
+                <a href="analytics.html" class="nav-link">วิเคราะห์ตลาด</a>
+                <a href="products.html" class="nav-link">ข้อมูลสินค้า</a>
+            </div>
+
+            <div class="nav-actions">
                 <select class="lang-select">
                     <option value="th">TH</option>
                     <option value="en">EN</option>
@@ -122,42 +104,24 @@
                     <option value="ru">RU</option>
                     <option value="zh">中文</option>
                 </select>
-            </div>
-
-            <div class="nav-actions" style="margin-left: auto;">
-                <div class="dashboard-user-info">
-                    <span id="userNameDisplay" class="company-name" style="font-weight: 600; color: #0f172a;">กำลังโหลดข้อมูล...</span>
-                    <a href="profile.html" class="btn btn-outline" style="display: flex; align-items: center; gap: 5px;">
-                         โปรไฟล์
-                    </a>
-                    <a href="#" id="logoutBtn" class="btn btn-danger" style="display: flex; align-items: center; gap: 5px;">
-                         ออกจากระบบ
-                    </a>
-                </div>
+                <a href="login.html" class="btn btn-outline" style="border: 2px solid var(--primary-green);">เข้าสู่ระบบ</a>
             </div>
         </div>
     </nav>
 
-    <!-- Secondary Navbar (Dashboard menu) -->
-    <div class="dashboard-nav-secondary">
-        <div class="container dashboard-nav-links">
-            <a href="dashboard.html" class="dashboard-nav-link">
-                 หน้าแรก
-            </a>
-            <a href="order.html" class="dashboard-nav-link">
-                 ซื้อขายสินค้า
-            </a>
-            <a href="invoices.html" class="dashboard-nav-link">
-                 ใบแจ้งหนี้
-            </a>
-            <a href="dashboard-insights.html" class="dashboard-nav-link active">
-                 ข้อมูลตลาด
-            </a>
+    <!-- Hero Section -->
+    <section class="hero" style="max-width: 1400px;">
+        <h1>ซื้อขาย ชีวมวล เชื้อเพลิง และพลังงานชีวภาพ แบบประมูลสองฝั่ง</h1>
+        <p>โอกาสเข้าถึงตลาดท้องถิ่นและตลาดโลก เพิ่มโอกาสในการซื้อขาย เสริมสร้างอนาคตพลังงานที่ยั่งยืน</p>
+        
+        <div class="hero-buttons">
+            <a href="register.html" class="btn btn-primary" style="font-size: 1.1rem; padding: 12px 30px;">เริ่มต้น - สมัครสมาชิก</a>
+            <a href="login.html" class="btn btn-outline" style="font-size: 1.1rem; padding: 12px 30px;">สมาชิก? เข้าสู่ระบบ</a>
         </div>
-    </div>
+    </section>
 
-    <!-- Page Content (Without Hero Banner) -->
-    <div class="insights-container" style="margin-top: 30px;">
+    <!-- Page Content -->
+    <div class="insights-container">
         
         <!-- Sidebar Filters -->
         <aside class="filters-sidebar">
@@ -170,13 +134,13 @@
                 <h4>คำสั่งซื้อขาย</h4>
                 <div class="radio-group">
                     <label class="radio-label">
-                        <input type="radio" name="order_type" checked> คำสั่งทั้งหมด
+                        <input type="radio" name="order_type" value="all" checked> คำสั่งทั้งหมด
                     </label>
                     <label class="radio-label">
-                        <input type="radio" name="order_type"> คำสั่งซื้อ
+                        <input type="radio" name="order_type" value="Buy"> คำสั่งซื้อ
                     </label>
                     <label class="radio-label">
-                        <input type="radio" name="order_type"> คำสั่งขาย
+                        <input type="radio" name="order_type" value="Sell"> คำสั่งขาย
                     </label>
                 </div>
             </div>
@@ -185,9 +149,13 @@
                 <h4>สินค้า</h4>
                 <select class="select-full">
                     <option>สินค้าทั้งหมด</option>
-                    <option>Wood charcoal briquettes</option>
-                    <option>Coconut carp chips</option>
-                    <option>Palm empty fruit bunches</option>
+                    <option>กระถิน</option>
+                    <option>ไม้กระถินสับ</option>
+                    <option>ไม้ท่อนกระถิน</option>
+                    <option>ไม้สับ (ทั่วไป)</option>
+                    <option>ขี้เลื่อย</option>
+                    <option>กะลาปาล์ม</option>
+                    <option>ขี้เถ้าแกลบ</option>
                 </select>
             </div>
 
@@ -237,8 +205,8 @@
                             <th>สินค้า</th>
                             <th>ปริมาณ</th>
                             <th>ตลาด</th>
-                            <th>ต้นทาง</th>
-                            <th>ปลายทาง</th>
+                            <th>ท่าเรือต้นทาง</th>
+                            <th>ท่าเรือปลายทาง</th>
                             <th>เงื่อนไขส่งมอบ</th>
                             <th>วันที่</th>
                             <th>รายละเอียด</th>
@@ -248,7 +216,8 @@
                         <tr>
                             <td colspan="8" style="text-align: center; padding: 50px 20px; color: var(--text-muted);">
                                 <div style="font-size: 2.5rem; margin-bottom: 15px; opacity: 0.4;"></div>
-                                <div style="font-size: 1.1rem; font-weight: 500;">กำลังโหลดข้อมูล...</div>
+                                <div style="font-size: 1.1rem; font-weight: 500;">ยังไม่มีข้อมูลคำสั่งซื้อขายในตลาด</div>
+                                <div style="font-size: 0.9rem; margin-top: 5px;">ข้อมูลจะแสดงเมื่อมีการสร้างคำสั่งซื้อหรือขายใหม่</div>
                             </td>
                         </tr>
                     </tbody>
@@ -338,11 +307,19 @@
                     </div>
                 </div>
 
-                <div class="modal-section" id="modalPriceSection" style="margin-top: 20px;">
-                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; text-align: center;">
-                        <h3 style="font-size: 1rem; color: #475569; margin-bottom: 5px;">เสนอราคาที่ (Target Price)</h3>
-                        <div id="modalPrice" style="font-size: 2rem; font-weight: 700; color: var(--primary-green);">-</div>
+                <div class="modal-cta">
+                    <div style="font-weight: 700; color: #1e40af; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        💰 Interested in this order?
                     </div>
+                    <p style="color: #3b82f6; font-size: 0.95rem; margin-bottom: 20px;">Register or login to view pricing and place your order to match this demand!</p>
+                    <div style="display: flex; justify-content: center; gap: 15px;">
+                        <a href="register.html" class="btn btn-primary" style="padding: 10px 24px;">Create Account</a>
+                        <a href="login.html" class="btn btn-outline" style="padding: 10px 24px; border: 2px solid var(--primary-green);">Login</a>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px; font-size: 0.85rem; color: #64748b;">
+                    💡 <b>Note:</b> Price information is available to registered users. <a href="register.html" style="color: var(--primary-green); text-decoration: none;">Create an account</a> or <a href="login.html" style="color: var(--primary-green); text-decoration: none;">login</a> to view full details.
                 </div>
             </div>
         </div>
@@ -363,10 +340,9 @@
     </footer>
 
     <!-- Supabase CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase.js"></script>
     <script src="js/main.js?v=2"></script>
-    <script src="js/market.js?v=8"></script>
+    <script src="js/market.js?v=1"></script>
 
 <script src="js/translations.js?v=11"></script>
 <script src="js/i18n.js?v=7"></script>

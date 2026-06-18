@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -11,17 +11,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-</head>
+    <link rel="stylesheet" href="css/style.css?v=2">
+
+    </head>
 <body>
 
     <div class="auth-container" style="padding: 40px 20px;">
-        <div class="auth-card" style="max-width: 550px;">
-            <a href="index.html" class="auth-logo">
-                <span class="logo-icon">X</span> BiomassX
-            </a>
-            
-            <h2 class="auth-title">สมัครสมาชิกใหม่</h2>
+        <div class="auth-card" style="max-width: 600px; padding: 40px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-radius: 16px;">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h1 style="color: var(--primary-green); font-size: 2.2rem; font-weight: 800; margin-bottom: 15px;">BiomassX</h1>
+                <h2 style="color: var(--text-main); font-size: 1.6rem; font-weight: 700; margin-bottom: 10px;">สร้างบัญชีของคุณ</h2>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">เข้าร่วมแพลตฟอร์มแลกเปลี่ยนพลังงานชีวภาพระดับโลก</p>
+            </div>
             
             <div id="registerSuccess" style="display: none; background-color: var(--light-green); color: var(--primary-green); padding: 10px; border-radius: 6px; margin-bottom: 20px; font-size: 0.9rem; text-align: center; border: 1px solid var(--primary-green);">
                 สมัครสมาชิกสำเร็จ! กำลังพากลับไปหน้าเข้าสู่ระบบ...
@@ -33,48 +34,99 @@
             <form id="registerForm">
                 <div class="flex gap-4">
                     <div class="form-group" style="flex: 1;">
-                        <label class="form-label" for="firstname">ชื่อ</label>
-                        <input type="text" id="firstname" class="form-control" placeholder="ชื่อจริง" required>
+                        <label class="form-label" for="firstname" style="display: flex; align-items: center; gap: 8px; color: var(--text-main); font-weight: 600;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            ชื่อ
+                        </label>
+                        <input type="text" id="firstname" class="form-control" placeholder="กรอกชื่อของคุณ" required style="border-radius: 8px; padding: 14px; background: #f8fafc;">
                     </div>
                     <div class="form-group" style="flex: 1;">
-                        <label class="form-label" for="lastname">นามสกุล</label>
-                        <input type="text" id="lastname" class="form-control" placeholder="นามสกุล" required>
+                        <label class="form-label" for="lastname" style="display: flex; align-items: center; gap: 8px; color: var(--text-main); font-weight: 600;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            นามสกุล
+                        </label>
+                        <input type="text" id="lastname" class="form-control" placeholder="กรอกนามสกุลของคุณ" required style="border-radius: 8px; padding: 14px; background: #f8fafc;">
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="email">อีเมล (Email)</label>
-                    <input type="email" id="email" class="form-control" placeholder="กรอกอีเมลของคุณ" required>
+                    <label class="form-label" for="org" style="display: flex; align-items: center; gap: 8px; color: var(--text-main); font-weight: 600;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M12 6h.01"></path><path d="M12 10h.01"></path><path d="M12 14h.01"></path><path d="M16 10h.01"></path><path d="M16 14h.01"></path><path d="M8 10h.01"></path><path d="M8 14h.01"></path></svg>
+                        ชื่อองค์กร (ไม่บังคับ)
+                    </label>
+                    <input type="text" id="org" class="form-control" placeholder="บริษัทหรือองค์กรของคุณ" style="border-radius: 8px; padding: 14px; background: #f8fafc;">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="password">รหัสผ่าน (Password)</label>
-                    <input type="password" id="password" class="form-control" placeholder="ตั้งรหัสผ่านอย่างน้อย 8 ตัวอักษร" required>
+                    <label class="form-label" for="email" style="display: flex; align-items: center; gap: 8px; color: var(--text-main); font-weight: 600;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        อีเมล
+                    </label>
+                    <input type="email" id="email" class="form-control" placeholder="your.email@example.com" required style="border-radius: 8px; padding: 14px; background: #f8fafc;">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="phone" style="display: flex; align-items: center; gap: 8px; color: var(--text-main); font-weight: 600;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                        เบอร์โทรศัพท์
+                    </label>
+                    <input type="tel" id="phone" class="form-control" placeholder="+66 959263663" required style="border-radius: 8px; padding: 14px; background: #f8fafc;">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="confirm-password">ยืนยันรหัสผ่าน (Confirm Password)</label>
-                    <input type="password" id="confirm-password" class="form-control" placeholder="กรอกรหัสผ่านอีกครั้ง" required>
-                </div>
-                
-                <div class="auth-links" style="margin-top: 10px;">
-                    <label style="display: flex; align-items: start; gap: 8px; cursor: pointer; font-size: 0.85rem; color: var(--text-muted);">
-                        <input type="checkbox" required style="margin-top: 3px;"> 
-                        <span>ฉันยอมรับ <a href="#">เงื่อนไขการให้บริการ</a> และ <a href="#">นโยบายความเป็นส่วนตัว</a> ของ BiomassX</span>
+                    <label class="form-label" for="taxid" style="display: flex; align-items: center; gap: 8px; color: var(--text-main); font-weight: 600;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                        หมายเลขประจำตัว (ไม่บังคับ)
                     </label>
+                    <input type="text" id="taxid" class="form-control" placeholder="บัตรประชาชนหรือเลขทะเบียนผู้เสียภาษี" style="border-radius: 8px; padding: 14px; background: #f8fafc;">
                 </div>
                 
-                <button type="submit" class="btn btn-primary btn-full">สมัครสมาชิก</button>
+                <div class="form-group">
+                    <label class="form-label" for="password" style="display: flex; align-items: center; gap: 8px; color: var(--text-main); font-weight: 600;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        รหัสผ่าน
+                    </label>
+                    <input type="password" id="password" class="form-control" placeholder="สร้างรหัสผ่านที่แข็งแกร่ง" required style="border-radius: 8px; padding: 14px; background: #f8fafc;">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="confirm-password" style="display: flex; align-items: center; gap: 8px; color: var(--text-main); font-weight: 600;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        ยืนยันรหัสผ่าน
+                    </label>
+                    <input type="password" id="confirm-password" class="form-control" placeholder="ยืนยันรหัสผ่านของคุณ" required style="border-radius: 8px; padding: 14px; background: #f8fafc;">
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full" style="padding: 16px; font-size: 1.15rem; font-weight: 700; border-radius: 8px; margin-top: 30px; margin-bottom: 40px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);">สมัครสมาชิก</button>
             </form>
             
-            <div class="auth-footer">
-                มีบัญชีผู้ใช้อยู่แล้ว? <a href="login.html">เข้าสู่ระบบ</a>
+            <div style="border-top: 1px solid #e2e8f0; margin-top: 20px; padding-top: 30px; text-align: center; font-size: 0.95rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 12px;">
+                <div>มีบัญชีอยู่แล้ว? <a href="login.html" style="color: var(--primary-green); font-weight: 600; text-decoration: none;">เข้าสู่ระบบที่นี่</a></div>
+                <a href="index.html" style="color: var(--primary-green); font-weight: 500; text-decoration: none;">&larr; กลับไปหน้าแรก</a>
             </div>
         </div>
     </div>
 
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
     <!-- Supabase CDN -->
     <script src="js/supabase.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=2"></script>
+
+<script src="js/translations.js?v=11"></script>
+<script src="js/i18n.js?v=7"></script>
 </body>
 </html>
+

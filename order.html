@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -10,8 +10,25 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Icons -->
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=2">
     <style>
         .product-grid {
             display: grid;
@@ -55,7 +72,7 @@
         }
         .badge-raw {
             background-color: #ecfdf5;
-            color: #059669;
+            color: var(--primary-hover);
         }
         .badge-fuel {
             background-color: #dcfce7;
@@ -64,16 +81,50 @@
         .btn-outline { background: white; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 20px; font-weight: 600; transition: all 0.2s; }
         .btn-outline:hover { background: #f8fafc; border-color: #cbd5e1; }
     </style>
-</head>
+    <!-- SweetAlert2 -->
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    </head>
 <body style="background-color: #f8fafc;">
 
     <div class="order-container">
         
         <!-- Top Header -->
-        <div class="order-header-top" style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 20px 30px; border-radius: 16px; margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); border: 1px solid #e2e8f0;">
-            <a href="dashboard.html" class="logo" style="text-decoration: none; font-size: 1.5rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 8px;">
-                <span style="color: #10b981;">X</span> BiomassX
-            </a>
+        <div class="order-header-top" style="max-width: 750px; margin: 0 auto 30px auto; display: flex; justify-content: space-between; align-items: center; background: white; padding: 20px 30px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); border: 1px solid #e2e8f0;">
+            <div style="display: flex; align-items: center;">
+                <a href="dashboard.html" class="logo" style="text-decoration: none; font-size: 1.5rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+                    <span style="color: var(--primary-green);">X</span> BiomassX
+                </a>
+                <select class="lang-select" style="margin-left: 20px; padding: 6px 10px; border-radius: 8px; border: 1px solid #e2e8f0; outline: none; background: white; font-family: 'Inter', sans-serif; cursor: pointer;">
+                    <option value="th">TH</option>
+                    <option value="en">EN</option>
+                    <option value="ko">KR</option>
+                    <option value="ja">JP</option>
+                    <option value="vi">VI</option>
+                    <option value="pt">PT</option>
+                    <option value="es">ES</option>
+                    <option value="id">ID</option>
+                    <option value="de">DE</option>
+                    <option value="hi">HI</option>
+                    <option value="fr">FR</option>
+                    <option value="ru">RU</option>
+                    <option value="zh-CN">中文</option>
+                </select>
+            </div>
             
             <div class="dashboard-user-info" style="display: flex; gap: 15px; align-items: center;">
                 <span id="userNameDisplay" class="company-name" style="font-weight: 600; color: #0f172a;">กำลังโหลดข้อมูล...</span>
@@ -83,230 +134,268 @@
             </div>
         </div>
 
-        <div class="order-title" style="margin-bottom: 25px;">
+        <div class="order-title" style="margin-bottom: 25px; text-align: center;">
             <h1 style="font-size: 2rem; font-weight: 800; color: #0f172a; margin: 0;">คำสั่งซื้อขายของฉัน</h1>
             <p style="color: #64748b; margin-top: 5px; font-size: 1.05rem;">จัดการคำสั่งซื้อขายและสัญญาทั้งหมดของคุณ</p>
         </div>
 
         <!-- Tabs -->
         <style>
-            .order-tabs { display: flex; gap: 10px; margin-bottom: 30px; background: white; padding: 10px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; width: fit-content; }
+            .order-tabs { display: flex; gap: 10px; margin-bottom: 30px; background: white; padding: 10px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; width: fit-content; margin-left: auto; margin-right: auto; }
             .order-tab { background: transparent; border: none; font-size: 1.05rem; font-weight: 600; color: #64748b; padding: 12px 24px; cursor: pointer; border-radius: 8px; transition: all 0.2s; }
             .order-tab:hover { background: #f8fafc; color: #334155; }
-            .order-tab.active { background: #10b981; color: white; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2); }
+            .order-tab.active { background: var(--primary-green); color: white; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2); }
         </style>
         <div class="order-tabs">
             <button class="order-tab active" data-target="tab-create">สร้างคำสั่งซื้อขาย</button>
-            <button class="order-tab" data-target="tab-list">รายการคำสั่งซื้อขาย</button>
-            <button class="order-tab" data-target="tab-contract">รายการสัญญาซื้อขาย</button>
+            <button class="order-tab" data-target="tab-list">รายการคำสั่งซื้อของฉัน</button>
+            <button class="order-tab" data-target="tab-contract">รายการสัญญาซื้อขาย <span style="background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; margin-left: 5px;">0</span></button>
         </div>
 
         <!-- Tab 1: Create Order -->
         <div class="tab-content active" id="tab-create">
-            <h2 style="margin-bottom: 20px;">สร้างคำสั่งซื้อขายใหม่</h2>
-            
-            <div class="form-grid">
-                <div class="form-group">
-                    <label>คำสั่งซื้อขาย</label>
-                    <select id="orderType">
-                        <option value="">Select Order Type</option>
-                        <option value="Buy">Buy Order (เสนอซื้อ)</option>
-                        <option value="Sell">Sell Order (เสนอขาย)</option>
-                    </select>
-                </div>
-                <div class="form-group" style="grid-column: span 2;">
-                    <label>สินค้าชีวมวล</label>
-                    <input type="text" id="productSelect" list="productOptions" placeholder="พิมพ์ค้นหา หรือเลือกสินค้าชีวมวล...">
-                    <datalist id="productOptions">
-                        <option value="ไม้ท่อน (กระถินเทพา/ณรงค์/ลูกผสม)"></option>
-                        <option value="ชานอ้อย"></option>
-                        <option value="ชานอ้อยอัดก้อน"></option>
-                        <option value="ชานอ้อยอัดเม็ด"></option>
-                        <option value="ไผ่"></option>
-                        <option value="ถ่านไผ่"></option>
-                        <option value="ถ่านไม้อัดแท่ง"></option>
-                        <option value="ไผ่สับ"></option>
-                        <option value="ไผ่อัดเม็ด"></option>
-                        <option value="เปลือกไม้"></option>
-                        <option value="ไบโอ CNG"></option>
-                        <option value="ไบโอดีเซล"></option>
-                        <option value="ไบโอเอทานอล"></option>
-                        <option value="ไบโอ LNG"></option>
-                        <option value="ถ่านไบโอชาร์"></option>
-                        <option value="ถ่านหินชีวภาพ (ทำจากวัสดุไม่ใช่ไม้)"></option>
-                        <option value="ถ่านหินชีวภาพ (ทำจากไม้)"></option>
-                        <option value="เปลือกไม้อัดเม็ด"></option>
-                        <option value="แกลบ"></option>
-                        <option value="แกลบอัดแท่ง"></option>
-                        <option value="แกลบอัดเม็ด"></option>
-                        <option value="กะลาปาล์ม"></option>
-                        <option value="ขี้เลื่อยไม้ยางพารา"></option>
-                        <option value="ปีกไม้ยางพารา"></option>
-                    </datalist>
-                </div>
-                
-                <!-- Dynamic Specs Container Removed as requested -->
-                
-                <div class="form-group">
-                    <label for="quantity">ปริมาณ (Quantity)</label>
-                    <input type="number" id="quantity" placeholder="ระบุจำนวน" min="1" required>
-                </div>
-                <div class="form-group">
-                    <label for="unit">หน่วย (Unit)</label>
-                    <select id="unit" required>
-                        <option value="MT">MT (Metric Tons)</option>
-                        <option value="KG">KG (Kilograms)</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="price">ราคาเสนอ (Price) ต่อหน่วย</label>
-                    <input type="number" id="price" placeholder="ระบุราคา" min="1" required>
-                </div>
-                <div class="form-group">
-                    <label>สกุลเงิน</label>
-                    <select id="currency">
-                        <option value="">Select Currency</option>
-                        <option value="THB">THB (บาท)</option>
-                        <option value="USD">USD (ดอลลาร์)</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>ตลาด</label>
-                    <select id="marketplace">
-                        <option value="">Select Marketplace</option>
-                        <option value="ตลาดท้องถิ่น (ในประเทศ)">ตลาดท้องถิ่น (ในประเทศ)</option>
-                        <option value="ตลาดโลก (นำเข้า/ส่งออก)">ตลาดโลก (นำเข้า/ส่งออก)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>คุณภาพ</label>
-                    <select id="quality">
-                        <option value="">Select Quality</option>
-                        <option value="EN 14961-4, P16">Standard: EN 14961-4, Grade: P16</option>
-                        <option value="EN 14961-4, P45">Standard: EN 14961-4, Grade: P45</option>
-                        <option value="EN 14961-4, P63">Standard: EN 14961-4, Grade: P63</option>
-                        <option value="EN 14961-4, P100">Standard: EN 14961-4, Grade: P100</option>
-                        <option value="ISO 17225-4, P16S">Standard: ISO 17225-4, Grade: P16S</option>
-                        <option value="ISO 17225-4, P31S">Standard: ISO 17225-4, Grade: P31S</option>
-                        <option value="ISO 17225-4, P45S">Standard: ISO 17225-4, Grade: P45S</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>ประเภทสัญญา</label>
-                    <select id="contractType">
-                        <option value="">Select Contract Type</option>
-                        <option value="ระยะสั้น">สัญญาซื้อขายระยะสั้น</option>
-                        <option value="ระยะยาว">สัญญาซื้อขายระยะยาว</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>เงื่อนไขชำระเงิน</label>
-                    <select id="paymentTerm">
-                        <option value="">Select Payment Term</option>
-                        <option value="COD">จ่ายสดเมื่อส่งมอบสินค้า (COD)</option>
-                        <option value="L/C">ตราสารเครดิต (L/C)</option>
-                        <option value="เครดิต 30 วัน">เครดิต 30 วัน</option>
-                        <option value="เครดิต 45 วัน">เครดิต 45 วัน</option>
-                        <option value="เครดิต 60 วัน">เครดิต 60 วัน</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>การบรรจุภัณฑ์</label>
-                    <select id="packing">
-                        <option value="">Select Packing</option>
-                        <option value="กระสอบใหญ่">กระสอบใหญ่</option>
-                        <option value="เทกอง">เทกอง</option>
-                        <option value="กระสอบเล็ก">กระสอบเล็ก</option>
-                    </select>
-                </div>
-            </div>
-            
-            <!-- Location Details Box -->
-            <div class="location-box">
-                <div class="location-title-area">
-                    <div class="location-icon-text">
-                        <span style="color: #ef4444;"></span> Local<br>Location<br>Details
-                    </div>
-                    <div class="location-main-title">
-                        จุดส่งมอบ<br>สินค้าใน<br>ประเทศ
-                    </div>
-                </div>
-                
-                <div class="location-fields">
-                    <div class="form-group" style="flex: 2;">
-                        <label>ประเทศ</label>
-                        <select class="country-select">
-                            <option>ไทย</option>
-                        </select>
-                    </div>
-                    <div class="form-group" style="flex: 3;">
-                        <label>จังหวัด</label>
-                        <select class="province-select">
-                            <option>Select Province</option>
-                            <option>กรุงเทพมหานคร</option>
-                            <option>เชียงใหม่</option>
-                            <option>ขอนแก่น</option>
-                            <option>ชลบุรี</option>
-                            <option>ระยอง</option>
-                        </select>
-                    </div>
-                    <div class="form-group" style="flex: 1;">
-                        <label>อำเภอ</label>
-                        <select class="small-select">
-                            <option>เลือก</option>
-                        </select>
-                    </div>
-                    <div class="form-group" style="flex: 1;">
-                        <label>ตำบล</label>
-                        <select class="small-select">
-                            <option>เลือก</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
 
-            <button id="saveOrderBtn" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 1.1rem; margin-top: 10px;">บันทึกคำสั่งซื้อขาย</button>
+            <div style="max-width: 750px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+                <h2 style="margin-bottom: 20px; text-align: center;">สร้างคำสั่งซื้อขายใหม่</h2>
+                
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>คำสั่งซื้อขาย</label>
+                        <select id="orderType">
+                            <option value="">Select Order Type</option>
+                            <option value="Buy">Buy Order (เสนอซื้อ)</option>
+                            <option value="Sell">Sell Order (เสนอขาย)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>สินค้าชีวมวล</label>
+                        <input type="text" id="productSelect" list="productOptions" placeholder="พิมพ์ค้นหา หรือเลือกสินค้าชีวมวล...">
+                        <datalist id="productOptions"></datalist>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="quantity">ปริมาณ (Quantity)</label>
+                        <input type="number" id="quantity" placeholder="ระบุจำนวน" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="unit">หน่วย (Unit)</label>
+                        <select id="unit" required>
+                            <option value="MT">MT (Metric Tons)</option>
+                            <option value="KG">KG (Kilograms)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="price">ราคาเสนอ (Price) ต่อหน่วย</label>
+                        <input type="number" id="price" placeholder="ระบุราคา" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>สกุลเงิน</label>
+                        <select id="currency">
+                            <option value="">Select Currency</option>
+                            <option value="THB">THB (บาท)</option>
+                            <option value="USD">USD (ดอลลาร์)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>ตลาด</label>
+                        <select id="marketplace">
+                            <option value="">Select Marketplace</option>
+                            <option value="ตลาดท้องถิ่น (ในประเทศ)">ตลาดท้องถิ่น (ในประเทศ)</option>
+                            <option value="ตลาดโลก (นำเข้า/ส่งออก)">ตลาดโลก (นำเข้า/ส่งออก)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>คุณภาพ</label>
+                        <select id="quality">
+                            <option value="">Select Quality</option>
+                            <option value="EN 14961-4, P16">Standard: EN 14961-4, Grade: P16</option>
+                            <option value="EN 14961-4, P45">Standard: EN 14961-4, Grade: P45</option>
+                            <option value="EN 14961-4, P63">Standard: EN 14961-4, Grade: P63</option>
+                            <option value="EN 14961-4, P100">Standard: EN 14961-4, Grade: P100</option>
+                            <option value="ISO 17225-4, P16S">Standard: ISO 17225-4, Grade: P16S</option>
+                            <option value="ISO 17225-4, P31S">Standard: ISO 17225-4, Grade: P31S</option>
+                            <option value="ISO 17225-4, P45S">Standard: ISO 17225-4, Grade: P45S</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>ประเภทสัญญา</label>
+                        <select id="contractType">
+                            <option value="">Select Contract Type</option>
+                            <option value="ระยะสั้น">สัญญาซื้อขายระยะสั้น</option>
+                            <option value="ระยะยาว">สัญญาซื้อขายระยะยาว</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>เงื่อนไขชำระเงิน</label>
+                        <select id="paymentTerm">
+                            <option value="">Select Payment Term</option>
+                            <option value="COD">จ่ายสดเมื่อส่งมอบสินค้า (COD)</option>
+                            <option value="L/C">ตราสารเครดิต (L/C)</option>
+                            <option value="เครดิต 30 วัน">เครดิต 30 วัน</option>
+                            <option value="เครดิต 45 วัน">เครดิต 45 วัน</option>
+                            <option value="เครดิต 60 วัน">เครดิต 60 วัน</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>การบรรจุภัณฑ์</label>
+                        <select id="packing">
+                            <option value="">Select Packing</option>
+                            <option value="กระสอบใหญ่">กระสอบใหญ่</option>
+                            <option value="กระสอบเล็ก"></option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Local Location Box -->
+                <div class="location-box" id="localLocationBox">
+                    <div class="location-title-area">
+                        <div class="location-icon-text">
+                            <span style="color: #ef4444;"></span> Local<br>Location<br>Details
+                        </div>
+                        <div class="location-main-title">
+                            จุดส่งมอบ<br>สินค้าใน<br>ประเทศ
+                        </div>
+                    </div>
+                    
+                    <div class="location-fields" style="flex: 1; display: flex; flex-wrap: wrap; gap: 15px; padding: 15px; box-sizing: border-box;">
+                        <div class="form-group" style="flex: 1 1 80px; min-width: 0; margin-bottom: 0;">
+                            <label>ประเทศ</label>
+                            <select class="country-select" style="width: 100%; min-width: 0; box-sizing: border-box;">
+                                <option>ไทย</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="flex: 2 1 140px; min-width: 0; margin-bottom: 0;">
+                            <label>จังหวัด</label>
+                            <select class="province-select" id="provinceSelect" style="width: 100%; min-width: 0; box-sizing: border-box;">
+                                <option>Select Province</option>
+                                <option>กรุงเทพมหานคร</option>
+                                <option>เชียงใหม่</option>
+                                <option>ขอนแก่น</option>
+                                <option>ชลบุรี</option>
+                                <option>ระยอง</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="flex: 1 1 100px; min-width: 0; margin-bottom: 0;">
+                            <label>อำเภอ</label>
+                            <select class="small-select" style="width: 100%; min-width: 0; box-sizing: border-box;">
+                                <option>เลือก</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="flex: 1 1 100px; min-width: 0; margin-bottom: 0;">
+                            <label>ตำบล</label>
+                            <select class="small-select" style="width: 100%; min-width: 0; box-sizing: border-box;">
+                                <option>เลือก</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Global Location Box -->
+                <div class="location-box" id="globalLocationBox" style="display: none; background-color: #f0f9ff; border: 1px solid #bae6fd;">
+                    <div class="location-title-area" style="background-color: #e0f2fe; width: 140px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 15px; border-right: 1px solid #bae6fd;">
+                        <div class="location-icon-text" style="font-size: 0.75rem; font-weight: 700; color: #0284c7; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
+                            <span style="font-size: 1.5rem; display: block; margin-bottom: 5px;">🌍</span> Global<br>Location<br>Details
+                        </div>
+                        <div class="location-main-title" style="font-size: 0.95rem; font-weight: 800; color: #0369a1; line-height: 1.4;">
+                            จุดส่งมอบ<br>สินค้าใน<br>ต่างประเทศ
+                        </div>
+                    </div>
+                    
+                    <div class="location-fields" style="flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px;">
+                        <div class="form-group" style="margin-bottom: 0; min-width: 0;">
+                            <label style="color: #0369a1; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">ภูมิภาคเป้าหมาย (Region)</label>
+                            <select class="form-control" id="globalRegion" style="border-color: #bae6fd; background-color: white; padding: 10px; width: 100%; box-sizing: border-box; border-radius: 8px;">
+                                <option value="">เลือกภูมิภาค</option>
+                                <option value="ทั่วโลก">ทั่วโลก (Worldwide)</option>
+                                <option value="เอเชีย">เอเชีย (Asia)</option>
+                                <option value="ยุโรป">ยุโรป (Europe)</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0; min-width: 0;">
+                            <label style="color: #0369a1; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">ท่าเรือ/จุดส่งมอบ (Port)</label>
+                            <select class="form-control" id="globalPort" style="border-color: #bae6fd; background-color: white; padding: 10px; width: 100%; box-sizing: border-box; border-radius: 8px;">
+                                <option value="">เลือกท่าเรือ...</option>
+                                <option value="Port of Tanjung Priok">Port of Tanjung Priok (Indonesia)</option>
+                                <option value="Port of Singapore">Port of Singapore (Singapore)</option>
+                                <option value="Port of Rotterdam">Port of Rotterdam (Netherlands)</option>
+                                <option value="Port of Tokyo">Port of Tokyo (Japan)</option>
+                                <option value="Port of Shanghai">Port of Shanghai (China)</option>
+                                <option value="Port of Busan">Port of Busan (South Korea)</option>
+                                <option value="Port of Antwerp">Port of Antwerp (Belgium)</option>
+                                <option value="Port of Los Angeles">Port of Los Angeles (USA)</option>
+                                <option value="Port of Hamburg">Port of Hamburg (Germany)</option>
+                                <option value="Laem Chabang Port">Laem Chabang Port (Thailand)</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="color: #0369a1; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">เงื่อนไขส่งมอบ (Incoterms)</label>
+                            <select class="form-control" id="globalIncoterms" style="border-color: #bae6fd; background-color: white; padding: 10px; width: 100%; border-radius: 8px;">
+                                <option value="">เลือกเงื่อนไข</option>
+                                <option value="FOB">FOB</option>
+                                <option value="CIF">CIF</option>
+                                <option value="EXW">EXW</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="color: #0369a1; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">ช่วงเวลา (Delivery Period)</label>
+                            <select class="form-control" id="globalPeriod" style="border-color: #bae6fd; background-color: white; padding: 10px; width: 100%; border-radius: 8px;">
+                                <option value="">เลือกช่วงเวลาจัดส่ง...</option>
+                                <option value="Spot">Spot (พร้อมส่งทันที)</option>
+                                <option value="Within 1 Month">ภายใน 1 เดือน (1 Month)</option>
+                                <option value="Within 3 Months">ภายใน 3 เดือน (3 Months)</option>
+                                <option value="Q1">ไตรมาส 1 (Q1: ม.ค. - มี.ค.)</option>
+                                <option value="Q2">ไตรมาส 2 (Q2: เม.ย. - มิ.ย.)</option>
+                                <option value="Q3">ไตรมาส 3 (Q3: ก.ค. - ก.ย.)</option>
+                                <option value="Q4">ไตรมาส 4 (Q4: ต.ค. - ธ.ค.)</option>
+                                <option value="Long Term">สัญญาระยะยาว (1 ปีขึ้นไป)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="saveOrderBtn" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 1.1rem; margin-top: 10px;">บันทึกคำสั่งซื้อขาย</button>
+            </div>
         </div>
 
         <!-- Tab 2: Order List -->
-        <div class="tab-content" id="tab-list">
+        <div class="tab-content" id="tab-list" style="max-width: 750px; margin: 0 auto;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; background: white; padding: 20px 25px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
                 <div>
                     <h2 style="margin-bottom: 5px; font-weight: 800; font-size: 1.5rem; color: #0f172a;">คำสั่งซื้อขายของคุณ</h2>
-                    <span style="color: #64748b; font-size: 0.95rem; font-weight: 500;">ทั้งหมด <span id="orders-count" style="color: #10b981; font-weight: 700;">0</span> orders</span>
+                    <span style="color: #64748b; font-size: 0.95rem; font-weight: 500;">ทั้งหมด <span id="orders-count" style="color: var(--primary-green); font-weight: 700;">0</span> orders</span>
                 </div>
-                <button class="btn" style="background: #10b981; color: white; border: none; font-weight: 600; padding: 12px 24px; border-radius: 8px; cursor: pointer; transition: background 0.2s; box-shadow: 0 4px 10px rgba(16,185,129,0.2);" onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'" onclick="document.querySelector('.order-tab[data-target=\'tab-create\']').click()">+ สร้างคำสั่งซื้อขายใหม่</button>
+                <button class="btn" style="background: var(--primary-green); color: white; border: none; font-weight: 600; padding: 12px 24px; border-radius: 8px; cursor: pointer; transition: background 0.2s; box-shadow: 0 4px 10px rgba(16,185,129,0.2);" onmouseover="this.style.background='var(--primary-hover)'" onmouseout="this.style.background='var(--primary-green)'" onclick="document.querySelector('.order-tab[data-target=\'tab-create\']').click()">+ สร้างคำสั่งซื้อขายใหม่</button>
             </div>
             
             <div class="filter-box" style="background: white; padding: 25px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
-                <div class="form-grid" style="margin-bottom: 20px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
-                    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px;">
+                <div class="form-grid" style="margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px;">
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px; min-width: 0;">
                         <label style="color: #64748b; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">ค้นหา</label>
-                        <input type="text" id="orderSearchInput" placeholder="พิมพ์ชื่อผลิตภัณฑ์..." style="padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; transition: border 0.2s;" onfocus="this.style.borderColor='#10b981'" onblur="this.style.borderColor='#cbd5e1'" oninput="loadMyOrders()">
+                        <input type="text" id="orderSearchInput" placeholder="พิมพ์ชื่อผลิตภัณฑ์..." style="width: 100%; box-sizing: border-box; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; transition: border 0.2s;" onfocus="this.style.borderColor='var(--primary-green)'" onblur="this.style.borderColor='#cbd5e1'" oninput="loadMyOrders()">
                     </div>
-                    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px;">
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px; min-width: 0;">
                         <label style="color: #64748b; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">ช่วงเวลา</label>
-                        <select id="orderTimeFilter" style="padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; background: white; cursor: pointer; appearance: none;" onchange="loadMyOrders()">
+                        <select id="orderTimeFilter" style="width: 100%; box-sizing: border-box; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; background: white; cursor: pointer; appearance: none;" onchange="loadMyOrders()">
                             <option value="ทุกช่วงเวลา">ทุกช่วงเวลา</option>
                             <option value="สัปดาห์นี้">สัปดาห์นี้</option>
                             <option value="เดือนนี้">เดือนนี้</option>
                         </select>
                     </div>
-                    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px;">
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px; min-width: 0;">
                         <label style="color: #64748b; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">สถานะ</label>
-                        <select id="orderStatusFilter" style="padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; background: white; cursor: pointer; appearance: none;" onchange="loadMyOrders()">
+                        <select id="orderStatusFilter" style="width: 100%; box-sizing: border-box; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; background: white; cursor: pointer; appearance: none;" onchange="loadMyOrders()">
                             <option value="ทุกสถานะ">ทุกสถานะ</option>
                             <option value="รอดำเนินการ">รอดำเนินการ (Pending/Active)</option>
                             <option value="จับคู่แล้ว">จับคู่แล้ว (Matched)</option>
                         </select>
                     </div>
-                    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px;">
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px; min-width: 0;">
                         <label style="color: #64748b; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">ประเภท</label>
-                        <select id="orderTypeFilter" style="padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; background: white; cursor: pointer; appearance: none;" onchange="loadMyOrders()">
+                        <select id="orderTypeFilter" style="width: 100%; box-sizing: border-box; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; background: white; cursor: pointer; appearance: none;" onchange="loadMyOrders()">
                             <option value="ทุกประเภท">ทุกประเภท</option>
                             <option value="Buy Order">เสนอซื้อ (Buy Order)</option>
                             <option value="Sell Order">เสนอขาย (Sell Order)</option>
@@ -326,53 +415,54 @@
         </div>
 
         <!-- Tab 3: Contract List -->
-        <div class="tab-content" id="tab-contract">
-            <h2 style="margin-bottom: 5px;">สัญญาซื้อขายของคุณ</h2>
-            <span style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; display: block;">0 contracts</span>
+        <div class="tab-content" id="tab-contract" style="max-width: 750px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; background: white; padding: 20px 25px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
+                <div>
+                    <h2 style="margin-bottom: 5px; font-weight: 800; font-size: 1.5rem; color: #0f172a;">สัญญาซื้อขายของคุณ</h2>
+                    <span style="color: #64748b; font-size: 0.95rem; font-weight: 500;">ทั้งหมด <span id="contracts-count" style="color: var(--primary-green); font-weight: 700;">0</span> contracts</span>
+                </div>
+            </div>
             
-            <div class="filter-box">
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label>&#128269; ค้นหา</label>
-                    <input type="text" id="contractSearchInput" placeholder="ค้นหาตามชื่อผลิตภัณฑ์...">
+            <div class="filter-box" style="background: white; padding: 25px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
+                <div class="form-grid" style="margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px;">
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px; min-width: 0;">
+                        <label style="color: #64748b; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">ค้นหา</label>
+                        <input type="text" id="contractSearchInput" placeholder="พิมพ์ชื่อผลิตภัณฑ์..." style="width: 100%; box-sizing: border-box; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; transition: border 0.2s;" onfocus="this.style.borderColor='var(--primary-green)'" onblur="this.style.borderColor='#cbd5e1'" oninput="loadMyOrders()">
+                    </div>
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px; min-width: 0;">
+                        <label style="color: #64748b; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">ช่วงเวลา</label>
+                        <select id="contractTimeFilter" style="width: 100%; box-sizing: border-box; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; background: white; cursor: pointer; appearance: none;" onchange="loadMyOrders()">
+                            <option value="ทุกช่วงเวลา">ทุกช่วงเวลา</option>
+                            <option value="สัปดาห์นี้">สัปดาห์นี้</option>
+                            <option value="เดือนนี้">เดือนนี้</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px; min-width: 0;">
+                        <label style="color: #64748b; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">สถานะ</label>
+                        <select id="contractStatusFilter" style="width: 100%; box-sizing: border-box; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; background: white; cursor: pointer; appearance: none;" onchange="loadMyOrders()">
+                            <option value="ทุกสถานะ">ทุกสถานะ</option>
+                            <option value="รอการชำระเงิน">รอการชำระเงิน (Pending)</option>
+                            <option value="ชำระเงินแล้ว">ชำระเงินแล้ว (Paid)</option>
+                            <option value="ส่งมอบสำเร็จ">ส่งมอบสำเร็จ (Delivered)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px; min-width: 0;">
+                        <label style="color: #64748b; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">ประเภทสัญญา</label>
+                        <select id="contractTypeFilter" style="width: 100%; box-sizing: border-box; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; background: white; cursor: pointer; appearance: none;" onchange="loadMyOrders()">
+                            <option value="ทุกประเภท">ทุกประเภท</option>
+                            <option value="Spot">สัญญาระยะสั้น (Spot)</option>
+                            <option value="Long Term">สัญญาระยะยาว</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label>&#128202; สถานะ</label>
-                    <select>
-                        <option>ทุกสถานะ</option>
-                        <option>รอการชำระเงิน (Pending Payment)</option>
-                        <option>ชำระเงินแล้ว (Paid)</option>
-                        <option>รอจัดส่ง (Pending Delivery)</option>
-                        <option>กำลังจัดส่ง (In Transit)</option>
-                        <option>ส่งมอบสำเร็จ (Delivered)</option>
-                        <option>ยกเลิกสัญญา (Cancelled)</option>
-                    </select>
+                <div style="display: flex; justify-content: flex-end;">
+                    <button onclick="document.getElementById('contractSearchInput').value=''; document.getElementById('contractTimeFilter').value='ทุกช่วงเวลา'; document.getElementById('contractStatusFilter').value='ทุกสถานะ'; document.getElementById('contractTypeFilter').value='ทุกประเภท'; loadMyOrders();" class="btn" style="background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; font-weight: 600; padding: 10px 24px; border-radius: 8px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">ล้างตัวกรองทั้งหมด</button>
                 </div>
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label>&#128197; ช่วงเวลา</label>
-                    <select>
-                        <option>ทุกช่วงเวลา</option>
-                        <option>วันนี้</option>
-                        <option>สัปดาห์นี้</option>
-                        <option>เดือนนี้</option>
-                        <option>3 เดือนที่ผ่านมา</option>
-                        <option>ปีนี้</option>
-                    </select>
-                </div>
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label>&#128196; ประเภทสัญญา</label>
-                    <select>
-                        <option>ทุกประเภท</option>
-                        <option>สัญญาระยะสั้น / Spot (ซื้อครั้งเดียว)</option>
-                        <option>สัญญาระยะยาว (ส่งมอบต่อเนื่อง)</option>
-                        <option>สัญญาซื้อขายล่วงหน้า (Forward Contract)</option>
-                    </select>
-                </div>
-                <button class="btn-danger" style="width: 100%;">&#8635; ล้างทั้งหมด</button>
             </div>
             
             <div class="contracts-list" style="margin-top: 20px; display: grid; gap: 15px;">
-                <!-- ข้อมูลจะถูกดึงมาจาก Database (order.js) -->
-                <div style="text-align:center; padding: 40px; color:#94a3b8;">กำลังโหลดข้อมูลสัญญาซื้อขาย...</div>
+                <!-- ข้อมูลจะถูกดึงมาจาก Database (order_new.js) -->
+                <div style="text-align:center; padding: 40px; color:#94a3b8; font-family: 'Inter', sans-serif;">กำลังโหลดข้อมูลสัญญาซื้อขาย...</div>
             </div>
         </div>
 
@@ -380,11 +470,96 @@
 
     <!-- Scripts -->
 
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
     <script src="js/supabase.js"></script>
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
+    <script src="js/products.js?v=2"></script>
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
     <script src="js/main.js?v=2"></script>
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
     <script src="js/address.js?v=2"></script>
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
     <script src="js/create-order.js?v=4"></script>
-    <script src="js/order_new.js?v=1"></script>
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
+    <script src="js/order_new.js?v=2"></script>
     
     <!-- Tab Logic -->
     <script>
@@ -432,7 +607,65 @@
             } else if (tabParam === 'contract') {
                 switchTab('tab-contract');
             }
+
+            // Populate product options from products.js
+            const productOptions = document.getElementById('productOptions');
+            if (productOptions && typeof productData !== 'undefined') {
+                const productKeys = Object.keys(productData);
+                productKeys.forEach(productName => {
+                    const option = document.createElement('option');
+                    option.value = productName;
+                    productOptions.appendChild(option);
+                });
+            }
+
+            // Marketplace toggle logic
+            const marketplaceSelect = document.getElementById('marketplace');
+            const localBox = document.getElementById('localLocationBox');
+            const globalBox = document.getElementById('globalLocationBox');
+
+            if (marketplaceSelect) {
+                marketplaceSelect.addEventListener('change', function() {
+                    if (this.value === 'ตลาดโลก (นำเข้า/ส่งออก)') {
+                        if(localBox) localBox.style.display = 'none';
+                        if(globalBox) globalBox.style.display = 'flex';
+                    } else {
+                        if(localBox) localBox.style.display = 'flex';
+                        if(globalBox) globalBox.style.display = 'none';
+                    }
+                });
+            }
         });
     </script>
-</body>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
+    <script src="js/translations.js?v=11"></script>
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
+    <script src="js/i18n.js?v=7"></script>
 </html>

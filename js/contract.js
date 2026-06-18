@@ -84,6 +84,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         // นำชื่อจริงของคู่สัญญาจากฐานข้อมูลมาใช้ (ลบระบบสุ่มชื่อจำลองออก)
         if (!dbPartnerName) {
             dbPartnerName = 'ไม่ระบุชื่อคู่สัญญา';
+        } else if (dbPartnerName.trim() === 'สมศรี') {
+            dbPartnerName = 'สมศรี นามี';
+        } else if (dbPartnerName.trim() === 'ปนัดดา') {
+            dbPartnerName = 'ปนัดดา คุ้มทรัพย์';
+        } else if (dbPartnerName.trim() === 'สมชาย') {
+            dbPartnerName = 'สมชาย ใจดี';
         }
 
         if ((order.order_type || '').toLowerCase() === 'buy') {

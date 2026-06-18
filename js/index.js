@@ -95,70 +95,119 @@ document.addEventListener('DOMContentLoaded', async () => {
             const elTotalOrders = document.getElementById('global-total-orders');
             const elTotalValue = document.getElementById('global-total-value');
             const elTotalCo2 = document.getElementById('global-total-co2');
+            
+            try {
+                const { data: statsData, error: statsErr } = await window.supabaseClient
+                    .from('market_stats')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(1)
+                    .single();
+                    
+                if (!statsErr && statsData) {
+                    totalOrders = statsData.total_orders || totalOrders;
+                    totalMarketValue = statsData.total_value || totalMarketValue;
+                    totalCO2Reduced = statsData.total_co2 || totalCO2Reduced;
+                }
+            } catch (e) {
+                console.warn('Could not fetch market_stats, using calculated values', e);
+            }
 
             if (elTotalOrders) elTotalOrders.innerText = totalOrders.toLocaleString();
             if (elTotalValue) elTotalValue.innerText = '฿' + totalMarketValue.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
             if (elTotalCo2) elTotalCo2.innerText = totalCO2Reduced.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
 
-            // 4. สร้างการ์ดดัชนีราคา (Market Index) แบบไดนามิก
+            // 4. สร้างการ์ดดัชนีราคา (Market Index) เป็นแบบ Static ตามความต้องการ
             const marketIndexContainer = document.getElementById('market-index-container');
             if (marketIndexContainer) {
-                marketIndexContainer.innerHTML = ''; // ล้าง Loading ออก
-
-                Object.keys(productStats).forEach(prodName => {
-                    const stats = productStats[prodName];
-                    const avgBuy = stats.buyCount > 0 ? (stats.buySum / stats.buyCount) : 0;
-                    const avgSell = stats.sellCount > 0 ? (stats.sellSum / stats.sellCount) : 0;
+                window.globalProductStats = productStats; // Save for re-render
+                
+                window.renderDynamicContent = function() {
+                    marketIndexContainer.innerHTML = ''; // ล้าง Loading ออก
                     
-                    // แปลงราคาเป็น Text สวยๆ
-                    const txtAvgBuy = avgBuy > 0 ? '฿' + avgBuy.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) : 'ไม่มีข้อมูล';
-                    const txtAvgSell = avgSell > 0 ? '฿' + avgSell.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) : 'ไม่มีข้อมูล';
+                    const t = window.t || (k => k);
 
                     const cardHtml = `
-                        <div class="index-card" style="background: white; border-radius: 12px; padding: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); margin-bottom: 20px;">
-                            
-                            <!-- Header -->
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                                <h3 style="margin: 0; font-size: 1.15rem; font-weight: 700; color: var(--text-main);">${prodName}</h3>
-                                <span style="font-size: 0.8rem; color: var(--text-muted); background: var(--bg-color); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 6px; font-weight: 500;">
-                                     ปริมาณการซื้อขาย 30 วัน: ${stats.orderCount30Days.toLocaleString()} รายการ
-                                </span>
+                        <div class="index-card" style="background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; width: 100%; margin-bottom: 20px;">
+                            <h3 style="margin-bottom: 15px; font-size: 1rem; color: #0f172a; font-weight: 700;">No active trading data</h3>
+                            <div class="index-price-row" style="display: flex; border-radius: 4px; overflow: hidden; margin-bottom: 15px;">
+                                <div class="price-box price-buy" style="flex: 1; padding: 12px 16px; background: #dcfce7;">
+                                    <div class="label" style="font-size: 0.75rem; color: #16a34a; margin-bottom: 4px; font-weight: 700;">${t('เฉลี่ยซื้อ')}</div>
+                                    <div class="value" style="color: #16a34a; font-weight: 700; font-size: 1.1rem;">N/A</div>
+                                </div>
+                                <div class="price-box price-sell" style="flex: 1; padding: 12px 16px; background: #ffe4e6;">
+                                    <div class="label" style="font-size: 0.75rem; color: #e11d48; margin-bottom: 4px; font-weight: 700;">${t('เฉลี่ยขาย')}</div>
+                                    <div class="value" style="color: #e11d48; font-weight: 700; font-size: 1.1rem;">N/A</div>
+                                </div>
                             </div>
-
-                            <!-- Metrics Grid -->
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                
-                                <!-- BUY METRIC -->
-                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; border-left: 4px solid #10b981;">
-                                    <div style="font-size: 0.85rem; color: #64748b; font-weight: 600; margin-bottom: 5px; display: flex; align-items: center; gap: 5px;">
-                                        <span style="color: #10b981;">●</span> ราคาเสนอซื้อเฉลี่ย (AVG BUY)
-                                    </div>
-                                    <div style="font-size: ${avgBuy > 0 ? '1.75rem' : '1.2rem'}; font-weight: 700; color: #0f172a; line-height: 1.2;">
-                                        ${txtAvgBuy}
-                                    </div>
-                                    <div style="font-size: 0.75rem; color: #94a3b8; margin-top: 5px;">
-                                        หน่วย: MT (Metric Tons) | เงื่อนไข: DAP
-                                    </div>
-                                </div>
-
-                                <!-- SELL METRIC -->
-                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; border-left: 4px solid #f43f5e;">
-                                    <div style="font-size: 0.85rem; color: #64748b; font-weight: 600; margin-bottom: 5px; display: flex; align-items: center; gap: 5px;">
-                                        <span style="color: #f43f5e;">●</span> ราคาเสนอขายเฉลี่ย (AVG SELL)
-                                    </div>
-                                    <div style="font-size: ${avgSell > 0 ? '1.75rem' : '1.2rem'}; font-weight: 700; color: #0f172a; line-height: 1.2;">
-                                        ${txtAvgSell}
-                                    </div>
-                                    <div style="font-size: 0.75rem; color: #94a3b8; margin-top: 5px;">
-                                        หน่วย: MT (Metric Tons) | เงื่อนไข: DAP
-                                    </div>
-                                </div>
-                                
+                            <div class="index-footer" style="font-size: 0.8rem; color: #94a3b8;">
+                                <span>${t('ต่อ MT (EXW)')}</span>
                             </div>
                         </div>
                     `;
                     marketIndexContainer.insertAdjacentHTML('beforeend', cardHtml);
-                });
+                    
+                    // Render Recent Orders Table
+                    const recentOrdersTbody = document.getElementById('recent-orders-tbody');
+                    if (recentOrdersTbody) {
+                        recentOrdersTbody.innerHTML = '';
+                        // Sort orders by created_at descending and take top 10
+                        const recentOrders = [...orders]
+                            .sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0))
+                            .slice(0, 10);
+                            
+                        if (recentOrders.length === 0) {
+                            recentOrdersTbody.innerHTML = `
+                                <tr>
+                                    <td colspan="9" style="text-align: center; padding: 30px; color: #94a3b8;" data-i18n="index.no_orders">
+                                        ยังไม่มีข้อมูลคำสั่งซื้อขายในตลาด
+                                    </td>
+                                </tr>
+                            `;
+                        } else {
+                            recentOrders.forEach(order => {
+                                const type = (order.order_type || '').toUpperCase();
+                                const typeClass = type === 'BUY' ? 'type-buy' : 'type-sell';
+                                const typeLabel = type === 'BUY' ? 'BUY' : 'SELL';
+                                
+                                const product = order.product_name || order.product || '-';
+                                const qty = order.quantity ? `${Number(order.quantity).toLocaleString()} ${order.unit || 'MT'}` : '-';
+                                
+                                let location = order.province || order.location || 'ประเทศไทย';
+                                if (order.marketplace === 'Global Market' || order.marketplace === 'ตลาดโลก (นำเข้า/ส่งออก)') {
+                                    location = order.region ? order.region : 'Global Market';
+                                } else if (location === '-') {
+                                    location = 'ประเทศไทย';
+                                }
+
+                                const origin = order.origin_port || '-';
+                                const dest = order.destination_port || '-';
+                                const contract = order.contract_type || 'SPOT';
+                                const terms = order.delivery_terms || 'EXW';
+                                
+                                const d = new Date(order.created_at || new Date());
+                                const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                                
+                                const tr = document.createElement('tr');
+                                tr.innerHTML = `
+                                    <td><span class="order-type-badge ${typeClass}">${typeLabel}</span></td>
+                                    <td style="font-weight: 500;">${product}</td>
+                                    <td>${qty}</td>
+                                    <td>📍 ${location}</td>
+                                    <td style="color: #64748b;">${origin}</td>
+                                    <td style="color: #64748b;">${dest}</td>
+                                    <td><span class="badge" style="background: #f1f5f9; color: #475569;">${contract}</span></td>
+                                    <td><span class="badge" style="background: #f1f5f9; color: #475569;">${terms}</span></td>
+                                    <td style="color: #64748b; font-size: 0.9rem;">${dateStr}</td>
+                                `;
+                                recentOrdersTbody.appendChild(tr);
+                            });
+                        }
+                    }
+                };
+
+                // Initial render
+                window.renderDynamicContent();
             }
         }
 

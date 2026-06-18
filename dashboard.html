@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,8 +10,25 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Icons -->
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=2">
     <style>
         /* Premium Dashboard Styles */
         body { background-color: #f8fafc; font-family: 'Inter', 'Prompt', sans-serif; }
@@ -25,19 +42,20 @@
         .order-stat-box:hover { border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
         .order-stat-box .value { font-size: 2.5rem; font-weight: 800; color: #0f172a; line-height: 1; margin-bottom: 10px; }
         .order-stat-box .label { font-size: 0.9rem; font-weight: 600; color: #64748b; }
-        .co2-box { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 28px 20px; border-radius: 14px; text-align: center; margin-bottom: 24px; box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4); position: relative; overflow: hidden; }
+        .co2-box { background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-hover) 100%); color: white; padding: 28px 20px; border-radius: 14px; text-align: center; margin-bottom: 24px; box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4); position: relative; overflow: hidden; }
         .co2-box::after { content: ''; position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: rgba(255,255,255,0.1); border-radius: 50%; }
         .co2-box .label { font-size: 0.95rem; font-weight: 600; opacity: 0.9; margin-bottom: 8px; }
         .co2-box .value { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; }
         .quick-actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px; }
         .action-btn { background: white; border: 1px solid #e2e8f0; border-radius: 14px; padding: 24px 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; cursor: pointer; transition: all 0.2s; color: #475569; font-weight: 600; font-size: 0.95rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-        .action-btn:hover { border-color: #10b981; color: #10b981; background: #f0fdf4; transform: translateY(-3px); box-shadow: 0 6px 15px rgba(16,185,129,0.15); }
+        .action-btn:hover { border-color: var(--primary-green); color: var(--primary-green); background: #f0fdf4; transform: translateY(-3px); box-shadow: 0 6px 15px rgba(16,185,129,0.15); }
         .action-btn svg { stroke-width: 2; width: 32px; height: 32px; stroke: currentColor; transition: transform 0.2s; }
         .action-btn:hover svg { transform: scale(1.1); }
         .btn-outline { background: white; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 20px; font-weight: 600; transition: all 0.2s; }
         .btn-outline:hover { background: #f8fafc; border-color: #cbd5e1; }
     </style>
-</head>
+
+    </head>
 <body>
 
     <!-- Main Navbar -->
@@ -48,9 +66,20 @@
             </a>
             
             <div class="nav-actions" style="margin-left: 20px;">
-                <select class="lang-select">
+                <select class="lang-select" style="padding: 6px 10px; border-radius: 8px; border: 1px solid #e2e8f0; outline: none; background: white; font-family: 'Inter', sans-serif; cursor: pointer;">
                     <option value="th">TH</option>
                     <option value="en">EN</option>
+                    <option value="ko">KR</option>
+                    <option value="ja">JP</option>
+                    <option value="vi">VI</option>
+                    <option value="pt">PT</option>
+                    <option value="es">ES</option>
+                    <option value="id">ID</option>
+                    <option value="de">DE</option>
+                    <option value="hi">HI</option>
+                    <option value="fr">FR</option>
+                    <option value="ru">RU</option>
+                    <option value="zh-CN">中文</option>
                 </select>
             </div>
 
@@ -93,28 +122,34 @@
         <div class="widget-card">
             <div class="widget-header">
                 <h3 class="widget-title">สรุปคำสั่งซื้อของฉัน</h3>
-                
             </div>
             
             <div class="order-stats">
-                <div class="order-stat-box">
-                    <div class="value" id="open-orders-count">0</div>
+                <div class="order-stat-box" style="padding: 20px 15px;">
+                    <div style="color: #64748b; margin-bottom: 8px;"><i class="ph ph-folder-open" style="font-size: 1.2rem;"></i></div>
+                    <div class="value" id="open-orders-count" style="font-size: 2rem;">0</div>
                     <div class="label text-muted text-sm">คำสั่งซื้อที่เปิดอยู่</div>
                 </div>
-                <div class="order-stat-box">
-                    <div class="value" id="closed-orders-count">0</div>
+                <div class="order-stat-box" style="padding: 20px 15px;">
+                    <div style="color: #64748b; margin-bottom: 8px;"><i class="ph ph-check-circle" style="font-size: 1.2rem;"></i></div>
+                    <div class="value" id="closed-orders-count" style="font-size: 2rem;">0</div>
                     <div class="label text-muted text-sm">คำสั่งซื้อที่ปิดแล้ว</div>
                 </div>
             </div>
             
-            <div class="co2-box" style="background-color: var(--primary-green); color: white; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 20px;">
-                <div class="label" style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 5px;">ปริมาณ CO2 ที่ลดได้รวม:</div>
-                <div class="value" id="co2-total-1" style="font-size: 1.8rem; font-weight: 700;">0 ตัน CO2eq</div>
+            <div class="co2-box" style="background: linear-gradient(135deg, #0f172a 0%, #334155 100%); color: white; padding: 20px; border-radius: 12px; text-align: left; margin-bottom: 20px; box-shadow: 0 4px 14px 0 rgba(15, 23, 42, 0.2); display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <div class="label" style="font-size: 0.85rem; opacity: 0.8; margin-bottom: 2px;">ปริมาณ CO2 ที่ลดได้รวม</div>
+                    <div class="value" id="co2-total-1" style="font-size: 1.6rem; font-weight: 700;">0 ตัน CO2eq</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+                    <i class="ph ph-leaf"></i>
+                </div>
             </div>
             
             <div class="widget-buttons" style="display: flex; gap: 12px; margin-top: auto;">
-                <button onclick="localStorage.setItem('activeTab', 'tab-list'); window.location.href='order.html?tab=list';" class="btn" style="flex: 1; background-color: #22c55e; color: white; border: none; border-radius: 6px; padding: 12px 20px; font-weight: 500; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3); cursor: pointer; transition: all 0.3s;" onmouseover="this.style.backgroundColor='#16a34a'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='#22c55e'; this.style.transform='translateY(0)';">ดูคำสั่งซื้อทั้งหมด</button>
-                <button onclick="localStorage.setItem('activeTab', 'tab-create'); window.location.href='order.html?tab=create';" class="btn" style="flex: 1; background-color: white; color: #22c55e; border: 1px solid #22c55e; border-radius: 6px; padding: 12px 20px; font-weight: 500; font-size: 0.95rem; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.backgroundColor='#f0fdf4'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='white'; this.style.transform='translateY(0)';">สร้างคำสั่งซื้อใหม่</button>
+                <button onclick="localStorage.setItem('activeTab', 'tab-list'); window.location.href='order.html?tab=list';" class="btn btn-primary" style="flex: 1; background: #0f172a; border-color: #0f172a;">ดูคำสั่งซื้อทั้งหมด</button>
+                <button onclick="localStorage.setItem('activeTab', 'tab-create'); window.location.href='order.html?tab=create';" class="btn btn-outline" style="flex: 1;">สร้างคำสั่งซื้อใหม่</button>
             </div>
         </div>
 
@@ -122,14 +157,13 @@
         <div class="widget-card">
             <div class="widget-header">
                 <h3 class="widget-title">คำสั่งซื้อล่าสุด</h3>
-                
             </div>
             
-            <div id="recent-orders-container" style="display: flex; flex-direction: column; gap: 10px; flex: 1;">
-                <div class="watchlist-item" style="text-align: center; border: none; padding: 40px 10px;">
-                    <div style="font-size: 2.5rem; opacity: 0.4; margin-bottom: 15px;"></div>
-                    <div style="color: var(--text-main); font-weight: 500; margin-bottom: 5px;">ยังไม่มีคำสั่งซื้อ</div>
-                    <div style="color: var(--text-muted); font-size: 0.85rem;">คุณสามารถสร้างคำสั่งซื้อได้จากเมนูหลัก</div>
+            <div id="recent-orders-container" style="display: flex; flex-direction: column; gap: 10px; flex: 1; justify-content: center;">
+                <div class="watchlist-item" style="text-align: center; border: none; padding: 40px 10px; background: #f8fafc; border-radius: 12px;">
+                    <div style="font-size: 2.5rem; color: #cbd5e1; margin-bottom: 15px;"><i class="ph ph-shopping-cart"></i></div>
+                    <div style="color: #475569; font-weight: 600; margin-bottom: 5px;">ยังไม่มีคำสั่งซื้อ</div>
+                    <div style="color: #94a3b8; font-size: 0.85rem;">คุณสามารถสร้างคำสั่งซื้อได้จากเมนูหลัก</div>
                 </div>
             </div>
         </div>
@@ -138,14 +172,13 @@
         <div class="widget-card">
             <div class="widget-header">
                 <h3 class="widget-title">การแจ้งเตือน</h3>
-                
             </div>
             
-            <div id="notifications-container">
-                <div class="notification-item" style="border: none; padding-bottom: 0;">
-                    <div class="notification-icon" style="background-color: var(--border-color); color: var(--text-muted);">-</div>
-                    <div class="notification-content">
-                        <p style="color: var(--text-muted);">ยังไม่มีการแจ้งเตือนใหม่</p>
+            <div id="notifications-container" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <div class="notification-item" style="border: none; padding: 30px 10px; text-align: center; justify-content: center; flex-direction: column; gap: 12px; background: #f8fafc; border-radius: 12px;">
+                    <div style="font-size: 2.2rem; color: #cbd5e1;"><i class="ph ph-bell-slash"></i></div>
+                    <div class="notification-content" style="text-align: center; margin: 0;">
+                        <p style="color: #64748b; font-weight: 500;">ยังไม่มีการแจ้งเตือนใหม่</p>
                     </div>
                 </div>
             </div>
@@ -204,8 +237,81 @@
     </div>
 
     <!-- Supabase CDN -->
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
     <script src="js/supabase.js"></script>
-    <script src="js/main.js?v=5"></script>
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
+    <script src="js/main.js?v=2"></script>
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
     <script src="js/dashboard.js?v=1"></script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
+    <script src="js/translations.js?v=11"></script>
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
+    <script src="js/i18n.js?v=7"></script>
 </body>
 </html>

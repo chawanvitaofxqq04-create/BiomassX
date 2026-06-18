@@ -119,14 +119,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             let originText = order.origin_port || '-';
             let destinationText = order.destination_port || '-';
             
-            // ถ้าเป็นตลาดในประเทศและไม่ได้ระบุ port ไว้ ให้ใช้โลจิกเดิม (ดึงจากจังหวัด)
-            if (originText === '-' && destinationText === '-') {
-                if (province !== '-') {
-                    if (isBuy) {
-                        destinationText = province;
-                    } else {
-                        originText = province;
-                    }
+            // ถ้าเป็นตลาดในประเทศ (ไม่มีพอร์ต) จะใช้จังหวัดแทน
+            if (marketplace !== 'Global Market' && province !== '-') {
+                if (isBuy) {
+                    destinationText = province;
+                } else {
+                    originText = province;
                 }
             }
 
@@ -143,7 +141,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <td style="color: #475569; font-weight: 500;">${destinationText}</td>
                 <td style="color: #475569; font-weight: 500;">${paymentTerm}</td>
                 <td style="color: #94a3b8; font-size: 0.85rem; font-weight: 500;">${formattedDate}</td>
-                <td><button class="btn-view" onclick="window.openOrderModal('${order.id}')">👁️ View</button></td>
+                <td><button class="btn-view" data-id="${order.id}">👁️ View</button></td>
             `;
             tableBody.appendChild(tr);
         });
@@ -220,28 +218,36 @@ document.addEventListener('DOMContentLoaded', async () => {
     const closeBtn = document.querySelector('.modal-close-btn');
 
     // Close Modal Events
-    if (closeBtn) closeBtn.addEventListener('click', () => orderModal.style.display = 'none');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            orderModal.classList.remove('active');
+            setTimeout(() => orderModal.style.display = 'none', 300);
+        });
+    }
     if (orderModal) {
         orderModal.addEventListener('click', (e) => {
-            if (e.target === orderModal) orderModal.style.display = 'none';
+            if (e.target === orderModal) {
+                orderModal.classList.remove('active');
+                setTimeout(() => orderModal.style.display = 'none', 300);
+            }
         });
     }
 
-    // Global function for opening modal so we don't rely on event delegation
-    window.openOrderModal = function(orderId) {
-        console.log("Button clicked for Order ID:", orderId);
-        
-        if (!allOrders) {
-            alert('ยังโหลดข้อมูลไม่เสร็จ กรุณารอสักครู่');
-            return;
+    // Event Delegation for View Buttons
+    tableBody.addEventListener('click', (e) => {
+        const btn = e.target.closest('.btn-view');
+        if (btn) {
+            const orderId = btn.getAttribute('data-id');
+            if (orderId) openOrderModal(orderId);
         }
+    });
+
+    // Function for opening modal
+    function openOrderModal(orderId) {
+        if (!allOrders) return;
         
         const order = allOrders.find(o => String(o.id) === String(orderId));
-        
-        if (!order) {
-            alert('ไม่พบข้อมูลคำสั่งซื้อรหัส: ' + orderId);
-            return;
-        }
+        if (!order) return;
 
         try {
             // Populate Modal Data
@@ -274,11 +280,31 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             document.getElementById('modalFirstDate').innerText = firstDelivery.toLocaleDateString('en-US', options);
             document.getElementById('modalLastDate').innerText = lastDelivery.toLocaleDateString('en-US', options);
-            document.getElementById('modalPayment').innerText = 'COD / Bank Transfer';
+            document.getElementById('modalPayment').innerText = order.payment_term || 'COD';
+
+            // Update CTA text (if it exists)
+            const ctaTitle = orderModal.querySelector('.modal-cta div');
+            if (ctaTitle) {
+                ctaTitle.innerHTML = `💰 Interested in this ${isBuy ? 'buy' : 'sell'} order?`;
+            }
+            const ctaDesc = orderModal.querySelector('.modal-cta p');
+            if (ctaDesc) {
+                ctaDesc.innerText = `Register or login to view pricing and place your ${isBuy ? 'sell' : 'buy'} order to match this demand!`;
+            }
+
+            // Update Price (if it exists - only on logged in page)
+            const priceEl = document.getElementById('modalPrice');
+            if (priceEl) {
+                const priceValue = order.price ? Number(order.price).toLocaleString() : '-';
+                priceEl.innerText = priceValue !== '-' ? `฿${priceValue} / ${order.unit || 'MT'}` : 'เสนอราคา (Bidding)';
+            }
 
             // Show Modal
             if (orderModal) {
                 orderModal.style.display = 'flex';
+                // Trigger reflow for transition
+                void orderModal.offsetWidth;
+                orderModal.classList.add('active');
             } else {
                 alert('ข้อผิดพลาด: ไม่พบองค์ประกอบ Modal ในหน้าเว็บ');
             }

@@ -11,76 +11,167 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=2">
     
     <style>
+        :root {
+            --premium-green: #10b981;
+            --premium-dark: #0f172a;
+        }
+        
         body {
             background-color: #f8fafc;
-            background-image: radial-gradient(at 0% 0%, hsla(152,100%,94%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(210,100%,97%,1) 0, transparent 50%);
-            background-attachment: fixed;
-            min-height: 100vh;
+            font-family: 'Prompt', 'Inter', sans-serif;
+            color: #334155;
         }
 
-        .btn-outline { background: white; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 20px; font-weight: 600; transition: all 0.2s; }
-        .btn-outline:hover { background: #f8fafc; border-color: #cbd5e1; }
+        /* Hero Banner */
+        .contact-hero {
+            background: linear-gradient(135deg, #047857, #10b981);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+            margin: 0 20px 40px;
+            border-radius: 0 0 24px 24px;
+        }
+        
+        .contact-hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .contact-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
 
-        .page-container {
+        .container-box {
             max-width: 1000px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 0 20px;
         }
 
-        .header-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: white;
-            padding: 20px 30px;
-            border-radius: 16px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-            border: 1px solid #e2e8f0;
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .contact-grid {
+        /* Support Cards */
+        .support-grid {
             display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 40px;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 40px;
         }
 
-        .contact-info-card {
-            background: linear-gradient(135deg, #10b981, #3b82f6);
-            border-radius: 20px;
+        @media (max-width: 768px) {
+            .support-grid { grid-template-columns: 1fr; }
+        }
+
+        .support-card {
+            background: white;
+            border-radius: 16px;
             padding: 30px;
-            color: white;
-            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            border: 1px solid #f1f5f9;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        .info-item {
+        .support-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.08);
+            border-color: #e2e8f0;
+        }
+
+        .support-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .support-card h3 {
+            font-size: 1.25rem;
+            color: #0f172a;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .support-card p {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .contact-details {
+            font-size: 0.9rem;
+            color: #334155;
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+
+        .contact-details strong {
+            color: #0f172a;
+        }
+
+        .btn-support {
+            display: inline-block;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-green {
+            background: var(--premium-green);
+            color: white;
+            border: 1px solid var(--premium-green);
+        }
+        .btn-green:hover { background: #059669; }
+
+        .btn-outline-green {
+            background: transparent;
+            color: var(--premium-green);
+            border: 1px solid var(--premium-green);
+        }
+        .btn-outline-green:hover {
+            background: #f0fdf4;
+        }
+
+        /* Form Card */
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            border: 1px solid #f1f5f9;
+            margin-bottom: 40px;
+        }
+
+        .form-card h2 {
+            font-size: 1.5rem;
+            color: #0f172a;
             margin-bottom: 30px;
         }
 
-        .info-item h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            opacity: 0.9;
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
-        .info-item p {
-            font-size: 1.2rem;
-            font-weight: 500;
+        @media (max-width: 576px) {
+            .form-grid-2 { grid-template-columns: 1fr; }
         }
 
         .form-group {
@@ -90,103 +181,256 @@
         .form-label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
+            font-weight: 500;
             color: #334155;
+            font-size: 0.95rem;
         }
 
         .form-control {
             width: 100%;
             padding: 12px 16px;
-            border: 1px solid #cbd5e1;
-            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
             font-size: 1rem;
-            background: rgba(255,255,255,0.9);
-            transition: all 0.3s;
+            font-family: inherit;
+            transition: all 0.2s;
+            box-sizing: border-box;
         }
 
         .form-control:focus {
             outline: none;
-            border-color: #10b981;
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+            border-color: var(--premium-green);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
         }
 
         textarea.form-control {
             min-height: 120px;
             resize: vertical;
         }
+
+        /* Offices Section */
+        .offices-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            border: 1px solid #f1f5f9;
+            margin-bottom: 60px;
+        }
+
+        .offices-card h2 {
+            font-size: 1.5rem;
+            color: #0f172a;
+            margin-bottom: 30px;
+        }
+
+        .offices-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .offices-grid { grid-template-columns: 1fr; }
+        }
+
+        .office-item h4 {
+            font-size: 1.1rem;
+            color: #0f172a;
+            margin-bottom: 5px;
+        }
+        
+        .office-item .sub-title {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .office-item p {
+            font-size: 0.95rem;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .site-footer {
+            background: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            padding: 50px 20px;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .footer-links a {
+            color: #475569;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover {
+            color: #10b981;
+        }
+        .footer-copyright {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
 
-    <div class="page-container">
-        <!-- Header -->
-        <div class="header-bar">
-            <a href="dashboard.html" class="logo" style="text-decoration: none; font-size: 1.5rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 8px;">
-                <span style="color: #10b981;">X</span> BiomassX
+    <!-- Navbar -->
+    <nav class="navbar" style="border-bottom: 1px solid #f1f5f9; background: white;">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">X</span> BiomassX
             </a>
             
-            <a href="dashboard.html" class="btn btn-outline" style="display: flex; align-items: center; gap: 5px;">
-                ย้อนกลับไปหน้าหลัก
-            </a>
-        </div>
-
-        <!-- Main Card -->
-        <div class="glass-card">
-            <div style="text-align: center; margin-bottom: 40px;">
-                <h1 style="font-size: 2.2rem; font-weight: 800; color: #0f172a; margin-bottom: 10px;">ติดต่อเรา</h1>
-                <p style="color: #64748b; font-size: 1.1rem;">มีคำถามหรือข้อสงสัย? ส่งข้อความหาทีมงานของเราได้เลย</p>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link" data-i18n="nav.home">หน้าแรก</a>
             </div>
 
-            <div class="contact-grid">
-                <!-- Left: Info -->
-                <div class="contact-info-card">
-                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 30px;">ข้อมูลติดต่อ</h3>
-                    
-                    <div class="info-item">
-                        <h4>เบอร์โทรศัพท์</h4>
-                        <p>02-999-9999</p>
-                    </div>
-                    
-                    <div class="info-item">
-                        <h4>อีเมล</h4>
-                        <p>support@biomassx.com</p>
-                    </div>
-                    
-                    <div class="info-item">
-                        <h4>เวลาทำการ</h4>
-                        <p>จันทร์ - ศุกร์<br>09:00 - 18:00 น.</p>
-                    </div>
-                </div>
-
-                <!-- Right: Form -->
-                <div>
-                    <form onsubmit="event.preventDefault(); alert('ส่งข้อความเรียบร้อยแล้ว ทีมงานจะติดต่อกลับโดยเร็วที่สุด'); window.location.href='dashboard.html';">
-                        <div class="form-group">
-                            <label class="form-label">หัวข้อ</label>
-                            <select class="form-control" required>
-                                <option value="">เลือกหัวข้อ</option>
-                                <option value="support">แจ้งปัญหาการใช้งาน</option>
-                                <option value="billing">สอบถามเรื่องการชำระเงิน</option>
-                                <option value="partnership">ติดต่อธุรกิจ</option>
-                                <option value="other">อื่นๆ</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">ชื่อ - นามสกุล</label>
-                            <input type="text" class="form-control" placeholder="ชื่อของคุณ" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">ข้อความ</label>
-                            <textarea class="form-control" placeholder="พิมพ์ข้อความของคุณที่นี่..." required></textarea>
-                        </div>
-                        <button type="submit" style="width: 100%; padding: 14px; background: #0f172a; color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#1e293b'" onmouseout="this.style.background='#0f172a'">
-                            ส่งข้อความ
-                        </button>
-                    </form>
-                </div>
+            <div class="nav-actions">
+                <select class="lang-select">
+                    <option value="th">TH</option>
+                    <option value="en">EN</option>
+                </select>
+                <a href="login.html" class="btn btn-outline" data-i18n="nav.login">เข้าสู่ระบบ</a>
             </div>
         </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <div class="contact-hero">
+        <h1>ติดต่อ BiomassX</h1>
+        <p>ติดต่อทีมงานของเราสำหรับการสนับสนุน ความร่วมมือ หรือเพื่อเรียนรู้เพิ่มเติมเกี่ยวกับการซื้อขายชีวมวลที่ยั่งยืน</p>
     </div>
 
+    <div class="container-box">
+        
+        <!-- Support Cards -->
+        <div class="support-grid">
+            <!-- Sales & Partnership -->
+            <div class="support-card">
+                <h3>
+                    <div class="support-icon" style="background: #10b981;">💼</div>
+                    ฝ่ายขายและความร่วมมือ
+                </h3>
+                <p>พร้อมเริ่มซื้อขาย? ทีมบริการลูกค้าของเราจะช่วยคุณเริ่มต้นและค้นหาโอกาสการซื้อขายที่เหมาะสม</p>
+                <div class="contact-details">
+                    <strong>Email:</strong> cs@biomassx.com<br>
+                    <strong>Phone:</strong> +66 95 926 3663<br>
+                    <strong>Hours:</strong> Mon-Fri 9AM-6PM EST
+                </div>
+                <a href="#" class="btn-support btn-green">ติดต่อฝ่ายขาย</a>
+            </div>
+
+            <!-- Technical Support -->
+            <div class="support-card">
+                <h3>
+                    <div class="support-icon" style="background: #3b82f6;">🛠️</div>
+                    ฝ่ายสนับสนุนทางเทคนิค
+                </h3>
+                <p>ต้องการความช่วยเหลือเกี่ยวกับบัญชีหรือการซื้อขาย? ทีมสนับสนุนของเราพร้อมช่วยเหลือคุณ</p>
+                <div class="contact-details">
+                    <strong>Email:</strong> cs@biomassx.com<br>
+                    <strong>Phone:</strong> +66 95 926 3663<br>
+                    <strong>Hours:</strong> 24/7 Support Available
+                </div>
+                <a href="#" class="btn-support btn-outline-green">รับการสนับสนุน</a>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="form-card">
+            <h2>ส่งข้อความถึงเรา</h2>
+            <form onsubmit="event.preventDefault(); alert('ส่งข้อความเรียบร้อยแล้ว ทีมงานจะติดต่อกลับโดยเร็วที่สุด'); this.reset();">
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label class="form-label">ชื่อ *</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">นามสกุล *</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">ที่อยู่อีเมล *</label>
+                    <input type="email" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">บริษัท</label>
+                    <input type="text" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">หัวข้อ *</label>
+                    <select class="form-control" required>
+                        <option value="">เลือกหัวข้อ...</option>
+                        <option value="sales">ฝ่ายขายและการสมัคร</option>
+                        <option value="support">แจ้งปัญหาการใช้งาน</option>
+                        <option value="partnership">ติดต่อพาร์ทเนอร์</option>
+                        <option value="other">เรื่องอื่นๆ</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">ข้อความ *</label>
+                    <textarea class="form-control" placeholder="บอกเราได้ไหมว่าคุณต้องการความช่วยเหลืออย่างไร..." required></textarea>
+                </div>
+                
+                <button type="submit" class="btn-support btn-green" style="padding: 12px 30px; font-size: 1rem; border-radius: 8px; cursor: pointer; border: none;">ส่งข้อความ</button>
+            </form>
+        </div>
+
+        <!-- Offices -->
+        <div class="offices-card">
+            <h2>สำนักงานของเรา</h2>
+            <div class="offices-grid">
+                <div class="office-item">
+                    <h4>US อเมริกาเหนือ</h4>
+                    <div class="sub-title">สำนักงานนิวยอร์ก</div>
+                    <p>123 Biomass Street New York, NY 10001<br>สหรัฐอเมริกา โทรศัพท์: +1 (555) 123-4567</p>
+                </div>
+                <div class="office-item">
+                    <h4>SG เอเชียแปซิฟิก</h4>
+                    <div class="sub-title">สำนักงานกรุงเทพมหานคร</div>
+                    <p>57/51 Moo 1 Soi Tha-it Muang, Nonthaburi<br>11000 ไทย โทรศัพท์: +66 95 926 3663</p>
+                </div>
+                <div class="office-item">
+                    <h4>EU ยุโรป</h4>
+                    <div class="sub-title">สำนักงานอัมสเตอร์ดัม</div>
+                    <p>789 Sustainability Lane 1012 AB Amsterdam<br>เนเธอร์แลนด์ โทรศัพท์: +31 20 123 4567</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
+<script src="js/translations.js?v=11"></script>
+<script src="js/i18n.js?v=7"></script>
 </body>
 </html>

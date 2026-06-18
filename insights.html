@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -11,8 +11,67 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-</head>
+    <link rel="stylesheet" href="css/style.css?v=2">
+
+    <style>
+        /* Order Modal Styles */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; padding: 20px;
+        }
+        .modal-container {
+            background: white; border-radius: 16px; width: 100%; max-width: 650px;
+            max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            position: relative; animation: modalIn 0.3s ease-out;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .modal-header {
+            padding: 20px 30px; border-bottom: 1px solid #f1f5f9;
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px); z-index: 10;
+        }
+        .modal-header h2 { font-size: 1.25rem; font-weight: 700; color: #0f172a; margin: 0; }
+        .modal-close-btn {
+            background: white; border: 1px solid #e2e8f0; border-radius: 8px;
+            width: 32px; height: 32px; font-size: 1.2rem; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; color: #64748b;
+            transition: all 0.2s;
+        }
+        .modal-close-btn:hover { background: #f8fafc; color: #ef4444; border-color: #fca5a5; }
+        .modal-body { padding: 30px; }
+        .modal-section {
+            background: #f8fafc; border-radius: 12px; padding: 20px; margin-bottom: 20px;
+        }
+        .modal-section-title {
+            font-size: 1.05rem; font-weight: 700; color: #334155; margin-bottom: 15px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .modal-item label {
+            display: block; font-size: 0.85rem; color: #64748b; margin-bottom: 4px;
+        }
+        .modal-item div { font-size: 0.95rem; color: #0f172a; }
+        .modal-cta {
+            background: #eff6ff; border-radius: 12px; padding: 25px; text-align: center;
+            border: 1px solid #dbeafe; margin-top: 30px;
+        }
+        
+        /* New Table Column */
+        .btn-view {
+            background: var(--primary-green); color: white; border: none; padding: 6px 12px;
+            border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+            transition: all 0.2s; display: inline-flex; align-items: center; gap: 5px;
+        }
+        .btn-view:hover { background: var(--primary-hover); transform: translateY(-1px); }
+    </style>
+
+    </head>
 <body>
 
     <!-- Main Navbar -->
@@ -33,6 +92,17 @@
                 <select class="lang-select">
                     <option value="th">TH</option>
                     <option value="en">EN</option>
+                    <option value="kr">KR</option>
+                    <option value="jp">JP</option>
+                    <option value="vi">VI</option>
+                    <option value="pt">PT</option>
+                    <option value="es">ES</option>
+                    <option value="id">ID</option>
+                    <option value="de">DE</option>
+                    <option value="hi">HI</option>
+                    <option value="fr">FR</option>
+                    <option value="ru">RU</option>
+                    <option value="zh">中文</option>
                 </select>
                 <a href="login.html" class="btn btn-outline" style="border: 2px solid var(--primary-green);">เข้าสู่ระบบ</a>
             </div>
@@ -40,7 +110,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero" style="max-width: 1400px;">
+    <section class="hero">
         <h1>ซื้อขาย ชีวมวล เชื้อเพลิง และพลังงานชีวภาพ แบบประมูลสองฝั่ง</h1>
         <p>โอกาสเข้าถึงตลาดท้องถิ่นและตลาดโลก เพิ่มโอกาสในการซื้อขาย เสริมสร้างอนาคตพลังงานที่ยั่งยืน</p>
         
@@ -79,9 +149,13 @@
                 <h4>สินค้า</h4>
                 <select class="select-full">
                     <option>สินค้าทั้งหมด</option>
-                    <option>Wood charcoal briquettes</option>
-                    <option>Coconut carp chips</option>
-                    <option>Palm empty fruit bunches</option>
+                    <option>กระถิน</option>
+                    <option>ไม้กระถินสับ</option>
+                    <option>ไม้ท่อนกระถิน</option>
+                    <option>ไม้สับ (ทั่วไป)</option>
+                    <option>ขี้เลื่อย</option>
+                    <option>กะลาปาล์ม</option>
+                    <option>ขี้เถ้าแกลบ</option>
                 </select>
             </div>
 
@@ -130,12 +204,12 @@
                             <th>คำสั่ง</th>
                             <th>สินค้า</th>
                             <th>ปริมาณ</th>
-                            <th>ราคา/หน่วย</th>
                             <th>ตลาด</th>
-                            <th>ต้นทาง</th>
-                            <th>ปลายทาง</th>
+                            <th>ท่าเรือต้นทาง</th>
+                            <th>ท่าเรือปลายทาง</th>
                             <th>เงื่อนไขส่งมอบ</th>
                             <th>วันที่</th>
+                            <th>รายละเอียด</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -153,9 +227,124 @@
         </main>
     </div>
 
+    <!-- Order Details Modal -->
+    <div id="orderModal" class="modal-overlay" style="display: none;">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Order Details</h2>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h1 id="modalProductName" style="font-size: 1.8rem; font-weight: 700; color: #0f172a; margin-bottom: 10px;">-</h1>
+                <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 30px;">
+                    <span id="modalOrderType" style="padding: 6px 12px; border-radius: 6px; font-weight: 700; font-size: 0.85rem;">-</span>
+                    <span style="color: #64748b; font-size: 0.95rem;">Status: <span id="modalStatus" style="color: var(--primary-green); font-weight: 700;">Active</span></span>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title">📦 Product Information</h3>
+                    <div class="modal-grid">
+                        <div class="modal-item">
+                            <label>Quantity</label>
+                            <div id="modalQuantity" style="color: var(--primary-green); font-weight: 700; font-size: 1.1rem;">-</div>
+                        </div>
+                        <div class="modal-item">
+                            <label>Quality Standard</label>
+                            <div id="modalQuality" style="font-weight: 600;">-</div>
+                        </div>
+                        <div class="modal-item">
+                            <label>Packing</label>
+                            <div id="modalPacking" style="font-weight: 600;">-</div>
+                        </div>
+                        <div class="modal-item">
+                            <label>Contract Type</label>
+                            <div id="modalContract" style="font-weight: 600;">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title">🚚 Delivery & Location</h3>
+                    <div class="modal-grid">
+                        <div class="modal-item">
+                            <label>Delivery Terms</label>
+                            <div id="modalDelivery" style="font-weight: 600;">-</div>
+                        </div>
+                        <div class="modal-item">
+                            <label>Country</label>
+                            <div id="modalCountry" style="font-weight: 600;">-</div>
+                        </div>
+                        <div class="modal-item">
+                            <label>Province</label>
+                            <div id="modalProvince" style="font-weight: 600;">-</div>
+                        </div>
+                        <div class="modal-item">
+                            <label>District</label>
+                            <div id="modalDistrict" style="font-weight: 600;">-</div>
+                        </div>
+                        <div class="modal-item">
+                            <label>Subdistrict</label>
+                            <div id="modalSubdistrict" style="font-weight: 600;">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title">📅 Timeline & Payment</h3>
+                    <div class="modal-grid">
+                        <div class="modal-item">
+                            <label>First Delivery Date</label>
+                            <div id="modalFirstDate" style="font-weight: 600;">-</div>
+                        </div>
+                        <div class="modal-item">
+                            <label>Last Delivery Date</label>
+                            <div id="modalLastDate" style="font-weight: 600;">-</div>
+                        </div>
+                        <div class="modal-item">
+                            <label>Payment Terms</label>
+                            <div id="modalPayment" style="font-weight: 600;">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-cta">
+                    <div style="font-weight: 700; color: #1e40af; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        💰 Interested in this order?
+                    </div>
+                    <p style="color: #3b82f6; font-size: 0.95rem; margin-bottom: 20px;">Register or login to view pricing and place your order to match this demand!</p>
+                    <div style="display: flex; justify-content: center; gap: 15px;">
+                        <a href="register.html" class="btn btn-primary" style="padding: 10px 24px;">Create Account</a>
+                        <a href="login.html" class="btn btn-outline" style="padding: 10px 24px; border: 2px solid var(--primary-green);">Login</a>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px; font-size: 0.85rem; color: #64748b;">
+                    💡 <b>Note:</b> Price information is available to registered users. <a href="register.html" style="color: var(--primary-green); text-decoration: none;">Create an account</a> or <a href="login.html" style="color: var(--primary-green); text-decoration: none;">login</a> to view full details.
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
     <!-- Supabase CDN -->
     <script src="js/supabase.js"></script>
-    <script src="js/main.js?v=3"></script>
-    <script src="js/insights.js?v=2"></script>
+    <script src="js/main.js?v=2"></script>
+    <script src="js/market.js?v=8"></script>
+
+<script src="js/translations.js?v=11"></script>
+<script src="js/i18n.js?v=7"></script>
 </body>
 </html>

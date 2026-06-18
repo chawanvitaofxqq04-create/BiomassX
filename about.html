@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เกี่ยวกับเรา - BiomassX</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css?v=2">
+    
+    <style>
+        :root {
+            --premium-dark: #0f172a;
+            --premium-green: #10b981;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+        
+        body {
+            background-color: #f8fafc;
+            font-family: 'Prompt', 'Inter', sans-serif;
+        }
+
+        /* Hero Section Redesign */
+        .premium-hero {
+            position: relative;
+            padding: 140px 20px 160px;
+            background: var(--premium-dark);
+            color: white;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        /* Subtle animated background shapes */
+        .hero-blob {
+            position: absolute;
+            filter: blur(100px);
+            opacity: 0.4;
+            z-index: 0;
+            animation: float 12s ease-in-out infinite alternate;
+            border-radius: 50%;
+        }
+        .hero-blob-1 { top: -20%; left: -10%; width: 500px; height: 500px; background: #059669; }
+        .hero-blob-2 { bottom: -20%; right: -10%; width: 600px; height: 600px; background: #0284c7; animation-delay: -6s; }
+        .hero-blob-3 { top: 40%; left: 40%; width: 300px; height: 300px; background: #7c3aed; animation-delay: -3s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, -50px) scale(1.1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(16, 185, 129, 0.2);
+            color: #6ee7b7;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: #cbd5e1;
+            margin-bottom: 40px;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* Modern Bento Box Features */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+            max-width: 1200px;
+            margin: -80px auto 80px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .bento-card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            border: 1px solid rgba(255,255,255,0.8);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, transparent, transparent);
+            transition: all 0.4s;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(16, 185, 129, 0.12);
+        }
+        
+        .bento-card.accent-green:hover::before { background: linear-gradient(90deg, #10b981, #047857); }
+        .bento-card.accent-blue:hover::before { background: linear-gradient(90deg, #3b82f6, #1d4ed8); }
+        .bento-card.accent-purple:hover::before { background: linear-gradient(90deg, #8b5cf6, #6d28d9); }
+
+        .bento-large { grid-column: span 12; display: flex; align-items: center; gap: 40px; background: linear-gradient(135deg, #ffffff, #f8fafc); }
+        .bento-medium { grid-column: span 6; }
+        .bento-small { grid-column: span 4; }
+
+        @media (max-width: 992px) {
+            .bento-large { flex-direction: column; text-align: center; }
+            .bento-medium { grid-column: span 12; }
+            .bento-small { grid-column: span 6; }
+        }
+        @media (max-width: 576px) {
+            .bento-small { grid-column: span 12; }
+            .hero-content h1 { font-size: 2.5rem; }
+        }
+
+        .bento-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 25px;
+            background: #f1f5f9;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .bento-card:hover .bento-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .bento-card h3 {
+            font-size: 1.5rem;
+            color: #0f172a;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .bento-card p {
+            color: #64748b;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        /* Timeline / Process Section Redesign */
+        .process-section {
+            padding: 100px 20px;
+            background: white;
+            position: relative;
+        }
+
+        .process-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 70px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: #0f172a;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        
+        .section-header p {
+            color: #64748b;
+            font-size: 1.15rem;
+            line-height: 1.6;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 992px) {
+            .process-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+        }
+        @media (max-width: 576px) {
+            .process-grid { grid-template-columns: 1fr; }
+        }
+
+        .process-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            border: 1px solid #f1f5f9;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            z-index: 1;
+        }
+        
+        .process-card:hover {
+            transform: translateY(-8px);
+            border-color: transparent;
+            box-shadow: 0 25px 50px rgba(16, 185, 129, 0.1);
+            z-index: 2;
+        }
+
+        .process-number {
+            font-size: 5rem;
+            font-weight: 900;
+            color: transparent;
+            -webkit-text-stroke: 1.5px #e2e8f0;
+            margin-bottom: 15px;
+            transition: all 0.4s;
+            font-family: 'Inter', sans-serif;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            opacity: 0.5;
+            z-index: -1;
+        }
+        
+        .process-card:hover .process-number {
+            -webkit-text-stroke: 0px transparent;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            -webkit-background-clip: text;
+            opacity: 0.15;
+            transform: scale(1.2);
+        }
+
+        .process-card h4 {
+            font-size: 1.25rem;
+            color: #0f172a;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .process-card p {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Categories Section */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 100px;
+        }
+
+        .cat-premium {
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            border-radius: 30px;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            border: 1px solid #f1f5f9;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cat-premium::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0; height: 100%;
+            background: linear-gradient(0deg, rgba(16, 185, 129, 0.03), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .cat-premium:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.08);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+        
+        .cat-premium:hover::after {
+            opacity: 1;
+        }
+
+        .cat-icon-wrap {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Footer */
+        .site-footer {
+            background: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            padding: 50px 20px;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .footer-links a {
+            color: #475569;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover {
+            color: #10b981;
+        }
+        .footer-copyright {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" style="border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">X</span> BiomassX
+            </a>
+            
+            <div class="nav-links">
+                <a href="index.html" class="nav-link" data-i18n="nav.home">หน้าแรก</a>
+            </div>
+
+            <div class="nav-actions">
+                <select class="lang-select">
+                    <option value="th">TH</option>
+                    <option value="en">EN</option>
+                </select>
+                <a href="login.html" class="btn btn-outline" data-i18n="nav.login">เข้าสู่ระบบ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Premium Hero -->
+    <section class="premium-hero">
+        <div class="hero-blob hero-blob-1"></div>
+        <div class="hero-blob hero-blob-2"></div>
+        <div class="hero-blob hero-blob-3"></div>
+        
+        <div class="hero-content">
+            <div class="hero-badge">การค้าแห่งอนาคตที่ยั่งยืน</div>
+            <h1>ปฏิวัติวงการซื้อขายชีวมวล</h1>
+            <p>สัมผัสประสบการณ์แพลตฟอร์มที่ล้ำสมัยที่สุดในการเชื่อมต่อซัพพลายเออร์และผู้ซื้อทั่วโลก<br>ด้วยเทคโนโลยี AI และความโปร่งใสในระดับที่ไม่เคยมีมาก่อน</p>
+        </div>
+    </section>
+
+    <!-- Bento Grid Features -->
+    <div class="bento-grid">
+        <!-- Feature 1: Large -->
+        <div class="bento-card bento-large accent-green">
+            <div style="flex: 1;">
+                <div class="hero-badge" style="background: rgba(16,185,129,0.1); color: #059669; border:none; margin-bottom:15px;">Smart Matching</div>
+                <h3 style="font-size: 2.2rem; margin-bottom: 20px;">การจับคู่อัจฉริยะด้วย AI</h3>
+                <p style="font-size: 1.15rem;">อัลกอริธึมขั้นสูงของเราวิเคราะห์ข้อมูลนับล้านจุดเพื่อจับคู่ผู้ซื้อกับซัพพลายเออร์ที่เหมาะสมที่สุด ไม่ใช่แค่ตามราคา แต่พิจารณาถึงระยะทางโลจิสติกส์ คุณภาพ และประวัติการค้า</p>
+            </div>
+            <div style="flex: 1; text-align: center;">
+                <img src="https://illustrations.popsy.co/amber/keynote-presentation.svg" alt="AI Matching" style="max-width: 100%; height: auto; max-height: 280px; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.1));">
+            </div>
+        </div>
+
+        <!-- Feature 2: Medium -->
+        <div class="bento-card bento-medium accent-blue">
+            <div class="bento-icon" style="color: #2563eb; background: #eff6ff;">🛡️</div>
+            <h3>การชำระเงินไร้รอยต่อ & ปลอดภัย</h3>
+            <p>หมดยุคความกังวลเรื่องการฉ้อโกง ด้วยระบบ Escrow อัจฉริยะ เงินของคุณจะถูกล็อคไว้อย่างปลอดภัยจนกว่าสินค้าจะถึงมือและผ่านการตรวจสอบคุณภาพ 100%</p>
+        </div>
+
+        <!-- Feature 3: Medium -->
+        <div class="bento-card bento-medium accent-purple">
+            <div class="bento-icon" style="color: #7c3aed; background: #faf5ff;">📊</div>
+            <h3>วิเคราะห์เจาะลึกตลาดโลก</h3>
+            <p>ไม่พลาดทุกเทรนด์สำคัญ เข้าถึงข้อมูลการกำหนดราคากลางแบบเรียลไทม์ และข้อมูลเชิงลึกด้านอุปสงค์-อุปทาน ช่วยให้คุณตัดสินใจทางธุรกิจได้อย่างเฉียบขาด</p>
+        </div>
+    </div>
+
+    <!-- Process Section -->
+    <section class="process-section">
+        <div class="section-header">
+            <h2>กระบวนการที่ราบรื่นยิ่งกว่า</h2>
+            <p>เราออกแบบสถาปัตยกรรมระบบใหม่ทั้งหมด เพื่อให้การซื้อขายพลังงานชีวภาพของคุณง่ายดาย รวดเร็ว และเป็นระบบที่สุด</p>
+        </div>
+
+        <div class="process-grid">
+            <div class="process-card">
+                <div class="process-number">01</div>
+                <h4>ยืนยันตัวตนระดับ Enterprise</h4>
+                <p>สร้างบัญชีและผ่านกระบวนการ KYC/KYB ที่เข้มงวด รับรองความน่าเชื่อถือของผู้เล่นทุกรายในตลาด</p>
+            </div>
+            <div class="process-card">
+                <div class="process-number">02</div>
+                <h4>เสนอราคาและประมูล</h4>
+                <p>ลงประกาศความต้องการ หรือเข้าร่วมประมูลสินค้าแบบเรียลไทม์ด้วยกลไกการตั้งราคาที่ยุติธรรม</p>
+            </div>
+            <div class="process-card">
+                <div class="process-number">03</div>
+                <h4>ทำสัญญาดิจิทัล (Smart Contract)</h4>
+                <p>ตกลงเงื่อนไขและลงนามในสัญญาอิเล็กทรอนิกส์ที่มีผลผูกพันทางกฎหมายทันที ไม่ต้องใช้กระดาษแม้แต่แผ่นเดียว</p>
+            </div>
+            <div class="process-card">
+                <div class="process-number">04</div>
+                <h4>ติดตามขนส่ง & ชำระเงิน</h4>
+                <p>ติดตามสถานะโลจิสติกส์ผ่านระบบ GPS และรับการชำระเงินอัตโนมัติเมื่อสินค้าส่งถึงเป้าหมายอย่างปลอดภัย</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <div style="background: #f8fafc; padding-top: 40px;">
+        <div class="section-header">
+            <h2>รองรับทุกหมวดหมู่ชีวมวล</h2>
+        </div>
+        
+        <div class="category-grid">
+            <div class="cat-premium">
+                <div class="cat-icon-wrap">🌾</div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: #0f172a;">ผลพลอยได้ทางการเกษตร</h3>
+                <p style="color: #64748b; margin-bottom: 25px;">แกลบ กะลาปาล์ม ซังข้าวโพด ชานอ้อย และวัสดุเหลือทิ้งอื่นๆ ที่พร้อมแปลงเป็นพลังงานสะอาด</p>
+                <div style="display: inline-block; padding: 8px 16px; background: #f1f5f9; border-radius: 20px; font-size: 0.9rem; font-weight: 600; color: #475569;">+ 240 รายการ Active</div>
+            </div>
+            
+            <div class="cat-premium">
+                <div class="cat-icon-wrap">🪵</div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: #0f172a;">ชีวมวลประเภทไม้</h3>
+                <p style="color: #64748b; margin-bottom: 25px;">ไม้สับ (Woodchips) ขี้เลื่อยอัดเม็ด (Wood Pellets) ปีกไม้ และเศษไม้จากอุตสาหกรรมแปรรูป</p>
+                <div style="display: inline-block; padding: 8px 16px; background: #f1f5f9; border-radius: 20px; font-size: 0.9rem; font-weight: 600; color: #475569;">+ 185 รายการ Active</div>
+            </div>
+            
+            <div class="cat-premium">
+                <div class="cat-icon-wrap">🏭</div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: #0f172a;">เชื้อเพลิงขยะ & อุตสาหกรรม</h3>
+                <p style="color: #64748b; margin-bottom: 25px;">RDF (Refuse Derived Fuel) ขยะอุตสาหกรรมไม่อันตราย และกากตะกอนที่ให้ค่าความร้อนสูง</p>
+                <div style="display: inline-block; padding: 8px 16px; background: #f1f5f9; border-radius: 20px; font-size: 0.9rem; font-weight: 600; color: #475569;">+ 90 รายการ Active</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
+<script src="js/translations.js?v=11"></script>
+<script src="js/i18n.js?v=7"></script>
+</body>
+</html>

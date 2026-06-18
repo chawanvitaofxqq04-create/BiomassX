@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -10,24 +10,44 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Icons -->
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
     <style>
         .btn-outline { background: white; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 20px; font-weight: 600; transition: all 0.2s; }
         .btn-outline:hover { background: #f8fafc; border-color: #cbd5e1; }
         
-        /* Premium Invoices Page Styles */
-        body {
-            background-color: #f8fafc;
-            background-image: radial-gradient(at 0% 0%, hsla(152,100%,94%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(210,100%,97%,1) 0, transparent 50%);
-            background-attachment: fixed;
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
+        /* Premium Dashboard Styles (Shared with invoices) */
+        body { background-color: #f8fafc; font-family: 'Inter', 'Prompt', sans-serif; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; padding: 30px 0; }
+        .widget-card { background: white; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); padding: 28px; display: flex; flex-direction: column; height: 100%; transition: transform 0.2s, box-shadow 0.2s; }
+        .widget-card:hover { transform: translateY(-2px); box-shadow: 0 12px 30px -5px rgba(0,0,0,0.05); }
+        .widget-header { border-bottom: 1px solid #f1f5f9; padding-bottom: 18px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+        .widget-title { font-size: 1.25rem; font-weight: 700; color: #0f172a; margin: 0; }
+        .order-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+        .order-stat-box { background: white; border: 1px solid #e2e8f0; border-radius: 14px; padding: 24px 20px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.01); transition: all 0.2s; }
+        .order-stat-box:hover { border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .order-stat-box .value { font-size: 2.2rem; font-weight: 800; color: #0f172a; line-height: 1; margin-bottom: 10px; }
+        .order-stat-box .label { font-size: 0.9rem; font-weight: 600; color: #64748b; }
+        .co2-box { position: relative; overflow: hidden; }
+        .co2-box::after { content: ''; position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: rgba(255,255,255,0.05); border-radius: 50%; }
+
         
         .stat-card {
             padding: 30px; 
@@ -116,15 +136,15 @@
             </div>
 
             <div class="nav-actions" style="margin-left: auto;">
-                <div class="dashboard-user-info" style="display: flex; gap: 15px; align-items: center;">
-                <span id="userNameDisplay" class="company-name" style="font-weight: 600; color: #0f172a;">กำลังโหลดข้อมูล...</span>
-                <a href="profile.html" class="btn btn-outline" style="display: flex; align-items: center; gap: 5px;">
-                     โปรไฟล์
-                </a>
-                <a href="#" id="logoutBtn" class="btn btn-danger" style="display: flex; align-items: center; gap: 5px;">
-                     ออกจากระบบ
-                </a>
-            </div>
+                <div class="dashboard-user-info">
+                    <span id="userNameDisplay" class="company-name" style="font-weight: 600; color: #0f172a;">กำลังโหลดข้อมูล...</span>
+                    <a href="profile.html" class="btn btn-outline" style="display: flex; align-items: center; gap: 5px;">
+                         โปรไฟล์
+                    </a>
+                    <a href="#" id="logoutBtn" class="btn btn-danger" style="display: flex; align-items: center; gap: 5px;">
+                         ออกจากระบบ
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
@@ -148,90 +168,121 @@
     </div>
 
     <!-- Page Content -->
-    <div class="container" style="max-width: 1400px;">
+    <div class="container dashboard-grid" style="max-width: 1400px;">
         
-        <div class="page-header" style="text-align: center; margin-bottom: 40px; margin-top: 30px; border-bottom: none; padding-bottom: 0;">
-            <div style="display: flex; justify-content: center; align-items: center; gap: 16px; margin-bottom: 12px;">
-                <div style="background: linear-gradient(135deg, #dcfce7, #f0fdf4); color: #16a34a; width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 8px 15px -3px rgba(22, 163, 74, 0.15); border: 1px solid rgba(22, 163, 74, 0.1);">
-                    🧾
-                </div>
-                <h2 style="font-size: 2.2rem; font-weight: 800; color: #0f172a; letter-spacing: -1px; margin: 0;">
-                    ระบบจัดการใบแจ้งหนี้
-                </h2>
-            </div>
-            <p style="color: #64748b; font-size: 1.05rem;">ติดตามและจัดการยอดชำระเงินของคุณได้อย่างง่ายดาย</p>
-        </div>
-
-        <!-- Stats Grid -->
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px;">
-            <!-- Total Count -->
-            <div class="stat-card" style="background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,250,252,0.9));">
-                <div class="bg-icon">📄</div>
-                <div style="color: #64748b; font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">จำนวนใบแจ้งหนี้ทั้งหมด</div>
-                <div id="stat-invoice-count" style="font-size: 2.8rem; font-weight: 800; color: #0f172a; line-height: 1;">0</div>
+        <!-- Widget 1: สรุปใบแจ้งหนี้ -->
+        <div class="widget-card">
+            <div class="widget-header">
+                <h3 class="widget-title">สรุปใบแจ้งหนี้ของฉัน</h3>
             </div>
             
-            <!-- Pending -->
-            <div class="stat-card" style="background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,251,235,0.9)); border-color: rgba(253, 230, 138, 0.5);">
-                <div class="bg-icon" style="color: #f59e0b; opacity: 0.08; animation-delay: 1s;">⏳</div>
-                <div style="color: #d97706; font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
-                    <span style="display: inline-block; width: 8px; height: 8px; background: #f59e0b; border-radius: 50%; box-shadow: 0 0 8px #f59e0b;"></span> 
-                    ยอดคงค้าง (Pending)
+            <div class="order-stats">
+                <div class="order-stat-box">
+                    <div class="value" id="stat-pending-amount" style="color: #d97706; font-size: 1.8rem;">0</div>
+                    <div class="label text-muted text-sm">ยอดค้างชำระ (บาท)</div>
                 </div>
-                <div id="stat-pending-amount" style="font-size: 2.4rem; font-weight: 800; color: #b45309; letter-spacing: -0.5px; line-height: 1.1;">฿0.00</div>
+                <div class="order-stat-box">
+                    <div class="value" id="stat-paid-amount" style="color: #10b981; font-size: 1.8rem;">0</div>
+                    <div class="label text-muted text-sm">ชำระเงินแล้ว (บาท)</div>
+                </div>
             </div>
             
-            <!-- Paid -->
-            <div class="stat-card" style="background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,253,244,0.9)); border-color: rgba(187, 247, 208, 0.5);">
-                <div class="bg-icon" style="color: #10b981; opacity: 0.08; animation-delay: 2s;">✓</div>
-                <div style="color: #059669; font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
-                    <span style="display: inline-block; width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981;"></span> 
-                    ชำระเงินแล้ว (Paid)
-                </div>
-                <div id="stat-paid-amount" style="font-size: 2.4rem; font-weight: 800; color: #047857; letter-spacing: -0.5px; line-height: 1.1;">฿0.00</div>
+            <div class="co2-box" style="background: linear-gradient(135deg, #0f172a 0%, #334155 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 14px 0 rgba(15, 23, 42, 0.2);">
+                <div class="label" style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 5px;">จำนวนใบแจ้งหนี้ทั้งหมด:</div>
+                <div class="value" id="stat-invoice-count" style="font-size: 1.8rem; font-weight: 700;">0 รายการ</div>
+            </div>
+            
+            <div class="widget-buttons" style="display: flex; gap: 12px; margin-top: auto;">
+                <button class="btn btn-primary" style="flex: 1; background: #0f172a; border-color: #0f172a; color: white;">ชำระเงินค้างชำระ</button>
             </div>
         </div>
 
-        <!-- Filters -->
-        <div class="filter-container">
-            <span style="font-size: 0.85rem; font-weight: 700; color: #94a3b8; margin: 0 10px; text-transform: uppercase; letter-spacing: 0.5px;">ตัวกรอง</span>
-            <button class="filter-btn active" data-val="all">ทั้งหมด</button>
-            <button class="filter-btn" data-val="pending">⏳ ค้างชำระ</button>
-            <button class="filter-btn" data-val="paid">✓ ชำระแล้ว</button>
-        </div>
-        
-        <!-- Hidden select to trigger existing JS logic -->
-        <select id="filter-status" style="display: none;">
-            <option value="all">all</option>
-            <option value="pending">pending</option>
-            <option value="paid">paid</option>
-        </select>
-        
-        <script>
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('.filter-btn').forEach(b => { 
-                        b.classList.remove('active');
+        <!-- Widget 2: รายการใบแจ้งหนี้ -->
+        <div class="widget-card" style="grid-column: span 2;">
+            <div class="widget-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <h3 class="widget-title">รายการใบแจ้งหนี้</h3>
+                
+                <!-- Filters -->
+                <div class="filter-container" style="display: flex; gap: 4px; background: rgba(241,245,249,0.5); padding: 4px; border-radius: 8px; border: 1px solid #e2e8f0; margin: 0; box-shadow: none;">
+                    <button class="filter-btn active" data-val="all" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px;">ทั้งหมด</button>
+                    <button class="filter-btn" data-val="pending" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px;">ค้างชำระ</button>
+                    <button class="filter-btn" data-val="paid" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px;">ชำระแล้ว</button>
+                </div>
+            </div>
+            
+            <select id="filter-status" style="display: none;">
+                <option value="all">all</option>
+                <option value="pending">pending</option>
+                <option value="paid">paid</option>
+            </select>
+            
+            <script>
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.filter-btn').forEach(b => { 
+                            b.classList.remove('active');
+                        });
+                        e.target.classList.add('active');
+                        
+                        const select = document.getElementById('filter-status');
+                        select.value = e.target.dataset.val;
+                        select.dispatchEvent(new Event('change'));
                     });
-                    e.target.classList.add('active');
-                    
-                    const select = document.getElementById('filter-status');
-                    select.value = e.target.dataset.val;
-                    select.dispatchEvent(new Event('change'));
                 });
-            });
-        </script>
+            </script>
 
-        <!-- Dynamic Invoice List Container -->
-        <div id="invoice-list-container" style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
-            <!-- Invoices will be rendered here by JS -->
+            <div id="invoice-list-container" style="display: flex; flex-direction: column; gap: 12px; flex: 1; overflow-y: auto; max-height: 600px; padding-right: 5px;">
+                <!-- Invoices will be rendered here by JS -->
+            </div>
         </div>
 
     </div>
 
     <!-- Supabase CDN -->
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
     <script src="js/supabase.js"></script>
-    <script src="js/main.js?v=3"></script>
-    <script src="js/invoices.js"></script>
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
+    <script src="js/main.js?v=5"></script>
+        <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">เกี่ยวกับเรา</a>
+            <a href="contact.html">ติดต่อเรา</a>
+            <a href="guide.html">คู่มือการใช้งาน</a>
+            <a href="terms.html">ข้อกำหนดการให้บริการ</a>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 BiomassX. สงวนลิขสิทธิ์.
+        </div>
+    </footer>
+
+    <script src="js/invoices_v5.js"></script>
 </body>
 </html>
