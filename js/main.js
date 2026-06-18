@@ -40,6 +40,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             const firstname = document.getElementById('firstname').value;
             const lastname = document.getElementById('lastname').value;
+            const org = document.getElementById('org') ? document.getElementById('org').value : '';
+            const phone = document.getElementById('phone') ? document.getElementById('phone').value : '';
+            const taxid = document.getElementById('taxid') ? document.getElementById('taxid').value : '';
             const consumerSegment = document.getElementById('consumer_segment') ? document.getElementById('consumer_segment').value : '';
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
@@ -62,6 +65,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                         data: {
                             firstname: firstname,
                             lastname: lastname,
+                            company: org,
+                            phone: phone,
+                            taxid: taxid,
                             consumer_segment: consumerSegment
                         }
                     }
