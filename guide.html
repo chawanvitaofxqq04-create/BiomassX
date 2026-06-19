@@ -237,7 +237,7 @@
         </div>
         
         <!-- Getting Started Section -->
-        <div id="section-getting-started" class="guide-section" style="display: none; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <div id="section-getting-started" class="guide-section" style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-top: 40px;">
             <h2 style="font-size: 1.8rem; border-bottom: 2px solid var(--primary-green); padding-bottom: 10px; margin-bottom: 20px;">2. เริ่มต้นใช้งาน</h2>
             
             <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px;">2.1 การสร้างบัญชีผู้ใช้</h3>
@@ -314,7 +314,7 @@
         </div>
         
         <!-- Users Section -->
-        <div id="section-users" class="guide-section" style="display: none; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <div id="section-users" class="guide-section" style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-top: 40px;">
             <h2 style="font-size: 1.8rem; border-bottom: 2px solid var(--primary-green); padding-bottom: 10px; margin-bottom: 20px;">3. ผู้ใช้แพลตฟอร์ม</h2>
             
             <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px;">3.1 ประเภทของผู้ใช้งาน</h3>
@@ -336,7 +336,7 @@
         </div>
 
         <!-- Orders Section -->
-        <div id="section-orders" class="guide-section" style="display: none; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <div id="section-orders" class="guide-section" style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-top: 40px;">
             <h2 style="font-size: 1.8rem; border-bottom: 2px solid var(--primary-green); padding-bottom: 10px; margin-bottom: 20px;">4. คำสั่งซื้อขาย</h2>
             
             <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px;">4.1 การสร้างคำสั่ง</h3>
@@ -366,7 +366,7 @@
         </div>
 
         <!-- Matching Section -->
-        <div id="section-matching" class="guide-section" style="display: none; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <div id="section-matching" class="guide-section" style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-top: 40px;">
             <h2 style="font-size: 1.8rem; border-bottom: 2px solid var(--primary-green); padding-bottom: 10px; margin-bottom: 20px;">5. การจับคู่คำสั่งซื้อขาย</h2>
             
             <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px;">5.1 กลไกการจับคู่อัตโนมัติ</h3>
@@ -383,7 +383,7 @@
         </div>
         
         <!-- Placeholder for other sections -->
-        <div id="section-placeholder" class="guide-section" style="display: none; background: white; padding: 40px; border-radius: 12px; text-align: center; color: #64748b;">
+        <div id="section-placeholder" class="guide-section" style="display: none; background: white; padding: 40px; border-radius: 12px; text-align: center; color: #64748b; margin-top: 40px;">
             <h2 id="placeholder-title" style="color: var(--primary-green); margin-bottom: 20px;">หัวข้อ</h2>
             <p style="line-height: 1.6;">กำลังเตรียมข้อมูลและเนื้อหาส่วนนี้ของแพลตฟอร์ม BiomassX...</p>
         </div>
@@ -396,6 +396,10 @@
     <script src="js/i18n.js"></script>
     
     <script>
+        // Use smooth scrolling instead of hiding sections
+        html = document.documentElement;
+        html.style.scrollBehavior = "smooth";
+
         const navItems = document.querySelectorAll('.guide-nav-item');
         const sections = {
             '#intro': document.getElementById('section-intro'),
@@ -409,23 +413,33 @@
 
         navItems.forEach(item => {
             item.addEventListener('click', function(e) {
-                e.preventDefault();
-                navItems.forEach(nav => nav.classList.remove('active'));
-                this.classList.add('active');
-                
                 const sectionId = this.getAttribute('href');
                 
-                // Hide all sections first
-                Object.values(sections).forEach(sec => {
-                    if (sec) sec.style.display = 'none';
-                });
-                
+                // If it's a real section, just scroll to it
                 if (sections[sectionId]) {
-                    sections[sectionId].style.display = 'block';
+                    e.preventDefault();
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const targetElement = sections[sectionId];
+                    // Scroll to element with some offset for header
+                    const yOffset = -20; 
+                    const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    window.scrollTo({top: y, behavior: 'smooth'});
+                    
                     sectionPlaceholder.style.display = 'none';
                 } else {
+                    // For unimplemented sections, show placeholder at bottom
+                    e.preventDefault();
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
                     sectionPlaceholder.style.display = 'block';
                     placeholderTitle.innerText = this.innerText;
+                    
+                    const yOffset = -20; 
+                    const y = sectionPlaceholder.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    window.scrollTo({top: y, behavior: 'smooth'});
                 }
             });
         });
