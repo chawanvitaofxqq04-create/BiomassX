@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', async () => {
+﻿document.addEventListener('DOMContentLoaded', async () => {
     const tableBody = document.querySelector('.data-table tbody');
     if (!tableBody) return;
 
