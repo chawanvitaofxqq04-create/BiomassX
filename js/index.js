@@ -113,9 +113,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.warn('Could not fetch market_stats, using calculated values', e);
             }
 
-            if (elTotalOrders) elTotalOrders.innerText = totalOrders.toLocaleString();
-            if (elTotalValue) elTotalValue.innerText = '฿' + totalMarketValue.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
-            if (elTotalCo2) elTotalCo2.innerText = totalCO2Reduced.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
+            // Format large numbers function
+            function formatLargeNumber(num) {
+                if (num >= 1e12) return (num / 1e12).toFixed(1) + 'T';
+                if (num >= 1e9) return (num / 1e9).toFixed(1) + 'B';
+                if (num >= 1e6) return (num / 1e6).toFixed(1) + 'M';
+                if (num >= 1e3) return (num / 1e3).toFixed(1) + 'K';
+                return num.toLocaleString();
+            }
+
+            if (elTotalOrders) elTotalOrders.innerText = formatLargeNumber(totalOrders);
+            if (elTotalValue) elTotalValue.innerText = '฿' + formatLargeNumber(totalMarketValue);
+            if (elTotalCo2) elTotalCo2.innerText = formatLargeNumber(totalCO2Reduced);
 
             // 4. สร้างการ์ดดัชนีราคา (Market Index) เป็นแบบ Static ตามความต้องการ
             const marketIndexContainer = document.getElementById('market-index-container');
