@@ -315,24 +315,73 @@
         
         <!-- Users Section -->
         <div id="section-users" class="guide-section" style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-top: 40px;">
-            <h2 style="font-size: 1.8rem; border-bottom: 2px solid var(--primary-green); padding-bottom: 10px; margin-bottom: 20px;">3. ผู้ใช้แพลตฟอร์ม</h2>
+            <h2 style="font-size: 1.8rem; border-bottom: 2px solid var(--primary-green); padding-bottom: 10px; margin-bottom: 20px;">3. บทบาทและความสามารถของผู้ใช้</h2>
             
-            <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px;">3.1 ประเภทของผู้ใช้งาน</h3>
-            <p style="color: #334155; margin-bottom: 15px;">แพลตฟอร์ม BiomassX รองรับผู้ใช้งาน 4 ประเภทหลัก:</p>
-            <ul style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 25px; list-style-type: disc;">
-                <li><strong>ผู้ซื้อ (Buyer):</strong> ผู้ที่ต้องการซื้อชีวมวล เชื้อเพลิงชีวภาพ พลังงานชีวภาพ</li>
-                <li><strong>ผู้ขาย (Seller):</strong> ผู้ที่ต้องการขายชีวมวล เชื้อเพลิงชีวภาพ พลังงานชีวภาพ</li>
-                <li><strong>พ่อค้าคนกลาง (Middleman):</strong> ผู้ที่ทำหน้าที่เป็นทั้งผู้ซื้อและผู้ขายเพื่อทำกำไร</li>
-                <li><strong>ผู้ให้บริการ (Service Provider):</strong> ผู้ที่ให้บริการด้านขนส่ง โกดังสินค้า ท่าเรือ ฯลฯ</li>
+            <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px;">3.1 ประเภทบทบาท</h3>
+            <p style="color: #334155; margin-bottom: 15px;">BiomassX รองรับบทบาทผู้ใช้งานหลากหลายกลุ่มดังนี้:</p>
+            
+            <div style="overflow-x: auto; margin-bottom: 25px;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem; line-height: 1.6; color: #334155;">
+                    <thead>
+                        <tr style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                            <th style="padding: 12px 15px; text-align: left; border: 1px solid #e2e8f0;">ผู้ใช้</th>
+                            <th style="padding: 12px 15px; text-align: left; border: 1px solid #e2e8f0;">ตัวอย่าง</th>
+                            <th style="padding: 12px 15px; text-align: left; border: 1px solid #e2e8f0;">กิจกรรมหลัก</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0; font-weight: bold; vertical-align: top;">ผู้ซื้อ</td>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0; vertical-align: top;">ผู้บริโภคชีวมวล (ผู้ผลิตเชื้อเพลิงชีวภาพแข็ง/เหลว/ก๊าซ), ผู้บริโภคเชื้อเพลิงชีวภาพ (แข็ง/เหลว/ก๊าซ), ผู้บริโภคพลังงานชีวภาพ (ความร้อน ความเย็น ไอน้ำ และไฟฟ้า)</td>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0; vertical-align: top;">สร้างคำสั่งซื้อ, รอการจับคู่, ยืนยันสัญญา, รอรับสินค้า, ตรวจสอบคุณภาพ, ชำระค่าสินค้าแก่ผู้ขาย</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0; font-weight: bold; vertical-align: top;">ผู้ขาย</td>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0; vertical-align: top;">ผู้ผลิตชีวมวล (พืชพลังงาน, เศษวัสดุทางการเกษตรและป่าไม้, เศษวัสดุหรือผลพลอยได้อุตสาหกรรม), ผู้ผลิตเชื้อเพลิงชีวภาพ (แข็ง/เหลว/ก๊าซ) และผู้ผลิตพลังงานชีวภาพ (ความร้อน ความเย็น ไอน้ำ และไฟฟ้า)</td>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0; vertical-align: top;">สร้างคำสั่งขาย, รอการจับคู่, ยืนยันสัญญา, ส่งมอบสินค้า, รับเงินค่าสินค้าจากผู้ซื้อ</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0; font-weight: bold; vertical-align: top;">พ่อค้าคนกลาง</td>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0; vertical-align: top;">บุคคล/บริษัทที่ทำหน้าที่เป็นพ่อค้าคนกลาง</td>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0; vertical-align: top;">อำนวยความสะดวกการซื้อมาขายไป, ทำกำไรจากส่วนต่างราคา, สร้างคำสั่งซื้อและคำสั่งขาย</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0; font-weight: bold; vertical-align: top;">ผู้ให้บริการ</td>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0; vertical-align: top;">ผู้ให้บริการขนส่ง, ผู้ให้บริการให้เช่าโกดัง/ไซโล, ผู้ให้บริการตรวจสอบคุณภาพและปริมาณ, ผู้ให้บริการรมยา, และผู้ให้บริการอื่นๆ</td>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0; vertical-align: top;">ให้บริการที่เกี่ยวข้องสนับสนุนผู้ซื้อและผู้ขายในอุตสาหกรรม</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 15px;">3.2 ความสามารถของผู้ใช้</h3>
+            <p style="color: #334155; margin-bottom: 10px;"><strong>ผู้ใช้งานทุกคนสามารถ:</strong></p>
+            <ul style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 20px; list-style-type: disc;">
+                <li>สร้างและจัดการคำสั่งซื้อ</li>
+                <li>สร้างและจัดการคำสั่งขาย</li>
+                <li>ดูข้อมูลตลาดและข้อมูลสินค้า</li>
+                <li>จัดการโปรไฟล์และการตั้งค่า</li>
+                <li>แก้ไขหรือยกเลิกคำสั่งซื้อขายที่ยังไม่ถูกจับคู่</li>
+                <li>จัดการสัญญาที่ถูกจับคู่</li>
+                <li>เข้าถึงบันทึกใบแจ้งหนี้และการชำระเงิน</li>
+                <li>สลับระหว่างภาษาอังกฤษและภาษาอื่นๆ</li>
             </ul>
 
-            <h3 style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 15px;">3.2 การยืนยันตัวตน (KYC/KYB)</h3>
-            <p style="color: #334155; margin-bottom: 15px;">เพื่อความปลอดภัยและความน่าเชื่อถือ ผู้ใช้งานทุกรายต้องผ่านกระบวนการยืนยันตัวตน:</p>
-            <ol style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 25px;">
-                <li>อัปโหลดเอกสารส่วนตัว หรือเอกสารนิติบุคคล</li>
-                <li>รอการตรวจสอบจากผู้ดูแลระบบ</li>
-                <li>เมื่อผ่านการตรวจสอบ บัญชีของคุณจะสามารถทำธุรกรรมได้เต็มรูปแบบ</li>
-            </ol>
+            <p style="color: #334155; margin-bottom: 10px;"><strong>การดำเนินการเฉพาะผู้ซื้อ:</strong></p>
+            <ul style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 20px; list-style-type: disc;">
+                <li>ได้รับการแจ้งเตือนเมื่อคำสั่งซื้อได้จับคู่กับคำสั่งขาย</li>
+                <li>เข้าสู่ระบบเพื่อยืนยันในฐานะผู้ซื้อ</li>
+                <li>ได้รับใบแจ้งหนี้ค่าบริการแพลตฟอร์ม</li>
+                <li>ชำระค่าบริการ รับใบกำกับภาษีและใบเสร็จรับเงิน</li>
+            </ul>
+
+            <p style="color: #334155; margin-bottom: 10px;"><strong>การดำเนินการเฉพาะผู้ขาย:</strong></p>
+            <ul style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 25px; list-style-type: disc;">
+                <li>ได้รับการแจ้งเตือนเมื่อคำสั่งขายได้จับคู่กับคำสั่งซื้อ</li>
+                <li>เข้าสู่ระบบเพื่อยืนยันสัญญาในฐานะผู้ขาย</li>
+                <li>ได้รับใบแจ้งหนี้ค่าบริการแพลตฟอร์ม</li>
+                <li>ชำระค่าบริการ รับใบกำกับภาษีและใบเสร็จรับเงิน</li>
+            </ul>
         </div>
 
         <!-- Orders Section -->
