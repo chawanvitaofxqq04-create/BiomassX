@@ -313,6 +313,75 @@
             </ul>
         </div>
         
+        <!-- Users Section -->
+        <div id="section-users" class="guide-section" style="display: none; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h2 style="font-size: 1.8rem; border-bottom: 2px solid var(--primary-green); padding-bottom: 10px; margin-bottom: 20px;">3. ผู้ใช้แพลตฟอร์ม</h2>
+            
+            <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px;">3.1 ประเภทของผู้ใช้งาน</h3>
+            <p style="color: #334155; margin-bottom: 15px;">แพลตฟอร์ม BiomassX รองรับผู้ใช้งาน 4 ประเภทหลัก:</p>
+            <ul style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 25px; list-style-type: disc;">
+                <li><strong>ผู้ซื้อ (Buyer):</strong> ผู้ที่ต้องการซื้อชีวมวล เชื้อเพลิงชีวภาพ พลังงานชีวภาพ</li>
+                <li><strong>ผู้ขาย (Seller):</strong> ผู้ที่ต้องการขายชีวมวล เชื้อเพลิงชีวภาพ พลังงานชีวภาพ</li>
+                <li><strong>พ่อค้าคนกลาง (Middleman):</strong> ผู้ที่ทำหน้าที่เป็นทั้งผู้ซื้อและผู้ขายเพื่อทำกำไร</li>
+                <li><strong>ผู้ให้บริการ (Service Provider):</strong> ผู้ที่ให้บริการด้านขนส่ง โกดังสินค้า ท่าเรือ ฯลฯ</li>
+            </ul>
+
+            <h3 style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 15px;">3.2 การยืนยันตัวตน (KYC/KYB)</h3>
+            <p style="color: #334155; margin-bottom: 15px;">เพื่อความปลอดภัยและความน่าเชื่อถือ ผู้ใช้งานทุกรายต้องผ่านกระบวนการยืนยันตัวตน:</p>
+            <ol style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 25px;">
+                <li>อัปโหลดเอกสารส่วนตัว หรือเอกสารนิติบุคคล</li>
+                <li>รอการตรวจสอบจากผู้ดูแลระบบ</li>
+                <li>เมื่อผ่านการตรวจสอบ บัญชีของคุณจะสามารถทำธุรกรรมได้เต็มรูปแบบ</li>
+            </ol>
+        </div>
+
+        <!-- Orders Section -->
+        <div id="section-orders" class="guide-section" style="display: none; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h2 style="font-size: 1.8rem; border-bottom: 2px solid var(--primary-green); padding-bottom: 10px; margin-bottom: 20px;">4. คำสั่งซื้อขาย</h2>
+            
+            <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px;">4.1 การสร้างคำสั่ง</h3>
+            <p style="color: #334155; margin-bottom: 15px;">คุณสามารถสร้างคำสั่งซื้อ (Bid) หรือคำสั่งขาย (Offer) ได้ตามขั้นตอนดังนี้:</p>
+            <ol style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 25px;">
+                <li>ไปที่เมนู <strong>"คำสั่งซื้อขาย"</strong></li>
+                <li>คลิก <strong>"สร้างคำสั่งซื้อ"</strong> หรือ <strong>"สร้างคำสั่งขาย"</strong></li>
+                <li>กรอกรายละเอียด:
+                    <ul style="padding-left: 20px; margin-top: 5px; list-style-type: circle;">
+                        <li>ชนิดสินค้า</li>
+                        <li>ปริมาณ</li>
+                        <li>ราคา (ต่อหน่วย)</li>
+                        <li>สถานที่จัดส่ง</li>
+                        <li>เงื่อนไขส่งมอบ (INCOTERMS)</li>
+                        <li>ระยะเวลาที่ต้องการ (SPOT/FORWARD)</li>
+                    </ul>
+                </li>
+                <li>ตรวจสอบข้อมูลและคลิก <strong>"ยืนยันการสร้างคำสั่ง"</strong></li>
+            </ol>
+
+            <h3 style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 15px;">4.2 สถานะคำสั่งซื้อขาย</h3>
+            <ul style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 25px; list-style-type: disc;">
+                <li><strong style="color: #eab308;">รอดำเนินการ (Pending):</strong> คำสั่งถูกสร้างแล้วและกำลังรอการจับคู่</li>
+                <li><strong style="color: #10b981;">จับคู่แล้ว (Matched):</strong> ระบบพบคำสั่งที่ตรงกันและเข้าสู่กระบวนการทำสัญญา</li>
+                <li><strong style="color: #ef4444;">ยกเลิก (Cancelled):</strong> คำสั่งถูกยกเลิกโดยผู้ใช้งานหรือระบบ</li>
+            </ul>
+        </div>
+
+        <!-- Matching Section -->
+        <div id="section-matching" class="guide-section" style="display: none; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h2 style="font-size: 1.8rem; border-bottom: 2px solid var(--primary-green); padding-bottom: 10px; margin-bottom: 20px;">5. การจับคู่คำสั่งซื้อขาย</h2>
+            
+            <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px;">5.1 กลไกการจับคู่อัตโนมัติ</h3>
+            <p style="color: #334155; margin-bottom: 15px;">ระบบ BiomassX ใช้อัลกอริทึมและ AI ในการจับคู่คำสั่งซื้อ (Bid) และคำสั่งขาย (Offer) โดยอัตโนมัติ โดยพิจารณาจาก:</p>
+            <ul style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 25px; list-style-type: disc;">
+                <li><strong>ชนิดสินค้าและคุณภาพ:</strong> ต้องตรงกัน 100%</li>
+                <li><strong>ปริมาณ:</strong> สามารถจับคู่แบบบางส่วน (Partial Match) ได้</li>
+                <li><strong>ราคา:</strong> ราคาเสนอขายต้องน้อยกว่าหรือเท่ากับราคาเสนอซื้อ</li>
+                <li><strong>สถานที่และเงื่อนไขส่งมอบ:</strong> ต้องสอดคล้องกันหรือคำนวณค่าขนส่งเพิ่มเติมได้</li>
+            </ul>
+
+            <h3 style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 15px;">5.2 การแจ้งเตือน</h3>
+            <p style="color: #334155; margin-bottom: 25px;">เมื่อระบบพบคำสั่งที่ตรงกัน คุณจะได้รับการแจ้งเตือนผ่านอีเมลและบนหน้าแดชบอร์ด เพื่อให้เข้าสู่ขั้นตอนการทำสัญญา</p>
+        </div>
+        
         <!-- Placeholder for other sections -->
         <div id="section-placeholder" class="guide-section" style="display: none; background: white; padding: 40px; border-radius: 12px; text-align: center; color: #64748b;">
             <h2 id="placeholder-title" style="color: var(--primary-green); margin-bottom: 20px;">หัวข้อ</h2>
@@ -328,8 +397,13 @@
     
     <script>
         const navItems = document.querySelectorAll('.guide-nav-item');
-        const sectionIntro = document.getElementById('section-intro');
-        const sectionGettingStarted = document.getElementById('section-getting-started');
+        const sections = {
+            '#intro': document.getElementById('section-intro'),
+            '#getting-started': document.getElementById('section-getting-started'),
+            '#users': document.getElementById('section-users'),
+            '#orders': document.getElementById('section-orders'),
+            '#matching': document.getElementById('section-matching')
+        };
         const sectionPlaceholder = document.getElementById('section-placeholder');
         const placeholderTitle = document.getElementById('placeholder-title');
 
@@ -341,17 +415,15 @@
                 
                 const sectionId = this.getAttribute('href');
                 
-                if (sectionId === '#intro') {
-                    sectionIntro.style.display = 'block';
-                    if(sectionGettingStarted) sectionGettingStarted.style.display = 'none';
-                    sectionPlaceholder.style.display = 'none';
-                } else if (sectionId === '#getting-started') {
-                    sectionIntro.style.display = 'none';
-                    if(sectionGettingStarted) sectionGettingStarted.style.display = 'block';
+                // Hide all sections first
+                Object.values(sections).forEach(sec => {
+                    if (sec) sec.style.display = 'none';
+                });
+                
+                if (sections[sectionId]) {
+                    sections[sectionId].style.display = 'block';
                     sectionPlaceholder.style.display = 'none';
                 } else {
-                    sectionIntro.style.display = 'none';
-                    if(sectionGettingStarted) sectionGettingStarted.style.display = 'none';
                     sectionPlaceholder.style.display = 'block';
                     placeholderTitle.innerText = this.innerText;
                 }
