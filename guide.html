@@ -963,6 +963,163 @@
                 <li>ยอดคงเหลือ</li>
             </ul>
         </div>
+
+        <!-- Payments Section -->
+        <div id="section-payments" class="guide-section" style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-top: 40px;">
+            <h2 style="font-size: 1.8rem; border-bottom: 2px solid var(--primary-green); padding-bottom: 10px; margin-bottom: 20px;">8. การจัดการการชำระเงิน</h2>
+            
+            <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px;">8.1 ภาพรวมกระบวนการชำระเงิน</h3>
+            <p style="color: #334155; margin-bottom: 15px;">BiomassX ติดตามการชำระเงินผ่านกระบวนการสองขั้นตอน:</p>
+            <ol style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 25px;">
+                <li><strong>การสร้างใบเสร็จรับเงิน:</strong> บันทึกว่ามีการชำระเงิน/รับเงิน</li>
+                <li><strong>การจัดสรรการชำระเงิน:</strong> เชื่อมโยงการชำระเงินกับใบแจ้งหนี้ที่เฉพาะเจาะจง</li>
+            </ol>
+
+            <h3 style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 15px;">8.2 การสร้างใบเสร็จรับเงิน</h3>
+            <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">1</div>
+                <p style="color: #334155; margin: 0;">ไปที่ <strong>การชำระเงิน → ใบเสร็จรับเงิน</strong></p>
+            </div>
+            <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">2</div>
+                <p style="color: #334155; margin: 0;">คลิก <strong>สร้างใบเสร็จรับเงินใหม่</strong></p>
+            </div>
+            <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">3</div>
+                <p style="color: #334155; margin: 0;">กรอกรายละเอียดใบเสร็จรับเงิน:</p>
+            </div>
+            <ul style="line-height: 1.7; color: #334155; padding-left: 54px; margin-bottom: 15px; list-style-type: disc;">
+                <li><strong>จำนวนเงินที่ชำระ:</strong> จำนวนเงินชำระทั้งหมด</li>
+                <li><strong>สกุลเงิน:</strong> สกุลเงินที่ชำระ</li>
+                <li><strong>วันที่ชำระเงิน:</strong> เมื่อมีการชำระเงิน/รับเงิน</li>
+                <li><strong>วิธีการชำระเงิน:</strong> โอนเงินผ่านธนาคาร, เช็ค, โอนสาย เป็นต้น</li>
+                <li><strong>หมายเลขอ้างอิงการชำระเงิน:</strong> รหัสธุรกรรม, หมายเลขเช็ค เป็นต้น</li>
+                <li><strong>หมายเหตุ:</strong> ข้อมูลเพิ่มเติมใดๆ (ไม่บังคับ)</li>
+            </ul>
+            <div style="display: flex; align-items: flex-start; margin-bottom: 25px;">
+                <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">4</div>
+                <p style="color: #334155; margin: 0;">คลิก <strong>สร้างใบเสร็จรับเงิน</strong></p>
+            </div>
+
+            <div style="background-color: #dcfce7; border-left: 4px solid #22c55e; padding: 15px; border-radius: 4px; margin-bottom: 25px;">
+                <p style="color: #166534; margin: 0; font-size: 0.95rem;">✔️ <strong>สร้างใบเสร็จรับเงินแล้ว!</strong> หมายเลขใบเสร็จรับเงินเฉพาะจะถูกสร้างขึ้นโดยอัตโนมัติ</p>
+            </div>
+
+            <h3 style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 15px;">8.3 การจัดสรรการชำระเงินให้กับใบแจ้งหนี้</h3>
+            <p style="color: #334155; margin-bottom: 15px;">หลังจากสร้างใบเสร็จรับเงินแล้ว คุณต้องจัดสรรให้กับใบแจ้งหนี้หนึ่งฉบับหรือมากกว่า:</p>
+            <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">1</div>
+                <p style="color: #334155; margin: 0;">จากหน้ารายละเอียดใบเสร็จรับเงิน คลิก <strong>จัดสรรการชำระเงิน</strong></p>
+            </div>
+            <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">2</div>
+                <p style="color: #334155; margin: 0;">เลือกใบแจ้งหนี้ที่จะจัดสรรการชำระเงินให้</p>
+            </div>
+            <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">3</div>
+                <p style="color: #334155; margin: 0;">สำหรับใบแจ้งหนี้แต่ละฉบับ ใส่จำนวนเงินที่จัดสรร</p>
+            </div>
+            <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">4</div>
+                <p style="color: #334155; margin: 0;">ตรวจสอบสรุปการจัดสรร:</p>
+            </div>
+            <ul style="line-height: 1.7; color: #334155; padding-left: 54px; margin-bottom: 15px; list-style-type: disc;">
+                <li>จำนวนเงินในใบเสร็จรับเงินทั้งหมด</li>
+                <li>ยอดรวมที่จัดสรรแล้ว</li>
+                <li>ยอดคงเหลือที่ยังไม่ได้จัดสรร</li>
+            </ul>
+            <div style="display: flex; align-items: flex-start; margin-bottom: 25px;">
+                <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">5</div>
+                <p style="color: #334155; margin: 0;">คลิก <strong>ยืนยันการจัดสรร</strong></p>
+            </div>
+
+            <div style="background-color: #f0fdf4; border-left: 4px solid #22c55e; padding: 15px; border-radius: 4px; margin-bottom: 25px;">
+                <p style="color: #166534; margin: 0; font-size: 0.95rem;"><strong>การจัดสรรบางส่วน:</strong> คุณสามารถจัดสรรส่วนหนึ่งของใบเสร็จรับเงินให้กับใบแจ้งหนี้ฉบับหนึ่ง และส่วนที่เหลือให้กับอีกฉบับหนึ่ง จำนวนเงินที่ยังไม่ได้จัดสรรจะยังคงพร้อมสำหรับการจัดสรรในอนาคต</p>
+            </div>
+
+            <h3 style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 15px;">8.4 การอัปเดตสถานะใบแจ้งหนี้อัตโนมัติ</h3>
+            <p style="color: #334155; margin-bottom: 15px;">เมื่อคุณจัดสรรการชำระเงินให้กับใบแจ้งหนี้ ระบบจะทำโดยอัตโนมัติ:</p>
+            <ul style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 25px; list-style-type: disc;">
+                <li>อัปเดตจำนวนเงินที่ชำระแล้วในใบแจ้งหนี้</li>
+                <li>คำนวณยอดคงเหลือใหม่</li>
+                <li>เปลี่ยนสถานะใบแจ้งหนี้:
+                    <ul style="list-style-type: circle; padding-left: 20px; margin-top: 5px;">
+                        <li>เป็น <strong>ชำระบางส่วน</strong> หากชำระบางส่วน</li>
+                        <li>เป็น <strong>ชำระแล้ว</strong> หากชำระครบถ้วน</li>
+                    </ul>
+                </li>
+                <li>ส่งการแจ้งเตือนไปยังอีกฝ่ายหนึ่ง</li>
+            </ul>
+
+            <h3 style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 15px;">8.5 ดูประวัติการชำระเงิน</h3>
+            <p style="color: #334155; margin-bottom: 10px;"><strong>สำหรับใบแจ้งหนี้</strong></p>
+            <ul style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 20px; list-style-type: disc;">
+                <li>เปิดหน้ารายละเอียดใบแจ้งหนี้</li>
+                <li>คลิกสรุปการชำระเงินหรือเลื่อนไปยังส่วนการชำระเงิน</li>
+                <li>ดูการชำระเงินทั้งหมดที่จัดสรรให้กับใบแจ้งหนี้นี้</li>
+            </ul>
+
+            <p style="color: #334155; margin-bottom: 10px;"><strong>สำหรับบัญชีของคุณ</strong></p>
+            <ul style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 25px; list-style-type: disc;">
+                <li>ไปที่ <strong>การชำระเงิน → ใบเสร็จรับเงิน</strong></li>
+                <li>ดูใบเสร็จรับเงินทั้งหมดที่คุณสร้างหรือได้รับ</li>
+                <li>กรองตามวันที่ สถานะ หรือจำนวนเงิน</li>
+            </ul>
+
+            <h3 style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 15px;">8.6 Payment Receipts vs Allocations</h3>
+            <div style="overflow-x: auto; margin-bottom: 25px;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem; line-height: 1.6; color: #334155;">
+                    <thead>
+                        <tr style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                            <th style="padding: 12px 15px; text-align: left; border: 1px solid #e2e8f0;">ใบเสร็จรับเงิน</th>
+                            <th style="padding: 12px 15px; text-align: left; border: 1px solid #e2e8f0;">การจัดสรร</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0;">บันทึกธุรกรรมการชำระเงินจริง</td>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0;">เชื่อมโยงการชำระเงินกับใบแจ้งหนี้ที่เฉพาะเจาะจง</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0;">มีหมายเลขใบเสร็จรับเงิน</td>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0;">มีรหัสการจัดสรร</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0;">จำนวนเงินชำระทั้งหมด</td>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0;">ส่วนที่จัดสรรให้กับใบแจ้งหนี้แต่ละฉบับ</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0;">สร้างก่อน</td>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0;">สร้างหลังจากใบเสร็จรับเงิน</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0;">ใบเสร็จรับเงินหนึ่งฉบับสามารถชำระใบแจ้งหนี้หลายฉบับได้</td>
+                            <td style="padding: 12px 15px; border: 1px solid #e2e8f0;">หลายการจัดสรรต่อใบเสร็จรับเงินหนึ่งฉบับ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 15px;">8.7 การติดตามการชำระเงินสำหรับผู้ซื้อ</h3>
+            <p style="color: #334155; margin-bottom: 15px;">ในฐานะผู้ซื้อ คุณควร:</p>
+            <ol style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 25px;">
+                <li>ตรวจสอบใบแจ้งหนี้ที่ได้รับจากผู้ขาย</li>
+                <li>ชำระเงินผ่านธนาคาร/วิธีการชำระเงินของคุณ</li>
+                <li>สร้างใบเสร็จรับเงินใน BiomassX พร้อมรายละเอียดการชำระเงิน</li>
+                <li>จัดสรรการชำระเงินให้กับใบแจ้งหนี้ที่สอดคล้องกัน</li>
+                <li>ผู้ขายได้รับการแจ้งเตือนการชำระเงิน</li>
+            </ol>
+
+            <h3 style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 15px;">8.8 การติดตามการชำระเงินสำหรับผู้ขาย</h3>
+            <p style="color: #334155; margin-bottom: 15px;">ในฐานะผู้ขาย คุณควร:</p>
+            <ol style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 25px;">
+                <li>ออกใบแจ้งหนี้ให้กับผู้ซื้อ</li>
+                <li>ติดตามวันครบกำหนดชำระเงิน</li>
+                <li>เมื่อได้รับการชำระเงินในบัญชีธนาคารของคุณ ให้สร้างใบเสร็จรับเงิน</li>
+                <li>จัดสรรการชำระเงินที่ได้รับให้กับใบแจ้งหนี้ของผู้ซื้อ</li>
+                <li>ติดตามใบแจ้งหนี้ค้างชำระและติดตามตามความจำเป็น</li>
+            </ol>
+        </div>
         
         <!-- Placeholder for other sections -->
         <div id="section-placeholder" class="guide-section" style="display: none; background: white; padding: 40px; border-radius: 12px; text-align: center; color: #64748b; margin-top: 40px;">
