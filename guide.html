@@ -386,32 +386,87 @@
 
         <!-- Orders Section -->
         <div id="section-orders" class="guide-section" style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-top: 40px;">
-            <h2 style="font-size: 1.8rem; border-bottom: 2px solid var(--primary-green); padding-bottom: 10px; margin-bottom: 20px;">4. คำสั่งซื้อขาย</h2>
+            <h2 style="font-size: 1.8rem; border-bottom: 2px solid var(--primary-green); padding-bottom: 10px; margin-bottom: 20px;">4. การสร้างและจัดการคำสั่งซื้อขาย</h2>
             
-            <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px;">4.1 การสร้างคำสั่ง</h3>
-            <p style="color: #334155; margin-bottom: 15px;">คุณสามารถสร้างคำสั่งซื้อ (Bid) หรือคำสั่งขาย (Offer) ได้ตามขั้นตอนดังนี้:</p>
-            <ol style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 25px;">
-                <li>ไปที่เมนู <strong>"คำสั่งซื้อขาย"</strong></li>
-                <li>คลิก <strong>"สร้างคำสั่งซื้อ"</strong> หรือ <strong>"สร้างคำสั่งขาย"</strong></li>
-                <li>กรอกรายละเอียด:
-                    <ul style="padding-left: 20px; margin-top: 5px; list-style-type: circle;">
-                        <li>ชนิดสินค้า</li>
-                        <li>ปริมาณ</li>
-                        <li>ราคา (ต่อหน่วย)</li>
-                        <li>สถานที่จัดส่ง</li>
-                        <li>เงื่อนไขส่งมอบ (INCOTERMS)</li>
-                        <li>ระยะเวลาที่ต้องการ (SPOT/FORWARD)</li>
-                    </ul>
-                </li>
-                <li>ตรวจสอบข้อมูลและคลิก <strong>"ยืนยันการสร้างคำสั่ง"</strong></li>
-            </ol>
+            <h3 style="font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px;">4.1 สร้างคำสั่งซื้อ/คำสั่งขาย</h3>
+            <p style="color: #334155; margin-bottom: 25px; line-height: 1.6;">เข้าสู่ระบบแล้วไปที่เมนู <strong>Orders</strong> จากหน้าแดชบอร์ด จากนั้นคลิก <strong>Create Order</strong> และกรอกแบบฟอร์มคำสั่งซื้อ/คำสั่งขาย</p>
+            
+            <div style="margin-bottom: 25px;">
+                <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                    <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">1</div>
+                    <p style="color: #334155; margin: 0; font-weight: bold;">ประเภทคำสั่ง</p>
+                </div>
+                <div style="padding-left: 34px; margin-bottom: 20px;">
+                    <p style="color: #334155; font-weight: bold; margin-bottom: 5px;">ซื้อ (Buy)</p>
+                    <p style="color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px;">คำสั่งซื้อหมายความว่าคุณต้องการซื้อ ชีวมวล เชื้อเพลิงชีวภาพ หรือ พลังงานชีวภาพ ที่เฉพาะเจาะจงด้วย ราคาที่คุณต้องการซื้อ คุณภาพ (มาตรฐานและเกรด) ปริมาณ การบรรจุภัณฑ์ เงื่อนไขการส่งมอบ เงื่อนไขการชำระเงิน</p>
+                    <p style="color: #334155; font-weight: bold; margin-bottom: 5px;">ขาย (Sell)</p>
+                    <p style="color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 0;">คำสั่งขายหมายความว่าคุณต้องการขาย ชีวมวล เชื้อเพลิงชีวภาพ หรือ พลังงานชีวภาพ ที่เฉพาะเจาะจงด้วย ราคาที่คุณต้องการขาย คุณภาพ (มาตรฐานและเกรด) ปริมาณ การบรรจุภัณฑ์ เงื่อนไขการส่งมอบ เงื่อนไขการชำระเงิน</p>
+                </div>
 
-            <h3 style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 15px;">4.2 สถานะคำสั่งซื้อขาย</h3>
-            <ul style="line-height: 1.7; color: #334155; padding-left: 20px; margin-bottom: 25px; list-style-type: disc;">
-                <li><strong style="color: #eab308;">รอดำเนินการ (Pending):</strong> คำสั่งถูกสร้างแล้วและกำลังรอการจับคู่</li>
-                <li><strong style="color: #10b981;">จับคู่แล้ว (Matched):</strong> ระบบพบคำสั่งที่ตรงกันและเข้าสู่กระบวนการทำสัญญา</li>
-                <li><strong style="color: #ef4444;">ยกเลิก (Cancelled):</strong> คำสั่งถูกยกเลิกโดยผู้ใช้งานหรือระบบ</li>
-            </ul>
+                <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                    <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">2</div>
+                    <p style="color: #334155; margin: 0; font-weight: bold;">สินค้า</p>
+                </div>
+                <div style="padding-left: 34px; margin-bottom: 20px;">
+                    <p style="color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 0;">เลือกสินค้าที่คุณต้องการซื้อหรือต้องการขายด้วยการค้นหาจากคำแล้วคลิกเลือก</p>
+                </div>
+
+                <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                    <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">3</div>
+                    <p style="color: #334155; margin: 0; font-weight: bold;">จำนวน</p>
+                </div>
+                <div style="padding-left: 34px; margin-bottom: 20px;">
+                    <p style="color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 0;">ระบุจำนวนสินค้าที่คุณต้องการซื้อหรือขาย</p>
+                </div>
+
+                <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                    <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">4</div>
+                    <p style="color: #334155; margin: 0; font-weight: bold;">หน่วยวัด</p>
+                </div>
+                <div style="padding-left: 34px; margin-bottom: 20px;">
+                    <p style="color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 0;">เลือกหน่วยนับสินค้า (เช่น ตัน, กิโลกรัม, Kcal, GJ, kWh, ลิตร)</p>
+                </div>
+
+                <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                    <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">5</div>
+                    <p style="color: #334155; margin: 0; font-weight: bold;">ราคาต่อหน่วย</p>
+                </div>
+                <div style="padding-left: 34px; margin-bottom: 20px;">
+                    <p style="color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 0;">ระบุราคาต่อหน่วยนับที่คุณต้องการซื้อ (สำหรับคำสั่งเสนอซื้อ) หรือ ราคาต่อหน่วยนับที่คุณต้องการขาย (สำหรับคำสั่งเสนอขาย)</p>
+                </div>
+
+                <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                    <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">6</div>
+                    <p style="color: #334155; margin: 0; font-weight: bold;">สกุลเงิน</p>
+                </div>
+                <div style="padding-left: 34px; margin-bottom: 20px;">
+                    <p style="color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 0;">เลือกสกุลเงิน (เช่น THB, USD, EUR)</p>
+                </div>
+
+                <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                    <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">7</div>
+                    <p style="color: #334155; margin: 0; font-weight: bold;">ขอบเขตตลาด</p>
+                </div>
+                <div style="padding-left: 34px; margin-bottom: 20px;">
+                    <p style="color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 0;">เลือกขอบเขตตลาด ว่าต้องการซื้อขายตลาดในประเทศ หรือตลาดโลก</p>
+                </div>
+
+                <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                    <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">8</div>
+                    <p style="color: #334155; margin: 0; font-weight: bold;">คุณภาพ</p>
+                </div>
+                <div style="padding-left: 34px; margin-bottom: 20px;">
+                    <p style="color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 0;">เลือกคุณภาพ (มาตรฐาน-เกรด) ของสินค้าที่คุณต้องการซื้อหรือขาย</p>
+                </div>
+
+                <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                    <div style="background: var(--primary-green); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; margin-top: 2px;">9</div>
+                    <p style="color: #334155; margin: 0; font-weight: bold;">อัลกอริทึมการจับคู่</p>
+                </div>
+                <div style="padding-left: 34px; margin-bottom: 0;">
+                    <p style="color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 0;">เลือกอัลกอริทึมการจับคู่ (เช่น Limit Order)</p>
+                </div>
+            </div>
         </div>
 
         <!-- Matching Section -->
