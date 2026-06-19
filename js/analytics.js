@@ -105,21 +105,41 @@ document.addEventListener('DOMContentLoaded', async () => {
     shareDeliveryChart.render();
 
     // --- Fetch Real Data from Supabase ---
-    async function fetchAnalyticsData() {
+    async function fetchAnalyticsData(days = 30) {
         if (!window.supabaseClient) {
             console.error("Supabase client not initialized.");
             return;
         }
 
         try {
-            const { data: orders, error } = await window.supabaseClient
+            let query = window.supabaseClient
                 .from('orders')
                 .select('*')
                 .order('created_at', { ascending: true });
 
+            if (days !== 'all') {
+                const date = new Date();
+                date.setDate(date.getDate() - parseInt(days));
+                query = query.gte('created_at', date.toISOString());
+            }
+
+            const { data: orders, error } = await query;
+
             if (error) throw error;
 
-            if (orders && orders.length > 0) {
+            // Update title
+            const trendTitle = document.getElementById('trend-title');
+            if (trendTitle) {
+                if (days === 'all') {
+                    trendTitle.innerText = `แนวโน้มราคา - ทั้งหมด`;
+                } else if (days == 365) {
+                    trendTitle.innerText = `แนวโน้มราคา - 1 ปีที่ผ่านมา`;
+                } else {
+                    trendTitle.innerText = `แนวโน้มราคา - ${days} วันที่ผ่านมา`;
+                }
+            }
+
+            if (orders) {
                 processAndRenderData(orders);
             }
         } catch (err) {
@@ -240,7 +260,30 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
+    const applyBtn = document.getElementById('apply-filter-btn');
+    if (applyBtn) {
+        applyBtn.addEventListener('click', () => {
+            const activeBtn = document.querySelector('.filter-buttons .filter-btn.active');
+            const days = activeBtn ? activeBtn.getAttribute('data-days') : 30;
+            fetchAnalyticsData(days);
+        });
+    }
+
+    const clearBtn = document.getElementById('clear-filter-btn');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            const defaultBtn = document.querySelector('.filter-buttons .filter-btn[data-days="30"]');
+            if (defaultBtn) defaultBtn.classList.add('active');
+            
+            // Also reset selects if you want, not doing it yet
+            fetchAnalyticsData(30);
+        });
+    }
+
     // Initialize
-    fetchAnalyticsData();
+    const initialActive = document.querySelector('.filter-buttons .filter-btn.active');
+    const initialDays = initialActive ? initialActive.getAttribute('data-days') : 30;
+    fetchAnalyticsData(initialDays);
 
 });

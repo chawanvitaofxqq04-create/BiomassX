@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -283,11 +283,11 @@
         <div class="card filter-section">
             <h3>กรองคำสั่งซื้อ</h3>
             <div class="filter-buttons">
-                <button class="filter-btn">7 วัน</button>
-                <button class="filter-btn">30 วัน</button>
-                <button class="filter-btn">90 วัน</button>
-                <button class="filter-btn active">1 ปี</button>
-                <button class="filter-btn">กำหนดเอง</button>
+                <button class="filter-btn" data-days="7">7 วัน</button>
+                <button class="filter-btn active" data-days="30">30 วัน</button>
+                <button class="filter-btn" data-days="90">90 วัน</button>
+                <button class="filter-btn" data-days="365">1 ปี</button>
+                <button class="filter-btn" data-days="all">กำหนดเอง</button>
             </div>
 
             <div class="filter-grid">
@@ -334,14 +334,14 @@
             </div>
 
             <div style="display: flex; gap: 15px; margin-top: 10px;">
-                <button class="btn btn-primary" style="padding: 10px 24px; border-radius: 8px;">กรองข้อมูล</button>
-                <button class="filter-btn" style="background: #f8fafc; border: none;">ล้างตัวกรอง</button>
+                <button id="apply-filter-btn" class="btn btn-primary" style="padding: 10px 24px; border-radius: 8px;">กรองข้อมูล</button>
+                <button id="clear-filter-btn" class="filter-btn" style="background: #f8fafc; border: none;">ล้างตัวกรอง</button>
             </div>
         </div>
 
         <!-- Trend Chart Card -->
         <div class="card">
-            <h2 class="chart-title">แนวโน้มราคา - 30 วันที่ผ่านมา</h2>
+            <h2 id="trend-title" class="chart-title">แนวโน้มราคา - 30 วันที่ผ่านมา</h2>
             <p class="chart-subtitle">ราคาซื้อและขายเฉลี่ยเมื่อเวลาผ่านไป</p>
             
             <div id="trendChart"></div>
