@@ -1495,3 +1495,53 @@ body { top: 0px !important; }
   }
 }
 
+
+/* --- Additional Mobile Responsiveness --- */
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 15px !important;
+    margin-top: -20px !important;
+  }
+  .stat-card {
+    padding: 20px 10px !important;
+  }
+  .stat-value {
+    font-size: 2rem !important;
+  }
+  
+  /* Layouts */
+  .insights-layout, .profile-layout, .dashboard-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+  .insights-sidebar, .profile-sidebar {
+    width: 100% !important;
+    position: static !important;
+  }
+  
+  /* Tables */
+  .data-table-container {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    width: 100% !important;
+  }
+  .data-table {
+    min-width: 800px !important;
+  }
+  
+  /* Forms */
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .form-group[style*="grid-column: span 2"] {
+    grid-column: span 1 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
