@@ -150,7 +150,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             const product = o.product_name || o.product || 'ไม่ระบุ';
             const type = (o.order_type || '').toLowerCase();
             const dateStr = new Date(o.created_at).getTime();
-            const country = o.province || 'ไทย';
+            let country = 'ไทย';
+            if (o.marketplace && (o.marketplace === 'Global Market' || o.marketplace.includes('ตลาดโลก'))) {
+                country = o.region && o.region !== '-' ? o.region : 'International';
+            }
             const delivery = o.payment_term || 'ไม่ระบุ';
 
             // Volume
