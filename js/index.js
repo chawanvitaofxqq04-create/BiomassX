@@ -198,11 +198,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
                                 
                                 const tr = document.createElement('tr');
+                                const isGlobal = ['ทั่วโลก', 'Global', 'Global Market', 'Worldwide'].includes(location);
+                                const locationIcon = isGlobal ? '🌍' : '📍';
                                 tr.innerHTML = `
                                     <td><span class="order-type-badge ${typeClass}">${typeLabel}</span></td>
                                     <td style="font-weight: 500;">${product}</td>
                                     <td>${qty}</td>
-                                    <td>📍 ${location}</td>
+                                    <td>${locationIcon} ${location}</td>
                                     <td style="color: #64748b;">${origin}</td>
                                     <td style="color: #64748b;">${dest}</td>
                                     <td><span class="badge" style="background: #f1f5f9; color: #475569;">${contract}</span></td>
