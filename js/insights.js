@@ -153,6 +153,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     function applyFilters() {
         let filtered = allOrders;
 
+        // 0. กรองจากช่องค้นหา (Search)
+        const searchInputEl = document.getElementById('searchInput');
+        const searchVal = searchInputEl ? searchInputEl.value.trim().toLowerCase() : '';
+        if (searchVal) {
+            filtered = filtered.filter(o => {
+                return (o.product_name && o.product_name.toLowerCase().includes(searchVal)) ||
+                       (o.product && o.product.toLowerCase().includes(searchVal)) ||
+                       (o.province && o.province.toLowerCase().includes(searchVal)) ||
+                       (o.marketplace && o.marketplace.toLowerCase().includes(searchVal));
+            });
+        }
+
         // 1. กรองประเภทคำสั่ง (ซื้อ/ขาย) แบบกันเหนียว (ไม่พึ่งพา HTML value ป้องกัน Cache)
         let selectedType = 'all';
         if (typeRadios[1] && typeRadios[1].checked) selectedType = 'Buy';
@@ -196,6 +208,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ผูก Event ให้ตัวกรองทั้งหมด
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    if (searchInput) {
+        searchInput.addEventListener('input', applyFilters);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') applyFilters();
+        });
+    }
+    if (searchBtn) searchBtn.addEventListener('click', applyFilters);
+
     if (typeRadios) typeRadios.forEach(radio => radio.addEventListener('change', applyFilters));
     if (productSelect) productSelect.addEventListener('change', applyFilters);
     if (locationSelect) locationSelect.addEventListener('input', applyFilters);
@@ -206,6 +228,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (clearBtn) {
         clearBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            if (searchInput) searchInput.value = '';
             if (typeRadios && typeRadios[0]) typeRadios[0].checked = true;
             if (productSelect) productSelect.value = 'all';
             if (locationSelect) locationSelect.value = '';

@@ -185,10 +185,10 @@
         <main class="insights-main">
             
             <div class="search-bar-container">
-                <div class="search-input-group" style="display: none;">
-                    <!-- Removed search box as requested -->
+                <div class="search-input-group" style="display: flex; margin-right: 15px;">
+                    <input type="text" id="searchInput" placeholder="ค้นหาผลิตภัณฑ์ สถานที่..." style="padding: 8px 12px; border: 1px solid #cbd5e1; border-right: none; border-radius: 6px 0 0 6px; outline: none; width: 250px; font-family: 'Prompt', sans-serif;">
+                    <button id="searchBtn" style="background-color: var(--primary-green); border: none; padding: 8px 15px; border-radius: 0 6px 6px 0; cursor: pointer;">🔍</button>
                 </div>
-                
                 <div class="sort-group">
                     <label>เรียงตาม</label>
                     <select id="sortSelect">
