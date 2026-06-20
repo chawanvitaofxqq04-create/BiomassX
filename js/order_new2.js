@@ -330,6 +330,52 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                     const sortedIds = [newOrder.id.substring(0, 8), matchedOrder.id.substring(0, 8)].sort();
                     const contractRef = `MATCH-${sortedIds[0]}-${sortedIds[1]}`.toUpperCase();
+
+                    // บันทึกลงตาราง contracts (ออเดอร์ใหม่)
+                    await window.supabaseClient.from('contracts').insert([{
+                        order_id: newOrder.id,
+                        product_name: newOrder.product_name || newOrder.product || '-',
+                        quantity: newOrder.quantity || 0,
+                        price: newOrder.price || 0,
+                        total_value: (newOrder.quantity || 0) * (newOrder.price || 0),
+                        status: 'Active'
+                    }]);
+
+                    // บันทึกลงตาราง contracts (ออเดอร์ที่ถูกจับคู่)
+                    await window.supabaseClient.from('contracts').insert([{
+                        order_id: matchedOrder.id,
+                        product_name: matchedOrder.product_name || matchedOrder.product || '-',
+                        quantity: matchedOrder.quantity || 0,
+                        price: matchedOrder.price || 0,
+                        total_value: (matchedOrder.quantity || 0) * (matchedOrder.price || 0),
+                        status: 'Active'
+                    }]);
+
+                    // อัปเดตตาราง market_stats
+                    try {
+                        const { data: stats } = await window.supabaseClient.from("market_stats").select("*").limit(1);
+                        const addedVolume = parseFloat(newOrder.quantity) || 0;
+                        const addedValue = addedVolume * (parseFloat(newOrder.price) || 0);
+                        const addedCo2 = addedVolume * 1.5; 
+                        if (stats && stats.length > 0) {
+                            await window.supabaseClient.from("market_stats").update({ 
+                                total_orders: (stats[0].total_orders || 0) + 1, 
+                                total_value: (parseFloat(stats[0].total_value) || 0) + addedValue,
+                                total_co2: (parseFloat(stats[0].total_co2) || 0) + addedCo2, 
+                                updated_at: new Date().toISOString() 
+                            }).eq("id", stats[0].id);
+                        } else {
+                            await window.supabaseClient.from("market_stats").insert([{ 
+                                total_orders: 1, 
+                                total_value: addedValue, 
+                                total_co2: addedCo2, 
+                                updated_at: new Date().toISOString() 
+                            }]);
+                        }
+                    } catch (statErr) {
+                        console.error("Failed to update market stats:", statErr);
+                    }
+
                     Swal.fire({ icon: 'success', title: 'จับคู่สำเร็จทันที!', html: `ระบบพบคำสั่งที่ตรงกันในตลาด สถานะของคุณคือ "Matched"<br><br><b>รหัสสัญญา:</b> ${contractRef}` });
                 } else {
                     Swal.fire({ icon: 'success', title: 'บันทึกสำเร็จ!', text: 'คำสั่งของคุณอยู่ในสถานะ "Pending" เพื่อรอการจับคู่' });
@@ -1025,6 +1071,31 @@ document.addEventListener('DOMContentLoaded', () => {
                         total_value: (orderData.quantity || 0) * (orderData.price || 0),
                         status: 'Active'
                     }]);
+
+                // 4. อัปเดตตาราง market_stats
+                try {
+                    const { data: stats } = await window.supabaseClient.from("market_stats").select("*").limit(1);
+                    const addedVolume = parseFloat(orderData.quantity) || 0;
+                    const addedValue = addedVolume * (parseFloat(orderData.price) || 0);
+                    const addedCo2 = addedVolume * 1.5; 
+                    if (stats && stats.length > 0) {
+                        await window.supabaseClient.from("market_stats").update({ 
+                            total_orders: (stats[0].total_orders || 0) + 1, 
+                            total_value: (parseFloat(stats[0].total_value) || 0) + addedValue,
+                            total_co2: (parseFloat(stats[0].total_co2) || 0) + addedCo2, 
+                            updated_at: new Date().toISOString() 
+                        }).eq("id", stats[0].id);
+                    } else {
+                        await window.supabaseClient.from("market_stats").insert([{ 
+                            total_orders: 1, 
+                            total_value: addedValue, 
+                            total_co2: addedCo2, 
+                            updated_at: new Date().toISOString() 
+                        }]);
+                    }
+                } catch (statErr) {
+                    console.error("Failed to update market stats:", statErr);
+                }
             }
             
             alert('จำลองการจับคู่สำเร็จ! สถานะเป็น Matched แล้ว (คุณสามารถดูเอกสารได้ในแท็บสัญญา และแท็บใบแจ้งหนี้)');
