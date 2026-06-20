@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const dateObj = new Date(order.created_at);
             const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.getFullYear()}`;
             
-            const typeColor = order.order_type === 'Buy' ? 'var(--primary-green)' : '#f59e0b';
+            const typeColor = order.order_type === 'Buy' ? 'var(--primary-green)' : '#ef4444';
             const typeLabel = order.order_type === 'Buy' ? 'ซื้อ' : 'ขาย';
             const productName = window.sanitizeHTML(order.product_name || order.product || '-');
             const marketplace = window.sanitizeHTML(order.marketplace || '-');
@@ -122,9 +122,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             const unit = window.sanitizeHTML(order.unit || 'MT');
 
             const isBuy = order.order_type === 'Buy';
-            const badgeBg = isBuy ? '#ecfdf5' : '#fffbeb';
-            const badgeColor = isBuy ? '#10b981' : '#f59e0b';
-            const badgeBorder = isBuy ? '#d1fae5' : '#fef3c7';
+            const badgeBg = isBuy ? '#ecfdf5' : '#fef2f2';
+            const badgeColor = isBuy ? '#10b981' : '#ef4444';
+            const badgeBorder = isBuy ? '#d1fae5' : '#fee2e2';
 
             // โลจิกต้นทาง-ปลายทาง:
             let originText = order.origin_port || '-';
@@ -381,9 +381,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             const isBuy = order.order_type === 'Buy';
             const typeEl = document.getElementById('modalOrderType');
             typeEl.innerText = isBuy ? 'BUY ORDER' : 'SELL ORDER';
-            typeEl.style.backgroundColor = isBuy ? '#ecfdf5' : '#fffbeb';
-            typeEl.style.color = isBuy ? '#10b981' : '#f59e0b';
-            typeEl.style.border = `1px solid ${isBuy ? '#d1fae5' : '#fef3c7'}`;
+            typeEl.style.backgroundColor = isBuy ? '#ecfdf5' : '#fef2f2';
+            typeEl.style.color = isBuy ? '#10b981' : '#ef4444';
+            typeEl.style.border = `1px solid ${isBuy ? '#d1fae5' : '#fee2e2'}`;
 
             document.getElementById('modalQuantity').innerText = `${(order.quantity || 0).toLocaleString()} ${order.unit || 'MT'}`;
             document.getElementById('modalQuality').innerText = order.quality || 'Standardised';
