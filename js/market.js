@@ -1,8 +1,11 @@
-﻿document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const tableBody = document.querySelector('.data-table tbody');
     if (!tableBody) return;
 
     let allOrders = []; // เก็บข้อมูลต้นฉบับทั้งหมด
+    let currentFilteredOrders = []; // เก็บข้อมูลที่ผ่านการกรองแล้ว
+    let currentPage = 1;
+    const itemsPerPage = 12;
 
     // เลือก Elements ของตัวกรอง
     const typeRadios = document.querySelectorAll('input[name="order_type"]');
@@ -57,7 +60,7 @@
             if (orders && orders.length > 0) {
                 allOrders = orders;
                 populateFilterDropdowns(orders);
-                renderTable(orders);
+                renderTable(orders, 1);
             } else {
                 tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 20px;">ยังไม่มีข้อมูลคำสั่งซื้อในระบบ</td></tr>';
             }
@@ -87,16 +90,24 @@
         }
     }
 
-    // วาดตารางตามข้อมูลที่รับมา
-    function renderTable(dataToRender) {
+    // วาดตารางพร้อม Pagination
+    function renderTable(dataToRender, page = 1) {
         tableBody.innerHTML = '';
+        currentFilteredOrders = dataToRender;
+        currentPage = page;
         
         if (dataToRender.length === 0) {
             tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 30px; color: #64748b;">ไม่พบข้อมูลที่ตรงกับเงื่อนไขการกรอง</td></tr>';
+            renderPagination(0, 1);
+            updateResultCount(0);
             return;
         }
 
-        dataToRender.forEach(order => {
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const paginatedData = dataToRender.slice(start, end);
+
+        paginatedData.forEach(order => {
             const tr = document.createElement('tr');
             
             const dateObj = new Date(order.created_at);
@@ -145,6 +156,119 @@
             `;
             tableBody.appendChild(tr);
         });
+
+        renderPagination(dataToRender.length, page);
+        updateResultCount(dataToRender.length);
+    }
+
+    function updateResultCount(count) {
+        let countDisplay = document.getElementById('resultCountDisplay');
+        if (!countDisplay) {
+            const searchBarContainer = document.querySelector('.search-bar-container');
+            if (searchBarContainer) {
+                countDisplay = document.createElement('div');
+                countDisplay.id = 'resultCountDisplay';
+                countDisplay.style.marginLeft = '20px';
+                countDisplay.style.fontSize = '0.9rem';
+                countDisplay.style.color = '#64748b';
+                countDisplay.style.fontWeight = '500';
+                searchBarContainer.appendChild(countDisplay);
+            }
+        }
+        if (countDisplay) {
+            countDisplay.textContent = `${count} orders found`;
+        }
+    }
+
+    function renderPagination(totalItems, currentPage) {
+        let paginationContainer = document.getElementById('pagination-container');
+        if (!paginationContainer) {
+            const tableContainer = document.querySelector('.data-table-container') || document.querySelector('.data-table').parentElement;
+            paginationContainer = document.createElement('div');
+            paginationContainer.id = 'pagination-container';
+            paginationContainer.className = 'pagination-container';
+            
+            paginationContainer.style.display = 'flex';
+            paginationContainer.style.justifyContent = 'center';
+            paginationContainer.style.alignItems = 'center';
+            paginationContainer.style.gap = '8px';
+            paginationContainer.style.marginTop = '25px';
+            paginationContainer.style.marginBottom = '15px';
+            
+            if (tableContainer && tableContainer.parentNode) {
+                tableContainer.parentNode.insertBefore(paginationContainer, tableContainer.nextSibling);
+            }
+
+            if (!document.getElementById('pagination-styles')) {
+                const style = document.createElement('style');
+                style.id = 'pagination-styles';
+                style.textContent = `
+                    .pagination-btn { background: white; border: 1px solid #e2e8f0; color: #64748b; width: 36px; height: 36px; display: flex; justify-content: center; align-items: center; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+                    .pagination-btn:hover:not(:disabled) { background: #f8fafc; border-color: #cbd5e1; color: #0f172a; }
+                    .pagination-btn.active { background: var(--primary-green); color: white; border-color: var(--primary-green); }
+                    .pagination-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        paginationContainer.innerHTML = '';
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        if (totalPages <= 1) return;
+
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'pagination-btn';
+        prevBtn.textContent = '<';
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                renderTable(currentFilteredOrders, currentPage - 1);
+                window.scrollTo({ top: document.querySelector('.data-table').offsetTop - 100, behavior: 'smooth' });
+            }
+        });
+        paginationContainer.appendChild(prevBtn);
+
+        for (let i = 1; i <= totalPages; i++) {
+            if (totalPages > 7) {
+                if (i !== 1 && i !== totalPages && Math.abs(i - currentPage) > 1) {
+                    if (i === 2 && currentPage > 3) {
+                        const dots = document.createElement('span');
+                        dots.textContent = '...';
+                        dots.style.padding = '0 5px';
+                        dots.style.color = '#94a3b8';
+                        paginationContainer.appendChild(dots);
+                    } else if (i === totalPages - 1 && currentPage < totalPages - 2) {
+                        const dots = document.createElement('span');
+                        dots.textContent = '...';
+                        dots.style.padding = '0 5px';
+                        dots.style.color = '#94a3b8';
+                        paginationContainer.appendChild(dots);
+                    }
+                    continue;
+                }
+            }
+
+            const pageBtn = document.createElement('button');
+            pageBtn.className = 'pagination-btn' + (i === currentPage ? ' active' : '');
+            pageBtn.textContent = i;
+            pageBtn.addEventListener('click', () => {
+                renderTable(currentFilteredOrders, i);
+                window.scrollTo({ top: document.querySelector('.data-table').offsetTop - 100, behavior: 'smooth' });
+            });
+            paginationContainer.appendChild(pageBtn);
+        }
+
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'pagination-btn';
+        nextBtn.textContent = '>';
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                renderTable(currentFilteredOrders, currentPage + 1);
+                window.scrollTo({ top: document.querySelector('.data-table').offsetTop - 100, behavior: 'smooth' });
+            }
+        });
+        paginationContainer.appendChild(nextBtn);
     }
 
     // ฟังก์ชันกรองข้อมูล
@@ -190,7 +314,7 @@
             filtered.sort((a, b) => (parseFloat(a.price) || 0) - (parseFloat(b.price) || 0));
         }
 
-        renderTable(filtered);
+        renderTable(filtered, 1);
     }
 
     // ผูก Event ให้ตัวกรองทั้งหมด
