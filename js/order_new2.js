@@ -155,17 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 contract_type: document.getElementById('contractType').value,
                 payment_term: document.getElementById('paymentTerm').value,
                 packing: document.getElementById('packing').value,
-                province: (() => {
-                    const countrySelect = document.querySelector('.country-select');
-                    const provinceSelect = document.querySelector('.province-select');
-                    const selectedCountry = countrySelect ? countrySelect.value : 'Thailand';
-                    const selectedProvince = provinceSelect ? provinceSelect.value : '';
-                    if (selectedCountry === 'Thailand' || selectedCountry === 'ไทย') {
-                        return selectedProvince;
-                    } else {
-                        return selectedProvince ? `${selectedProvince}, ${selectedCountry}` : selectedCountry;
-                    }
-                })(),
+                province: document.querySelector('.province-select') ? document.querySelector('.province-select').value : '',
                 amphoe: document.querySelectorAll('.small-select')[0] ? document.querySelectorAll('.small-select')[0].value : '',
                 tambon: document.querySelectorAll('.small-select')[1] ? document.querySelectorAll('.small-select')[1].value : '',
                 status: 'Open', // เปลี่ยนเป็น Open แทนการบังคับ Matched อัตโนมัติ

@@ -425,9 +425,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     displayProvince = order.province === matchedCountry ? '-' : order.province.replace(', ' + matchedCountry, '').replace(matchedCountry, '').trim();
                     if (!displayProvince) displayProvince = '-';
                 }
-            } else if (order.marketplace === 'Global Market' && order.region && foreignCountries.includes(order.region)) {
+            } else if (order.marketplace === 'Global Market' && order.region) {
                 displayCountry = order.region;
-                displayProvince = '-';
+                displayProvince = order.port || order.destination_port || order.origin_port || '-';
             }
 
             document.getElementById('modalCountry').innerText = displayCountry;

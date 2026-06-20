@@ -242,20 +242,6 @@
                             <label>ประเทศ</label>
                             <select class="country-select" style="width: 100%; min-width: 0; box-sizing: border-box;">
                                 <option value="Thailand">Thailand (ไทย)</option>
-                                <option value="Indonesia">Indonesia</option>
-                                <option value="South Korea">South Korea</option>
-                                <option value="Japan">Japan</option>
-                                <option value="Vietnam">Vietnam</option>
-                                <option value="Portugal">Portugal</option>
-                                <option value="Brazil">Brazil</option>
-                                <option value="Spain">Spain</option>
-                                <option value="Germany">Germany</option>
-                                <option value="India">India</option>
-                                <option value="France">France</option>
-                                <option value="Russia">Russia</option>
-                                <option value="China">China</option>
-                                <option value="United States">United States</option>
-                                <option value="United Kingdom">United Kingdom</option>
                             </select>
                         </div>
                         <div class="form-group" style="min-width: 0; margin-bottom: 0;">
@@ -297,29 +283,28 @@
                     
                     <div class="location-fields" style="flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px;">
                         <div class="form-group" style="margin-bottom: 0; min-width: 0;">
-                            <label style="color: #0369a1; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">ภูมิภาคเป้าหมาย (Region)</label>
+                            <label style="color: #0369a1; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">ประเทศเป้าหมาย (Country)</label>
                             <select class="form-control" id="globalRegion" style="border-color: #bae6fd; background-color: white; padding: 10px; width: 100%; box-sizing: border-box; border-radius: 8px;">
-                                <option value="">เลือกภูมิภาค</option>
-                                <option value="ทั่วโลก">ทั่วโลก (Worldwide)</option>
-                                <option value="เอเชีย">เอเชีย (Asia)</option>
-                                <option value="ยุโรป">ยุโรป (Europe)</option>
+                                <option value="">เลือกประเทศเป้าหมาย</option>
+                                <option value="Indonesia">Indonesia</option>
+                                <option value="South Korea">South Korea</option>
+                                <option value="Japan">Japan</option>
+                                <option value="Vietnam">Vietnam</option>
+                                <option value="Portugal">Portugal</option>
+                                <option value="Brazil">Brazil</option>
+                                <option value="Spain">Spain</option>
+                                <option value="Germany">Germany</option>
+                                <option value="India">India</option>
+                                <option value="France">France</option>
+                                <option value="Russia">Russia</option>
+                                <option value="China">China</option>
+                                <option value="United States">United States</option>
+                                <option value="United Kingdom">United Kingdom</option>
                             </select>
                         </div>
                         <div class="form-group" style="margin-bottom: 0; min-width: 0;">
-                            <label style="color: #0369a1; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">ท่าเรือ/จุดส่งมอบ (Port)</label>
-                            <select class="form-control" id="globalPort" style="border-color: #bae6fd; background-color: white; padding: 10px; width: 100%; box-sizing: border-box; border-radius: 8px;">
-                                <option value="">เลือกท่าเรือ...</option>
-                                <option value="Port of Tanjung Priok">Port of Tanjung Priok (Indonesia)</option>
-                                <option value="Port of Singapore">Port of Singapore (Singapore)</option>
-                                <option value="Port of Rotterdam">Port of Rotterdam (Netherlands)</option>
-                                <option value="Port of Tokyo">Port of Tokyo (Japan)</option>
-                                <option value="Port of Shanghai">Port of Shanghai (China)</option>
-                                <option value="Port of Busan">Port of Busan (South Korea)</option>
-                                <option value="Port of Antwerp">Port of Antwerp (Belgium)</option>
-                                <option value="Port of Los Angeles">Port of Los Angeles (USA)</option>
-                                <option value="Port of Hamburg">Port of Hamburg (Germany)</option>
-                                <option value="Laem Chabang Port">Laem Chabang Port (Thailand)</option>
-                            </select>
+                            <label style="color: #0369a1; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">ท่าเรือ/เมืองส่งมอบ (Port/City)</label>
+                            <input type="text" id="globalPort" class="form-control" placeholder="พิมพ์ชื่อท่าเรือ หรือเมืองปลายทาง..." style="border-color: #bae6fd; background-color: white; padding: 10px; width: 100%; box-sizing: border-box; border-radius: 8px;">
                         </div>
                         <div class="form-group" style="margin-bottom: 0;">
                             <label style="color: #0369a1; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">เงื่อนไขส่งมอบ (Incoterms)</label>
