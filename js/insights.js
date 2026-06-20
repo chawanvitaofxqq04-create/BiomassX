@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 populateFilterDropdowns(orders);
                 renderTable(orders);
             } else {
-                tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 20px;">ยังไม่มีข้อมูลคำสั่งซื้อในระบบ</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding: 20px;">ยังไม่มีข้อมูลคำสั่งซื้อในระบบ</td></tr>';
             }
         } catch (err) {
             console.error("Failed to load orders for insights:", err);
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         tableBody.innerHTML = '';
         
         if (dataToRender.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 30px; color: #64748b;">ไม่พบข้อมูลที่ตรงกับเงื่อนไขการกรอง</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding: 30px; color: #64748b;">ไม่พบข้อมูลที่ตรงกับเงื่อนไขการกรอง</td></tr>';
             return;
         }
 
