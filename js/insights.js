@@ -323,6 +323,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('modalFirstDate').innerText = firstDelivery.toLocaleDateString('en-US', options);
             document.getElementById('modalLastDate').innerText = lastDelivery.toLocaleDateString('en-US', options);
             document.getElementById('modalPayment').innerText = 'COD / Bank Transfer';
+            // Update Price
+            const priceEl = document.getElementById('modalPrice');
+            if (priceEl) {
+                const priceValue = order.price ? Number(order.price).toLocaleString() : '-';
+                priceEl.innerText = priceValue !== '-' ? `฿${priceValue} / ${order.unit || 'MT'}` : 'เสนอราคา (Bidding)';
+            }
 
             // Show Modal
             if (orderModal) {
