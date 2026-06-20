@@ -407,6 +407,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             }).eq("id", stats[0].id);
                         } else {
                             await window.supabaseClient.from("market_stats").insert([{ 
+                                id: 1,
                                 total_orders: 1, 
                                 monthly_volume: addedVolume, 
                                 countries_count: 14,
