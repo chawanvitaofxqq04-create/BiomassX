@@ -116,6 +116,7 @@
                 padding-left: 20px;
                 padding-right: 20px;
             }
+        }
         /* Scroll to Top Button */
         #scrollToTopBtn {
             position: fixed;
@@ -1664,7 +1665,7 @@
     <script>
         const scrollToTopBtn = document.getElementById("scrollToTopBtn");
         window.addEventListener('scroll', () => {
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+            if (window.scrollY > 300) {
                 scrollToTopBtn.classList.add("show");
             } else {
                 scrollToTopBtn.classList.remove("show");
