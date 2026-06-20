@@ -300,6 +300,34 @@ document.addEventListener('DOMContentLoaded', () => {
                     orderData.price = matchedOrder.price;
                     orderData.quantity = matchedOrder.quantity;
                     
+                            // อัปเดตตาราง market_stats
+                    try {
+                        const { data: stats } = await window.supabaseClient.from("market_stats").select("*").limit(1);
+                        const addedVolume = parseFloat(newOrder.quantity) || 0;
+                        const addedCO2 = addedVolume * 1.5; // ประมาณการลด CO2
+                        
+                        if (stats && stats.length > 0) {
+                            await window.supabaseClient.from("market_stats")
+                                .update({
+                                    total_orders: (stats[0].total_orders || 0) + 1,
+                                    monthly_volume: parseFloat(stats[0].monthly_volume || 0) + addedVolume,
+                                    countries_count: stats[0].countries_count || 14, // อิงจากข้อมูลประเทศที่มี
+                                    total_co2_saved: parseFloat(stats[0].total_co2_saved || 0) + addedCO2,
+                                    updated_at: new Date().toISOString()
+                                })
+                                .eq('id', stats[0].id);
+                        } else {
+                            await window.supabaseClient.from("market_stats").insert([{
+                                total_orders: 1,
+                                monthly_volume: addedVolume,
+                                countries_count: 14,
+                                total_co2_saved: addedCO2
+                            }]);
+                        }
+                    } catch (e) {
+                        console.warn("Stats Update Error:", e);
+                    }
+                    
                 } else {
                     orderData.status = 'Pending';
                     orderData.matched_with_name = 'CREATOR:' + myName; // ซ่อนชื่อตัวเองไว้ให้คนอื่นมาหาเจอ
@@ -345,33 +373,44 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     // บันทึกลงตาราง contracts (1 สัญญาครอบคลุมทั้งคู่)
+                    const matchedQty = parseFloat(String(matchedOrder.quantity).replace(/,/g, '')) || 0;
+                    const matchedPrice = parseFloat(String(matchedOrder.price).replace(/,/g, '')) || 0;
+                    const totalVal = matchedQty * matchedPrice;
+
                     const { error: contractErr } = await window.supabaseClient.from('contracts').insert([{
                         contract_ref: contractRef,
                         buyer_id: buyerId,
                         seller_id: sellerId,
                         buy_order_id: buyOrderId,
-                        sell_order_id: sellOrderId
+                        sell_order_id: sellOrderId,
+                        matched_quantity: matchedQty,
+                        matched_price: matchedPrice,
+                        total_value: totalVal,
+                        payment_terms: newOrder.payment_term || 'เงินสด',
+                        delivery_terms: newOrder.contract_type || 'ระยะสั้น',
+                        status: 'MATCHED'
                     }]);
                     if (contractErr) console.warn("Contracts Insert Error:", contractErr);
 
                     // อัปเดตตาราง market_stats
                     try {
                         const { data: stats } = await window.supabaseClient.from("market_stats").select("*").limit(1);
-                        const addedVolume = parseFloat(newOrder.quantity) || 0;
-                        const addedValue = addedVolume * (parseFloat(newOrder.price) || 0);
+                        const addedVolume = parseFloat(String(newOrder.quantity).replace(/,/g, '')) || 0;
                         const addedCo2 = addedVolume * 1.5; 
                         if (stats && stats.length > 0) {
                             await window.supabaseClient.from("market_stats").update({ 
                                 total_orders: (stats[0].total_orders || 0) + 1, 
-                                total_value: (parseFloat(stats[0].total_value) || 0) + addedValue,
-                                total_co2: (parseFloat(stats[0].total_co2) || 0) + addedCo2, 
+                                monthly_volume: (parseFloat(stats[0].monthly_volume) || 0) + addedVolume,
+                                countries_count: stats[0].countries_count || 14,
+                                total_co2_saved: (parseFloat(stats[0].total_co2_saved) || 0) + addedCo2, 
                                 updated_at: new Date().toISOString() 
                             }).eq("id", stats[0].id);
                         } else {
                             await window.supabaseClient.from("market_stats").insert([{ 
                                 total_orders: 1, 
-                                total_value: addedValue, 
-                                total_co2: addedCo2, 
+                                monthly_volume: addedVolume, 
+                                countries_count: 14,
+                                total_co2_saved: addedCo2, 
                                 updated_at: new Date().toISOString() 
                             }]);
                         }
