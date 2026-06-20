@@ -111,6 +111,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Global Port Auto-Suggest Logic
+    const globalRegion = document.getElementById('globalRegion');
+    const portSuggestions = document.getElementById('portSuggestions');
+    const globalPortInput = document.getElementById('globalPort');
+
+    if (globalRegion && portSuggestions && globalPortInput) {
+        const countryPorts = {
+            "Indonesia": ["Port of Tanjung Priok", "Port of Tanjung Perak", "Port of Belawan", "Port of Makassar"],
+            "South Korea": ["Port of Busan", "Port of Incheon", "Port of Gwangyang", "Port of Ulsan"],
+            "Japan": ["Port of Tokyo", "Port of Yokohama", "Port of Kobe", "Port of Osaka", "Port of Nagoya"],
+            "Vietnam": ["Port of Ho Chi Minh (Cat Lai)", "Port of Hai Phong", "Port of Da Nang", "Port of Vung Tau"],
+            "Portugal": ["Port of Sines", "Port of Lisbon", "Port of Leixoes"],
+            "Brazil": ["Port of Santos", "Port of Paranagua", "Port of Rio Grande", "Port of Rio de Janeiro"],
+            "Spain": ["Port of Valencia", "Port of Algeciras", "Port of Barcelona", "Port of Bilbao"],
+            "Germany": ["Port of Hamburg", "Port of Bremen", "Port of Bremerhaven", "Port of Wilhelmshaven"],
+            "India": ["Port of Mumbai", "Port of Mundra", "Port of Chennai", "Port of Kolkata", "Port of Nhava Sheva"],
+            "France": ["Port of Marseille", "Port of Le Havre", "Port of Dunkirk"],
+            "Russia": ["Port of Novorossiysk", "Port of St. Petersburg", "Port of Vladivostok"],
+            "China": ["Port of Shanghai", "Port of Ningbo", "Port of Shenzhen", "Port of Guangzhou", "Port of Qingdao"],
+            "United States": ["Port of Los Angeles", "Port of Long Beach", "Port of New York", "Port of Savannah", "Port of Houston"],
+            "United Kingdom": ["Port of Felixstowe", "Port of Southampton", "Port of London", "Port of Liverpool"]
+        };
+
+        globalRegion.addEventListener('change', (e) => {
+            const country = e.target.value;
+            portSuggestions.innerHTML = '';
+            globalPortInput.value = ''; // Reset port when country changes
+            
+            if (country && countryPorts[country]) {
+                countryPorts[country].forEach(port => {
+                    const option = document.createElement('option');
+                    option.value = port;
+                    portSuggestions.appendChild(option);
+                });
+            }
+        });
+    }
+
 
     // ระบบบันทึกคำสั่งซื้อขาย (Save Order)
     const saveBtn = document.getElementById('saveOrderBtn');
