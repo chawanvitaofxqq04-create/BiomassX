@@ -331,25 +331,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     const sortedIds = [newOrder.id.substring(0, 8), matchedOrder.id.substring(0, 8)].sort();
                     const contractRef = `MATCH-${sortedIds[0]}-${sortedIds[1]}`.toUpperCase();
 
-                    // บันทึกลงตาราง contracts (ออเดอร์ใหม่)
-                    await window.supabaseClient.from('contracts').insert([{
-                        order_id: newOrder.id,
-                        product_name: newOrder.product_name || newOrder.product || '-',
-                        quantity: newOrder.quantity || 0,
-                        price: newOrder.price || 0,
-                        total_value: (newOrder.quantity || 0) * (newOrder.price || 0),
-                        status: 'Active'
-                    }]);
+                    let buyerId, sellerId, buyOrderId, sellOrderId;
+                    if ((newOrder.order_type || '').toLowerCase() === 'buy') {
+                        buyerId = newOrder.user_id;
+                        sellerId = matchedOrder.user_id;
+                        buyOrderId = newOrder.id;
+                        sellOrderId = matchedOrder.id;
+                    } else {
+                        buyerId = matchedOrder.user_id;
+                        sellerId = newOrder.user_id;
+                        buyOrderId = matchedOrder.id;
+                        sellOrderId = newOrder.id;
+                    }
 
-                    // บันทึกลงตาราง contracts (ออเดอร์ที่ถูกจับคู่)
-                    await window.supabaseClient.from('contracts').insert([{
-                        order_id: matchedOrder.id,
-                        product_name: matchedOrder.product_name || matchedOrder.product || '-',
-                        quantity: matchedOrder.quantity || 0,
-                        price: matchedOrder.price || 0,
-                        total_value: (matchedOrder.quantity || 0) * (matchedOrder.price || 0),
-                        status: 'Active'
+                    // บันทึกลงตาราง contracts (1 สัญญาครอบคลุมทั้งคู่)
+                    const { error: contractErr } = await window.supabaseClient.from('contracts').insert([{
+                        contract_ref: contractRef,
+                        buyer_id: buyerId,
+                        seller_id: sellerId,
+                        buy_order_id: buyOrderId,
+                        sell_order_id: sellOrderId
                     }]);
+                    if (contractErr) console.warn("Contracts Insert Error:", contractErr);
 
                     // อัปเดตตาราง market_stats
                     try {
@@ -1060,17 +1063,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 .single();
                 
             if (orderData) {
-                // 3. บันทึกลงตาราง contracts
-                await window.supabaseClient
+                const contractRef = `MATCH-${orderId.substring(0, 8)}-MOCK`.toUpperCase();
+                let buyerId = orderData.user_id;
+                let sellerId = orderData.user_id;
+                let buyOrderId = orderId;
+                let sellOrderId = orderId;
+                
+                // บันทึกลงตาราง contracts
+                const { error: contractErr } = await window.supabaseClient
                     .from('contracts')
                     .insert([{
-                        order_id: orderId,
-                        product_name: orderData.product_name || orderData.product || '-',
-                        quantity: orderData.quantity || 0,
-                        price: orderData.price || 0,
-                        total_value: (orderData.quantity || 0) * (orderData.price || 0),
-                        status: 'Active'
+                        contract_ref: contractRef,
+                        buyer_id: buyerId,
+                        seller_id: sellerId,
+                        buy_order_id: buyOrderId,
+                        sell_order_id: sellOrderId
                     }]);
+                if (contractErr) console.warn("Contracts Insert Error:", contractErr);
 
                 // 4. อัปเดตตาราง market_stats
                 try {
