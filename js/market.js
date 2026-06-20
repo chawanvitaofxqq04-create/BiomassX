@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         currentPage = page;
         
         if (dataToRender.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 30px; color: #64748b;">ไม่พบข้อมูลที่ตรงกับเงื่อนไขการกรอง</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding: 30px; color: #64748b;">ไม่พบข้อมูลที่ตรงกับเงื่อนไขการกรอง</td></tr>';
             renderPagination(0, 1);
             updateResultCount(0);
             return;
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const end = start + itemsPerPage;
         const paginatedData = dataToRender.slice(start, end);
 
-        paginatedData.forEach(order => {
+        paginatedData.forEach((order, index) => {
             const tr = document.createElement('tr');
             
             const dateObj = new Date(order.created_at);
@@ -140,6 +140,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             tr.innerHTML = `
+                <td style="text-align: center; color: #94a3b8; font-weight: 600;">${index + 1}</td>
                 <td>
                     <span style="background-color: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder}; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">
                         ${typeLabel}
