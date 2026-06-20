@@ -1519,7 +1519,7 @@ body { top: 0px !important; }
     align-items: center !important;
   }
   .logo {
-    display: none !important; /* Hide logo on mobile */
+    display: block !important; /* Show logo on mobile */
   }
   .nav-links {
     display: none !important;
