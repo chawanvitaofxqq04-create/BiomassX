@@ -98,4 +98,66 @@ document.addEventListener('DOMContentLoaded', () => {
             tambonSelect.disabled = true;
         }
     });
+    
+    // Dynamic input changing based on country selection
+    const countrySelect = document.querySelector('.country-select');
+    if (countrySelect) {
+        countrySelect.addEventListener('change', (e) => {
+            const country = e.target.value;
+            const provGroup = provinceSelect.closest('.form-group');
+            const amphGroup = amphoeSelect.closest('.form-group');
+            const tambGroup = tambonSelect.closest('.form-group');
+            
+            if (!provGroup || !amphGroup || !tambGroup) return;
+
+            const provLabel = provGroup.querySelector('label');
+            const amphLabel = amphGroup.querySelector('label');
+            const tambLabel = tambGroup.querySelector('label');
+
+            if (country === 'Thailand' || country === 'ไทย') {
+                provLabel.innerText = 'จังหวัด';
+                amphLabel.innerText = 'อำเภอ';
+                tambLabel.innerText = 'ตำบล';
+
+                // Restore to selects if they were inputs
+                if (provinceSelect.tagName !== 'SELECT') {
+                    provinceSelect.outerHTML = '<select class="province-select" style="width: 100%; min-width: 0; box-sizing: border-box;"><option value="">Select Province</option></select>';
+                    amphoeSelect.outerHTML = '<select class="small-select" style="width: 100%; min-width: 0; box-sizing: border-box;"><option value="">เลือก</option></select>';
+                    tambonSelect.outerHTML = '<select class="small-select" style="width: 100%; min-width: 0; box-sizing: border-box;"><option value="">เลือก</option></select>';
+                    
+                    // Re-bind references and trigger reload (simplified reload logic by refreshing page or manually triggering data bind if needed)
+                    // For simplicity, we just reload the page since switching back to Thai from foreign is rare, but let's do it right.
+                    window.location.reload(); 
+                } else {
+                    // Reset Thai values
+                    provinceSelect.value = '';
+                    amphoeSelect.innerHTML = '<option value="">เลือก</option>';
+                    amphoeSelect.disabled = true;
+                    tambonSelect.innerHTML = '<option value="">เลือก</option>';
+                    tambonSelect.disabled = true;
+                }
+            } else {
+                provLabel.innerText = 'รัฐ/แคว้น/เมือง (State/Province)';
+                amphLabel.innerText = 'เมือง/เขต (City/Town)';
+                tambLabel.innerText = 'รหัสไปรษณีย์ (Zip/Postal Code)';
+
+                // Change to text inputs
+                if (provinceSelect.tagName === 'SELECT') {
+                    provinceSelect.outerHTML = '<input type="text" class="province-select" placeholder="City / State" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1; box-sizing: border-box;">';
+                    amphoeSelect.outerHTML = '<input type="text" class="small-select" placeholder="District / Town" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1; box-sizing: border-box;">';
+                    tambonSelect.outerHTML = '<input type="text" class="small-select" placeholder="Zip Code" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1; box-sizing: border-box;">';
+                    
+                    // Update references so next switch works
+                    document.querySelector('.province-select').value = '';
+                    document.querySelectorAll('.small-select')[0].value = '';
+                    document.querySelectorAll('.small-select')[1].value = '';
+                } else {
+                    // Reset input values
+                    document.querySelector('.province-select').value = '';
+                    document.querySelectorAll('.small-select')[0].value = '';
+                    document.querySelectorAll('.small-select')[1].value = '';
+                }
+            }
+        });
+    }
 });

@@ -287,9 +287,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             let displayCountry = 'Thailand';
             let displayProvince = order.province || '-';
             
-            if (foreignCountries.includes(order.province)) {
-                displayCountry = order.province;
-                displayProvince = '-';
+            if (order.province && order.province !== '-') {
+                const matchedCountry = foreignCountries.find(c => order.province.includes(c));
+                if (matchedCountry) {
+                    displayCountry = matchedCountry;
+                    displayProvince = order.province === matchedCountry ? '-' : order.province.replace(', ' + matchedCountry, '').replace(matchedCountry, '').trim();
+                    if (!displayProvince) displayProvince = '-';
+                }
             } else if (order.marketplace === 'Global Market' && order.region && foreignCountries.includes(order.region)) {
                 displayCountry = order.region;
                 displayProvince = '-';

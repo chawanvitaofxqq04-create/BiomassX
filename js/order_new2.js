@@ -160,7 +160,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     const provinceSelect = document.querySelector('.province-select');
                     const selectedCountry = countrySelect ? countrySelect.value : 'Thailand';
                     const selectedProvince = provinceSelect ? provinceSelect.value : '';
-                    return (selectedCountry === 'Thailand' || selectedCountry === 'ไทย') ? selectedProvince : selectedCountry;
+                    if (selectedCountry === 'Thailand' || selectedCountry === 'ไทย') {
+                        return selectedProvince;
+                    } else {
+                        return selectedProvince ? `${selectedProvince}, ${selectedCountry}` : selectedCountry;
+                    }
                 })(),
                 amphoe: document.querySelectorAll('.small-select')[0] ? document.querySelectorAll('.small-select')[0].value : '',
                 tambon: document.querySelectorAll('.small-select')[1] ? document.querySelectorAll('.small-select')[1].value : '',
