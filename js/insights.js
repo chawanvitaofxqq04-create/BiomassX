@@ -243,10 +243,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     const closeBtn = document.querySelector('.modal-close-btn');
 
     // Close Modal Events
-    if (closeBtn) closeBtn.addEventListener('click', () => orderModal.style.display = 'none');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            orderModal.classList.remove('active');
+            setTimeout(() => orderModal.style.display = 'none', 300);
+        });
+    }
     if (orderModal) {
         orderModal.addEventListener('click', (e) => {
-            if (e.target === orderModal) orderModal.style.display = 'none';
+            if (e.target === orderModal) {
+                orderModal.classList.remove('active');
+                setTimeout(() => orderModal.style.display = 'none', 300);
+            }
         });
     }
 
@@ -319,6 +327,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Show Modal
             if (orderModal) {
                 orderModal.style.display = 'flex';
+                // Trigger reflow for CSS transition
+                void orderModal.offsetWidth;
+                orderModal.classList.add('active');
             } else {
                 alert('ข้อผิดพลาด: ไม่พบองค์ประกอบ Modal ในหน้าเว็บ');
             }
