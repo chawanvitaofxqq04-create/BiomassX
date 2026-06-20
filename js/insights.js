@@ -12,6 +12,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const clearBtn = document.querySelector('.filters-header a');
     const sortSelect = document.getElementById('sortSelect');
 
+    // ปิด Modal
+    const orderModalEl = document.getElementById('orderModal');
+    const closeBtn = document.querySelector('.modal-close-btn');
+    if (closeBtn && orderModalEl) {
+        closeBtn.addEventListener('click', () => { orderModalEl.style.display = 'none'; });
+        orderModalEl.addEventListener('click', (e) => { 
+            if (e.target === orderModalEl) orderModalEl.style.display = 'none'; 
+        });
+    }
+
     // 77 จังหวัด
     const provinces = [
         "กระบี่", "กรุงเทพมหานคร", "กาญจนบุรี", "กาฬสินธุ์", "กำแพงเพชร",
@@ -252,6 +262,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Global function for opening modal so we don't rely on event delegation
     window.openOrderModal = function(orderId) {
+        const orderModal = document.getElementById('orderModal');
         console.log("Button clicked for Order ID:", orderId);
         
         if (!allOrders) {
