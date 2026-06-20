@@ -1554,12 +1554,12 @@ body { top: 0px !important; }
   }
   
   /* Layouts */
-  .insights-layout, .profile-layout, .dashboard-layout {
+  .insights-layout, .profile-layout, .dashboard-layout, .insights-container {
     display: flex !important;
     flex-direction: column !important;
     gap: 20px !important;
   }
-  .insights-sidebar, .profile-sidebar {
+  .insights-sidebar, .profile-sidebar, .filters-sidebar {
     width: 100% !important;
     position: static !important;
   }
