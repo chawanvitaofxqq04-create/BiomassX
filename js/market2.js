@@ -414,8 +414,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('modalContract').innerText = order.contract_type || 'SPOT';
 
             document.getElementById('modalDelivery').innerText = order.payment_term || '-'; 
-            document.getElementById('modalCountry').innerText = 'Thailand';
-            document.getElementById('modalProvince').innerText = order.province || '-';
+            const foreignCountries = ['Indonesia', 'South Korea', 'Japan', 'Vietnam', 'Portugal', 'Brazil', 'Spain', 'Germany', 'India', 'France', 'Russia', 'China', 'United States', 'United Kingdom'];
+            let displayCountry = 'Thailand';
+            let displayProvince = order.province || '-';
+            
+            if (foreignCountries.includes(order.province)) {
+                displayCountry = order.province;
+                displayProvince = '-';
+            } else if (order.marketplace === 'Global Market' && order.region && foreignCountries.includes(order.region)) {
+                displayCountry = order.region;
+                displayProvince = '-';
+            }
+
+            document.getElementById('modalCountry').innerText = displayCountry;
+            document.getElementById('modalProvince').innerText = displayProvince;
             document.getElementById('modalDistrict').innerText = order.amphoe || '-';
             document.getElementById('modalSubdistrict').innerText = order.tambon || '-';
 
