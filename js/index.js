@@ -128,43 +128,33 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const t = window.t || (k => k);
                 const statKeys = Object.keys(productStats);
 
-                const defaultProducts = [
-                    { name: 'Wood Pellets (ไม้อัดเม็ด)', mockBuy: 4500, mockSell: 4800 },
-                    { name: 'ไม้ท่อน (กระถินเทพา/ณรงค์/ลูกผสม)', mockBuy: 7000, mockSell: 7200 },
-                    { name: 'ต้นนุ่น', mockBuy: 6000, mockSell: 6150 },
-                    { name: 'ปออัดเม็ด', mockBuy: 8000, mockSell: 8200 },
-                    { name: 'ต้นอ้อยยักษ์', mockBuy: 1000, mockSell: 1100 },
-                    { name: 'สบู่ดำ', mockBuy: 7000, mockSell: 7300 }
-                ];
-
-                // รวมชื่อสินค้าจาก default และที่มีในระบบ
-                const allProductNames = new Set(defaultProducts.map(p => p.name));
-                statKeys.forEach(k => allProductNames.add(k));
-
-                if (allProductNames.size === 0) {
-                    marketIndexContainer.innerHTML = '<div style="padding: 20px; text-align: center;">No data</div>';
+                if (statKeys.length === 0) {
+                    const cardHtml = `
+                        <div class="index-card" style="background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; width: 100%; margin-bottom: 20px;">
+                            <h3 style="margin-bottom: 15px; font-size: 1rem; color: #0f172a; font-weight: 700;">No active trading data</h3>
+                            <div class="index-price-row" style="display: flex; border-radius: 4px; overflow: hidden; margin-bottom: 15px;">
+                                <div class="price-box price-buy" style="flex: 1; padding: 12px 16px; background: #dcfce7;">
+                                    <div class="label" style="font-size: 0.75rem; color: #16a34a; margin-bottom: 4px; font-weight: 700;">${t('เฉลี่ยซื้อ')}</div>
+                                    <div class="value" style="color: #16a34a; font-weight: 700; font-size: 1.1rem;">N/A</div>
+                                </div>
+                                <div class="price-box price-sell" style="flex: 1; padding: 12px 16px; background: #ffe4e6;">
+                                    <div class="label" style="font-size: 0.75rem; color: #e11d48; margin-bottom: 4px; font-weight: 700;">${t('เฉลี่ยขาย')}</div>
+                                    <div class="value" style="color: #e11d48; font-weight: 700; font-size: 1.1rem;">N/A</div>
+                                </div>
+                            </div>
+                            <div class="index-footer" style="font-size: 0.8rem; color: #94a3b8;">
+                                <span>${t('ยังไม่มีข้อมูลการซื้อขาย')}</span>
+                            </div>
+                        </div>
+                    `;
+                    marketIndexContainer.insertAdjacentHTML('beforeend', cardHtml);
                 } else {
-                    Array.from(allProductNames).forEach(prodName => {
-                        const stat = productStats[prodName] || { buyCount: 0, sellCount: 0 };
-                        const defaultProd = defaultProducts.find(p => p.name === prodName);
+                    statKeys.forEach(prodName => {
+                        const stat = productStats[prodName];
+                        if (stat.buyCount === 0 && stat.sellCount === 0) return;
                         
-                        let avgBuy = 'N/A';
-                        let avgSell = 'N/A';
-                        
-                        if (stat.buyCount > 0) {
-                            avgBuy = (stat.buySum / stat.buyCount).toFixed(0);
-                        } else if (defaultProd) {
-                            avgBuy = defaultProd.mockBuy;
-                        }
-                        
-                        if (stat.sellCount > 0) {
-                            avgSell = (stat.sellSum / stat.sellCount).toFixed(0);
-                        } else if (defaultProd) {
-                            avgSell = defaultProd.mockSell;
-                        }
-
-                        // ถ้าไม่มีทั้งข้อมูลจริงและข้อมูล mock ให้ข้ามไป
-                        if (avgBuy === 'N/A' && avgSell === 'N/A') return;
+                        const avgBuy = stat.buyCount > 0 ? (stat.buySum / stat.buyCount).toFixed(0) : 'N/A';
+                        const avgSell = stat.sellCount > 0 ? (stat.sellSum / stat.sellCount).toFixed(0) : 'N/A';
                         
                         const cardHtml = `
                             <div class="index-card" style="background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; width: 100%; margin-bottom: 20px; transition: transform 0.2s;">
